@@ -1,15 +1,16 @@
+
+
 es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logoddsratio = NULL, auc = NULL, decimal = 3, msg = TRUE) {
-    
-    # Last modified by Hause Lin 13-03-18 18:53 hauselin@gmail.com
+
     # effectsizes <- vector("list", 7) # list version
     effectsizes <- data.frame(matrix(NA, nrow = length(c(d, r, R2, f, oddsratio, logoddsratio, auc)), ncol = 7)) # dataframe version
     names(effectsizes) <- c("d", "r", "R2", "f", "oddsratio", "logoddsratio", "auc")
     # auc calculations might be off...
-    
-    if (length(c(d, r, R2, f, oddsratio, logoddsratio, auc)) < 1) { 
+
+    if (length(c(d, r, R2, f, oddsratio, logoddsratio, auc)) < 1) {
         stop("Please specify one effect size!")
     }
-    
+
     if (is.numeric(d)) {
         if (msg) {message(paste0("d: ", d, " ")) }
         effectsizes$d <- d
@@ -74,9 +75,9 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
     }
-    
+
     return(round(effectsizes, decimal))
-    
+
 }
 
 
