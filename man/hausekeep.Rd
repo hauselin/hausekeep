@@ -8,6 +8,14 @@
 \description{
 research and housekeeping functions. details to follow...
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/hauselin/hausekeep}
+  \item Report bugs at \url{https://github.com/hauselin/hausekeep/issues}
+}
+
+}
 \author{
 Hause Lin \email{hauselin@gmail.com|}
 }

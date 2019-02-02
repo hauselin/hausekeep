@@ -30,10 +30,18 @@ es(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL,
 A dataframe with converted effect sizes
 }
 \description{
-es is used to convert one effect size to other effect size measures
+es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc).
 }
 \details{
-Details to follow...
+Formulae for conversion
+\cr \cr
+\code{f = d / 2}
+\cr \cr
+\code{r = d / sqrt(d^2 + 4)}, assumes equal sample size
+\cr \cr
+}
+\note{
+The area-under-curve (auc) measure is slightly off...
 }
 \examples{
 es(d = 0.3)

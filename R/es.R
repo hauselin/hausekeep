@@ -1,8 +1,7 @@
-#' Effect Size Conversion
+#' @title Effect Size Conversion
+#' @name es
 #'
-#' es is used to convert one effect size to other effect size measures
-#'
-#' Details to follow...
+#' @description es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc).
 #'
 #' @param d a numeric vector containing Cohen's d effect size(s)
 #' @param r a numeric vector containing correlation r effect size(s)
@@ -14,15 +13,23 @@
 #' @param decimal a numeric vector indicating decimal places of output
 #' @param msg a boolean indicating whether to show input effect size(s)
 #'
+#' @return A dataframe with converted effect sizes
+#'
+#' @details Formulae for conversion
+#' \cr \cr
+#' \code{f = d / 2}
+#' \cr \cr
+#' \code{r = d / sqrt(d^2 + 4)}, assumes equal sample size
+#' \cr \cr
+#'
+#' @note The area-under-curve (auc) measure is slightly off...
+#'
 #' @author Hause Lin
 #'
-#' @return A dataframe with converted effect sizes
 #' @export
-#'
 #' @examples
 #' es(d = 0.3)
 #' es(r = c(0.1, 0.3))
-
 es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logoddsratio = NULL, auc = NULL, decimal = 3, msg = TRUE) {
 
     # effectsizes <- vector("list", 7) # list version

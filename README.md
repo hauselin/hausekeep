@@ -13,8 +13,8 @@ Installation
 To install the package, type the following commands into the R console:
 
 ``` r
-library(devtools) # if you don't have devtools package, install it first using install.packages("devtools")
-install_github("hauselin/hausekeep")
+# install.packages("devtools")
+devtools::install_github("hauselin/hausekeep") # you might have to install devtools package first (see above)
 ```
 
 Example
