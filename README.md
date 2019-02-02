@@ -22,7 +22,9 @@ devtools::install_github("hauselin/hausekeep") # you might have to install devto
 Examples
 --------
 
-`es()` effect size conversion function
+#### `es()` function to convert between effect sizes
+
+The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve \[AUC\]). Note that AUC calculations are slightly off!
 
 ``` r
 library(hausekeep) # load package
@@ -30,15 +32,15 @@ es(d = 0.2)
 #> d: 0.2
 #>     d   r   R2   f oddsratio logoddsratio   auc
 #> 1 0.2 0.1 0.01 0.1     1.437        0.363 0.579
-
-es(r = c(0.1, 0.4))
-#> r: 0.1 r: 0.4
+es(r = c(0.1, 0.4, 0.7))
+#> r: 0.1 r: 0.4 r: 0.7
 #>       d   r   R2     f oddsratio logoddsratio   auc
 #> 1 0.201 0.1 0.01 0.101     1.440        0.365 0.580
 #> 2 0.873 0.4 0.16 0.436     4.871        1.583 0.809
+#> 3 1.960 0.7 0.49 0.980    35.014        3.556 0.975
 ```
 
-`fit_ezddm()` function to fit EZ-diffusion model for two-choice response time tasks
+#### `fit_ezddm()` function to fit EZ-diffusion model for two-choice response time tasks
 
 ``` r
 library(rtdists) # load package to help us simulate some data
