@@ -27,7 +27,7 @@ es(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL,
 \item{msg}{a boolean indicating whether to show input effect size(s)}
 }
 \value{
-A dataframe with difference effect sizes
+A dataframe with converted effect sizes
 }
 \description{
 es is used to convert one effect size to other effect size measures

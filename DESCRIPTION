@@ -7,7 +7,9 @@ Authors@R:
            role = c("aut", "cre"),
            email = "hauselin@gmail.com")
 Description: What the package does (one paragraph).
+Depends: R (>= 3.1.0)
 License: MIT + file LICENSE
+Year: 2019
 Encoding: UTF-8
 LazyData: true
 Suggests: 
