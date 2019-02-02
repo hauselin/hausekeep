@@ -16,7 +16,7 @@
 #'
 #' @author Hause Lin
 #'
-#' @return A dataframe with difference effect sizes
+#' @return A dataframe with converted effect sizes
 #' @export
 #'
 #' @examples
@@ -99,19 +99,5 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
     }
 
-    return(round(effectsizes, decimal))
-
+    round(effectsizes, decimal)
 }
-
-
-# es(d = 0.3)
-# es(d = 0.3, r = 0.2)
-# es(d = c(0.2, 0.3, 0.4))
-# es(d = c(0.2, 0.3))$r
-# es(r = 0.5)
-# es(f = 0.24)
-# es(R2 = 0.6)
-# es(oddsratio = 1.6)
-# es(logoddsratio = 1.6)
-# es(auc = .99)
-# es()

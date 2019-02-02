@@ -10,10 +10,11 @@ The goal of hausekeep is to ...
 Installation
 ------------
 
-You can install the released version of hausekeep from [CRAN](https://CRAN.R-project.org) with:
+To install the package, type the following commands into the R console:
 
 ``` r
-install.packages("hausekeep")
+library(devtools) # if you don't have devtools package, install it first using install.packages("devtools")
+install_github("hauselin/hausekeep")
 ```
 
 Example
