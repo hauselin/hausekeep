@@ -7,7 +7,7 @@ hausekeep
 
 [![DOI](https://zenodo.org/badge/168783741.svg)](https://zenodo.org/badge/latestdoi/168783741)
 
-Functions to make it easier to analyse and summarise data and results in R.
+Functions to make it easier to analyse and summarise data and results in R. For documentation, see <https://hauselin.github.io/hausekeep/>
 
 Installation
 ------------
