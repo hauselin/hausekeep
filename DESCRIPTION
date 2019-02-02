@@ -20,7 +20,10 @@ Suggests:
     rmarkdown
 Language: en-US
 Imports: 
-    data.table
+    dplyr,
+    data.table,
+    dtplyr,
+    rtdists
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 URL: https://github.com/hauselin/hausekeep
