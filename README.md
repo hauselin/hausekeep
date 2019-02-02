@@ -19,35 +19,20 @@ To install the package, type the following commands into the R console:
 devtools::install_github("hauselin/hausekeep") # you might have to install devtools first (see above)
 ```
 
-Example
--------
+Examples
+--------
 
-This is a basic example which shows you how to solve a common problem:
+An example of the `es()` effect size conversion function.
 
 ``` r
-## basic example code
-library(hausekeep)
+library(hausekeep) # load package
 es(d = 0.2)
 #> d: 0.2
 #>     d   r   R2   f oddsratio logoddsratio   auc
 #> 1 0.2 0.1 0.01 0.1     1.437        0.363 0.579
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
+Example plot
+------------
 
 <img src="man/figurespressure-1.png" width="100%" />

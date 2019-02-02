@@ -24,34 +24,22 @@ The goal of hausekeep is to ...
 
 To install the package, type the following commands into the R console:
 
-``` r
+```r
 # install.packages("devtools")
 devtools::install_github("hauselin/hausekeep") # you might have to install devtools first (see above)
 ```
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+An example of the `es()` effect size conversion function. 
 
 ```{r example}
-## basic example code
-library(hausekeep)
+library(hausekeep) # load package
 es(d = 0.2)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
+## Example plot
 
 ```{r pressure, echo = FALSE}
-knitr::opts_chunk$set(
-  fig.path = "man/figures"
-)
 plot(pressure)
 ```
