@@ -10,3 +10,14 @@ Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Suggests: 
+    covr,
+    testthat,
+    spelling,
+    knitr,
+    rmarkdown
+Language: en-US
+Imports: 
+    data.table
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1

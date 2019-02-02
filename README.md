@@ -3,7 +3,7 @@
 hausekeep
 =========
 
-[![Travis build status](https://travis-ci.org/hauselin/hausekeep.svg?branch=master)](https://travis-ci.org/hauselin/hausekeep)
+[![Travis build status](https://travis-ci.org/hauselin/hausekeep.svg?branch=master)](https://travis-ci.org/hauselin/hausekeep) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/hauselin/hausekeep?branch=master&svg=true)](https://ci.appveyor.com/project/hauselin/hausekeep) [![Coverage status](https://codecov.io/gh/hauselin/hausekeep/branch/master/graph/badge.svg)](https://codecov.io/github/hauselin/hausekeep?branch=master)
 
 The goal of hausekeep is to ...
 
