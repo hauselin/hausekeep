@@ -37,9 +37,3 @@ An example of the `es()` effect size conversion function.
 library(hausekeep) # load package
 es(d = 0.2)
 ```
-
-## Example plot
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```

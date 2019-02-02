@@ -31,8 +31,3 @@ es(d = 0.2)
 #>     d   r   R2   f oddsratio logoddsratio   auc
 #> 1 0.2 0.1 0.01 0.1     1.437        0.363 0.579
 ```
-
-Example plot
-------------
-
-<img src="man/figurespressure-1.png" width="100%" />
