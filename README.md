@@ -7,7 +7,7 @@ hausekeep
 
 [![DOI](https://zenodo.org/badge/168783741.svg)](https://zenodo.org/badge/latestdoi/168783741)
 
-The goal of hausekeep is to ...
+Functions to make it easier to analyse and summarise data and results in R.
 
 Installation
 ------------
