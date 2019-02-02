@@ -35,6 +35,8 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 ## basic example code
+library(hausekeep)
+es(d = 0.2)
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
@@ -48,5 +50,8 @@ You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-da
 You can also embed plots, for example:
 
 ```{r pressure, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures"
+)
 plot(pressure)
 ```
