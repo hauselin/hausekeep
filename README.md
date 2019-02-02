@@ -3,6 +3,8 @@
 hausekeep
 =========
 
+[![Travis build status](https://travis-ci.org/hauselin/hausekeep.svg?branch=master)](https://travis-ci.org/hauselin/hausekeep)
+
 The goal of hausekeep is to ...
 
 Installation
