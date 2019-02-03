@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures",
   out.width = "100%"
 )
+library(hausekeep) # load package
 ```
 # hausekeep
 
@@ -36,10 +37,26 @@ devtools::install_github("hauselin/hausekeep") # you might have to install devto
 The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve [AUC]). Note that AUC calculations are slightly off!
 
 ```{r es example}
-library(hausekeep) # load package
 es(d = 0.2)
 
 es(r = c(0.1, 0.4, 0.7))
+```
+
+### `outliersMAD()` identifies outliers using robust median absolute deviation approach
+
+```{r}
+example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
+outliersMAD(example) # MAD approach
+```
+
+### `outliersZ()` identifies outliers using Z-score cut-off
+
+```{r}
+example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
+outliersZ(example) # SD approach
+
+# compare with MAD approach from above
+outliersZ(example) # SD approach
 ```
 
 ### `fit_ezddm()` function to fit EZ-diffusion model for two-choice response time tasks

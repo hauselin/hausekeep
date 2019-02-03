@@ -27,7 +27,6 @@ Examples
 The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve \[AUC\]). Note that AUC calculations are slightly off!
 
 ``` r
-library(hausekeep) # load package
 es(d = 0.2)
 #> d: 0.2
 #>     d   r   R2   f oddsratio logoddsratio   auc
@@ -39,6 +38,32 @@ es(r = c(0.1, 0.4, 0.7))
 #> 1 0.201 0.1 0.01 0.101     1.440        0.365 0.580
 #> 2 0.873 0.4 0.16 0.436     4.871        1.583 0.809
 #> 3 1.960 0.7 0.49 0.980    35.014        3.556 0.975
+```
+
+### `outliersMAD()` identifies outliers using robust median absolute deviation approach
+
+``` r
+example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
+outliersMAD(example) # MAD approach
+#> 1 outliers detected.
+#> Outliers replaced with NA
+#> [1]  1  3  3  6  8 10 10 NA
+```
+
+### `outliersZ()` identifies outliers using Z-score cut-off
+
+``` r
+example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
+outliersZ(example) # SD approach
+#> 1 outliers detected.
+#> Outliers replaced with NA
+#> [1]  1  3  3  6  8 10 10 NA
+
+# compare with MAD approach from above
+outliersZ(example) # SD approach
+#> 1 outliers detected.
+#> Outliers replaced with NA
+#> [1]  1  3  3  6  8 10 10 NA
 ```
 
 ### `fit_ezddm()` function to fit EZ-diffusion model for two-choice response time tasks

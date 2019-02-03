@@ -39,6 +39,16 @@ Formulae for conversion
 \cr \cr
 \code{r = d / sqrt(d^2 + 4)}, assumes equal sample size
 \cr \cr
+\code{d = (2 * r) / sqrt(1 - r^2)}
+\cr \cr
+\code{R2 = r^2}
+\cr \cr
+\code{oddsratio = exp(d / sqrt(3) / pi)}
+\cr \cr
+\code{logoddsratio = d / sqrt(3) / pi}
+\cr \cr
+\code{auc = pnorm(d, 0, 1)}
+\cr \cr
 }
 \note{
 The area-under-curve (auc) measure is slightly off...

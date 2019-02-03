@@ -3,6 +3,8 @@
 export(es)
 export(ezddm)
 export(fit_ezddm)
+export(outliersMAD)
+export(outliersZ)
 import(data.table)
 import(rtdists)
 importFrom(dplyr,"%>%")
