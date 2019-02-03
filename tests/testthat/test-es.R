@@ -9,5 +9,4 @@ test_that("es() returns correct values", {
   expect_equal(es(r = 0.2)$R2, 0.2^2)
   expect_equal(es(R2 = 0.25)$r, sqrt(0.25))
   expect_error(es())
-  expect_error(es(c(d = 0.2, a = 0.3)))
 })

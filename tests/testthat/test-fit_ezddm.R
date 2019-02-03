@@ -2,8 +2,8 @@ context("test-fit_ezddm")
 
 test_that("fit_ezddm works as intended", {
   library(rtdists)
-  data1 <- rdiffusion(n = 100, a = runif(1, 0, 3), v = runif(1, -5, 5), t0 = runif(1, 0.1, 0.7), z = runif(1, 0.01, 0.99) * 2) # simulate data
-  data2 <- rdiffusion(n = 100, a = runif(1, 0, 3), v = runif(1, -5, 5), t0 = runif(1, 0.1, 0.7), z = runif(1, 0.01, 0.99) * 2) # simulate data
+  data1 <- rdiffusion(n = 100, a = runif(1, 2, 4), v = runif(1, -3, 3), t0 = runif(1, 0.2, 0.5), z = 0.5 * 2) # simulate data
+  data2 <- rdiffusion(n = 100, a = runif(1, 2, 4), v = runif(1, -3, 3), t0 = runif(1, 0.2, 0.5), z = 0.5 * 2) # simulate data
   dataAll <- rbind(data1, data2) # join data
 
   dataAll$response_char <- dataAll$response
