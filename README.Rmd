@@ -38,6 +38,7 @@ The `es` function converts one effect size into other effect sizes (e.g., d, r, 
 ```{r es example}
 library(hausekeep) # load package
 es(d = 0.2)
+
 es(r = c(0.1, 0.4, 0.7))
 ```
 

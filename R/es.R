@@ -39,6 +39,8 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
 
     if (length(c(d, r, R2, f, oddsratio, logoddsratio, auc)) < 1) {
         stop("Please specify one effect size!")
+    } else if (length(c(d, r, R2, f, oddsratio, logoddsratio, auc)) > 1) {
+        stop("Please specify just one effect size!")
     }
 
     if (is.numeric(d)) {
