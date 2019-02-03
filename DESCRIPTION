@@ -3,8 +3,8 @@ Title: Miscellaneous functions for research and housekeeping
 Version: 0.0.0.9001
 Date: 2019-02-01
 Authors@R: 
-    person(given = "Lin",
-           family = "Hause",
+    person(given = "Hause",
+           family = "Lin",
            role = c("aut", "cre"),
            email = "hauselin@gmail.com", 
            comment = c(ORCID = "0000-0003-4590-7039"))
