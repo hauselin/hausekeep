@@ -4,7 +4,15 @@ language: R
 sudo: required
 install:
   - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
-  - Rscript -e 'install.packages(c("dplyr", "data.table", "dtplyr", "rtdists", "knitr"), repos = "http://cran.rstudio.com")'
+  - Rscript -e 'install.packages(c("dplyr", "data.table", "dtplyr", "knitr", "rtdists"), repos = "http://cran.rstudio.com")'
 cache: packages
 after_success:
   - Rscript -e 'covr::codecov()'
+
+repos:
+  CRAN: https://cloud.r-project.org
+ropensci: http://packages.ropensci.org
+
+r_binary_packages:
+  - gsl
+
