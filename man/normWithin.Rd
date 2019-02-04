@@ -22,7 +22,7 @@ normWithin(data = NULL, idvar, measurevar, betweenvars = NULL,
 a data.frame
 }
 \description{
-se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe.
+normWithin norms the data within specified groups in a data frame
 }
 \examples{
 normWithin(data = sleep, idvar = "ID", measurevar = "extra", betweenvars = "group")

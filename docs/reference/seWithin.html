@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise statistical models and report effect sizes — summaryh • hausekeep</title>
+<title>Compute standard errors (within-subjects) — seWithin • hausekeep</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Summarise statistical models and report effect sizes — summaryh" />
+<meta property="og:title" content="Compute standard errors (within-subjects) — seWithin" />
 
-<meta property="og:description" content="After fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test." />
+<meta property="og:description" content="seWithin is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe, handling within-subjects variables by removing inter-subject variability" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,83 +111,89 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise statistical models and report effect sizes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hauselin/hausekeep/blob/master/R/summaryh.R'><code>R/summaryh.R</code></a></small>
-    <div class="hidden name"><code>summaryh.Rd</code></div>
+    <h1>Compute standard errors (within-subjects)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hauselin/hausekeep/blob/master/R/se.R'><code>R/se.R</code></a></small>
+    <div class="hidden name"><code>seWithin.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>After fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test.</p>
+    <p>seWithin is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe, handling within-subjects variables by removing inter-subject variability</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>summaryh</span>(<span class='no'>model</span>, <span class='kw'>decimal</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>showTable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>showEffectSizesTable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage">seWithin <- (data = NULL, measurevar, betweenvars = NULL, withinvars = NULL,
+idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>a fitted model</p></td>
+      <th>data</th>
+      <td><p>a dataframe</p></td>
     </tr>
     <tr>
-      <th>decimal</th>
-      <td><p>round output to decimal places</p></td>
+      <th>measurevar</th>
+      <td><p>the name(s) of column(s) that contain the variable to be summariezed</p></td>
     </tr>
     <tr>
-      <th>showTable</th>
-      <td><p>show results in table format (returns list)</p></td>
+      <th>betweenvars</th>
+      <td><p>a vector containing names of columns that are between-subjects variables</p></td>
     </tr>
     <tr>
-      <th>showEffectSizesTable</th>
-      <td><p>show other effect sizes computed using es function</p></td>
+      <th>withinvars</th>
+      <td><p>a vector containing names of columns that are within-subjects variables</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>further arguments passed to or from other methods</p></td>
+      <th>idvar</th>
+      <td><p>the name of the column that identifies each subject</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>boolean that indicates whether to ignore NA's</p></td>
+    </tr>
+    <tr>
+      <th>conf.interval</th>
+      <td><p>confidence interval range</p></td>
+    </tr>
+    <tr>
+      <th>showNormed</th>
+      <td><p>whether to show noramlized results</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A datatable or a list with datatables (if showTable = TRUE or showEffectSizesTable = TRUE)</p>
+    <p>A data.table</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Cohen's d: 0.20 (small), 0.50 (medium), .80 (large) (Cohen, 1992)
-<br />
-correlation r: .10 (small), .30 (medium), .50 (large)
-<br />
-R-squared: R2: .02 (small), .13 (medium), .26 (large)</p>
+    <p>Code adapted from R cookbook (see references).</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>(<a href='http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/'>http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/</a>)</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='stderror.html'>stderror</a></code></p>
+<p><code><a href='stderror.html'>stderror</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>qsec</span>, <span class='no'>mtcars</span>))</div><div class='output co'>#&gt;           term                                                  results
-#&gt; 1: (Intercept) b = −5.11, SE = 10.03, t(30) = −0.51, p = .614, r = 0.09
-#&gt; 2:        qsec    b = 1.41, SE = 0.56, t(30) = 2.53, p = .017, r = 0.42</div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>aov</a></span>(<span class='no'>mpg</span> ~ <span class='no'>gear</span>, <span class='no'>mtcars</span>))</div><div class='output co'>#&gt;    term                             results
-#&gt; 1: gear F(1, 30) = 9.00, p = .005, r = 0.48</div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>gear</span>), <span class='kw'>showEffectSizesTable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $results
-#&gt;                   results
-#&gt; 1: r(30) = 0.48, p = .005
-#&gt; 
-#&gt; $effectSizes
-#&gt;                          term    d    r   R2    f oddsratio logoddsratio  auc
-#&gt; 1: mtcars$mpg and mtcars$gear 1.09 0.48 0.23 0.55      7.28         1.98 0.86
-#&gt; </div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></span>(<span class='no'>mpg</span> ~ <span class='no'>vs</span>, <span class='no'>mtcars</span>), <span class='kw'>showTable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $results
-#&gt;                              results
-#&gt; 1: t(23) = −4.67, p &lt; .001, r = 0.70
-#&gt; 
-#&gt; $results2
-#&gt;         term     df statistic p.value es.r   es.d
-#&gt; 1: mpg by vs 22.716    -4.667       0  0.7 -1.958
-#&gt; </div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>vs</span> ~ <span class='fl'>1</span>, <span class='no'>mtcars</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>), <span class='kw'>showTable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $results
-#&gt;           term                                                  results
-#&gt; 1: (Intercept) b = −0.25, SE = 0.36, z(31) = −0.71, p = .481, r = −0.07
-#&gt; 
-#&gt; $results2
-#&gt;           term estimate std.error statistic p.value df es.oddsratio  es.r  es.d
-#&gt; 1: (Intercept)   -0.251     0.356    -0.705   0.481 31        0.778 -0.07 -0.14
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'>#' seWithin(data = ChickWeight, measurevar = "weight",
+betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
+
+# multiple outcome variables
+ChickWeight2 <- ChickWeight
+ChickWeight2$weight2 <- ChickWeight2$weight * 100 # create a new outcome variable
+seWithin(data = ChickWeight, measurevar = c("weight", "weight2"),
+betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
+   showNormed: whether to show the normed version of the outcome variable
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:2:21: unexpected ','</span>
+#&gt; <span class='error'>1: #' seWithin(data = ChickWeight, measurevar = "weight",</span>
+#&gt; <span class='error'>2: betweenvars = "Diet",</span>
+#&gt; <span class='error'>                       ^</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -197,6 +203,10 @@ R-squared: R2: .02 (small), .13 (medium), .26 (large)</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#note">Note</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

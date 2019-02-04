@@ -9,8 +9,8 @@
 #' @param toNumeric whether to convert variables/columns to numeric whenever possible
 #'
 #' @usage
-#' stderror(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE,
-#' conf.interval = 0.95, toNumeric = TRUE)
+#' stderror(data = NULL, measurevar, groupvars = NULL,
+#' na.rm = TRUE, conf.interval = 0.95, toNumeric = TRUE)
 #' @note Code adapted from R cookbook (see references).
 #' @author Hause Lin
 #' @import data.table
@@ -18,9 +18,7 @@
 #' @importFrom stats sd
 #' @return A dataframe (tibble)
 #' @examples
-#' stderror(data = mtcars, measurevar = "disp", groupvars = c("cyl"))
 #' stderror(data = mtcars, measurevar = c("mpg", "disp"), groupvars = c("cyl", "am"))
-#' stderror(data = mtcars, measurevar = c("mpg", "disp"), groupvars = c("cyl", "vs"))
 #' stderror(data = ChickWeight, measurevar = "weight", groupvars = "Diet")
 #' @export
 stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, conf.interval = 0.95, toNumeric = TRUE) {
@@ -53,7 +51,7 @@ stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, co
 
     setkeyv(datac, groupvars) # sort table
 
-    datac[, se := stats::sd / sqrt(N)] # compute standard error
+    datac[, se := sd / sqrt(N)] # compute standard error
 
     ciMult <- stats::qt(conf.interval / 2 + 0.5, unlist(datac$N) - 1)
     datac[, ci := se * ciMult]
@@ -94,12 +92,13 @@ stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, co
 #' @param betweenvars a vector containing names of columns that are between-subjects variables
 #' @param na.rm boolean that indicates whether to ignore NA's
 #' @return a data.frame
-#' @description se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe.
+#' @description normWithin norms the data within specified groups in a data frame
 #' @importFrom dplyr left_join
 #' @importFrom dtplyr tbl_dt
 #' @import data.table
 #' @examples
 #' normWithin(data = sleep, idvar = "ID", measurevar = "extra", betweenvars = "group")
+#' @export
 normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.rm = TRUE) {
   # Norms the data within specified groups in a data frame; it normalizes each
   # subject (identified by idvar) so that they have the same mean, within each group
@@ -142,7 +141,6 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' @param conf.interval confidence interval range
 #' @param showNormed whether to show noramlized results
 #'
-#'
 #' @seealso \code{\link{stderror}}
 #'
 #' @author Hause Lin
@@ -157,22 +155,24 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #'
 #' @import data.table
 #' @importFrom dplyr tbl_df
+#' @importFrom dplyr left_join
+#' @importFrom dplyr mutate_if
 #' @importFrom dtplyr tbl_dt
-#'
+#' @importFrom stats sd
 #' @export
 #' @seealso \code{\link{stderror}}
 #' @usage
-#' seWithin <- (data = NULL, measurevar, betweenvars = NULL, withinvars = NULL,
+#' seWithin(data = NULL, measurevar, betweenvars = NULL, withinvars = NULL,
 #' idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE)
 #'
 #' @examples
-#' #' seWithin(data = ChickWeight, measurevar = "weight",
+#' seWithin(data = ChickWeight, measurevar = "weight",
 #' betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
 #'
 #' # multiple outcome variables
 #' ChickWeight2 <- ChickWeight
 #' ChickWeight2$weight2 <- ChickWeight2$weight * 100 # create a new outcome variable
-#' seWithin(data = ChickWeight, measurevar = c("weight", "weight2"),
+#' seWithin(data = ChickWeight2, measurevar = c("weight", "weight2"),
 #' betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
 seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = NULL, idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE) {
   # within-subjects CI (normed and un-normed versions)
@@ -188,7 +188,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
   ##   idvar: the name of a column that identifies each subject (or matched subjects)
   ##   na.rm: a boolean that indicates whether to ignore NA's
   ##   conf.interval: the percent range of the confidence interval (default is 95%)
-  #'    showNormed: whether to show the normed version of the outcome variable
+  ##    showNormed: whether to show the normed version of the outcome variable
 
   data <- data.frame(data) # convert to data.frame
 
@@ -280,4 +280,3 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
   }
 
 }
-

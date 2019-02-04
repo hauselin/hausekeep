@@ -5,5 +5,5 @@ if(getRversion() >= "2.15.1") {
                                 "accAdjust", "n", "a", "response",
                            "responseSim", "rt", "rt0", "rt0Sim", "rt1",
                            "rt1Sim", "rt1Var", "rtOverall", "rtOverallSim",
-                           "rtVar", "t0_Ter", "v"))
+                           "rtVar", "t0_Ter", "v", "subjMean", "se", "ci", "N", "ci"))
 }

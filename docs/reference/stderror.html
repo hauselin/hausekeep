@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise statistical models and report effect sizes — summaryh • hausekeep</title>
+<title>Compute standard errors (between-subjects) — stderror • hausekeep</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Summarise statistical models and report effect sizes — summaryh" />
+<meta property="og:title" content="Compute standard errors (between-subjects) — stderror" />
 
-<meta property="og:description" content="After fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test." />
+<meta property="og:description" content="se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,83 +111,60 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise statistical models and report effect sizes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hauselin/hausekeep/blob/master/R/summaryh.R'><code>R/summaryh.R</code></a></small>
-    <div class="hidden name"><code>summaryh.Rd</code></div>
+    <h1>Compute standard errors (between-subjects)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hauselin/hausekeep/blob/master/R/se.R'><code>R/se.R</code></a></small>
+    <div class="hidden name"><code>stderror.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>After fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test.</p>
+    <p>se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>summaryh</span>(<span class='no'>model</span>, <span class='kw'>decimal</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>showTable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>showEffectSizesTable</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>measurevar</span>, <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='kw'>conf.interval</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>toNumeric</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>a fitted model</p></td>
+      <th>data</th>
+      <td><p>a dataframe</p></td>
     </tr>
     <tr>
-      <th>decimal</th>
-      <td><p>round output to decimal places</p></td>
+      <th>measurevar</th>
+      <td><p>the name(s) of column(s) that contain the variable to be summariezed</p></td>
     </tr>
     <tr>
-      <th>showTable</th>
-      <td><p>show results in table format (returns list)</p></td>
+      <th>groupvars</th>
+      <td><p>a vector containing names of columns that contain grouping variables</p></td>
     </tr>
     <tr>
-      <th>showEffectSizesTable</th>
-      <td><p>show other effect sizes computed using es function</p></td>
+      <th>na.rm</th>
+      <td><p>boolean that indicates whether to ignore NA's</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>further arguments passed to or from other methods</p></td>
+      <th>conf.interval</th>
+      <td><p>confidence interval range</p></td>
+    </tr>
+    <tr>
+      <th>toNumeric</th>
+      <td><p>whether to convert variables/columns to numeric whenever possible</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A datatable or a list with datatables (if showTable = TRUE or showEffectSizesTable = TRUE)</p>
+    <p>A dataframe (tibble)</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Cohen's d: 0.20 (small), 0.50 (medium), .80 (large) (Cohen, 1992)
-<br />
-correlation r: .10 (small), .30 (medium), .50 (large)
-<br />
-R-squared: R2: .02 (small), .13 (medium), .26 (large)</p>
+    <p>Code adapted from R cookbook (see references).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>qsec</span>, <span class='no'>mtcars</span>))</div><div class='output co'>#&gt;           term                                                  results
-#&gt; 1: (Intercept) b = −5.11, SE = 10.03, t(30) = −0.51, p = .614, r = 0.09
-#&gt; 2:        qsec    b = 1.41, SE = 0.56, t(30) = 2.53, p = .017, r = 0.42</div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>aov</a></span>(<span class='no'>mpg</span> ~ <span class='no'>gear</span>, <span class='no'>mtcars</span>))</div><div class='output co'>#&gt;    term                             results
-#&gt; 1: gear F(1, 30) = 9.00, p = .005, r = 0.48</div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>gear</span>), <span class='kw'>showEffectSizesTable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $results
-#&gt;                   results
-#&gt; 1: r(30) = 0.48, p = .005
-#&gt; 
-#&gt; $effectSizes
-#&gt;                          term    d    r   R2    f oddsratio logoddsratio  auc
-#&gt; 1: mtcars$mpg and mtcars$gear 1.09 0.48 0.23 0.55      7.28         1.98 0.86
-#&gt; </div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></span>(<span class='no'>mpg</span> ~ <span class='no'>vs</span>, <span class='no'>mtcars</span>), <span class='kw'>showTable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $results
-#&gt;                              results
-#&gt; 1: t(23) = −4.67, p &lt; .001, r = 0.70
-#&gt; 
-#&gt; $results2
-#&gt;         term     df statistic p.value es.r   es.d
-#&gt; 1: mpg by vs 22.716    -4.667       0  0.7 -1.958
-#&gt; </div><div class='input'><span class='fu'>summaryh</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>vs</span> ~ <span class='fl'>1</span>, <span class='no'>mtcars</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"binomial"</span>), <span class='kw'>showTable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $results
-#&gt;           term                                                  results
-#&gt; 1: (Intercept) b = −0.25, SE = 0.36, z(31) = −0.71, p = .481, r = −0.07
-#&gt; 
-#&gt; $results2
-#&gt;           term estimate std.error statistic p.value df es.oddsratio  es.r  es.d
-#&gt; 1: (Intercept)   -0.251     0.356    -0.705   0.481 31        0.778 -0.07 -0.14
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='st'>"disp"</span>, <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in stats::sd/sqrt(N): non-numeric argument to binary operator</span></div><div class='input'><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mpg"</span>, <span class='st'>"disp"</span>), <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"am"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in stats::sd/sqrt(N): non-numeric argument to binary operator</span></div><div class='input'><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mpg"</span>, <span class='st'>"disp"</span>), <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"vs"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in stats::sd/sqrt(N): non-numeric argument to binary operator</span></div><div class='input'><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='st'>"weight"</span>, <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='st'>"Diet"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in stats::sd/sqrt(N): non-numeric argument to binary operator</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

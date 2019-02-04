@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • hausekeep</title>
+<title>Norms the data within specified groups in the dataframe — normWithin • hausekeep</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Norms the data within specified groups in the dataframe — normWithin" />
+
+<meta property="og:description" content="se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -106,96 +109,65 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Norms the data within specified groups in the dataframe</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hauselin/hausekeep/blob/master/R/se.R'><code>R/se.R</code></a></small>
+    <div class="hidden name"><code>normWithin.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="es.html">es()</a></code> </p>
-        </td>
-        <td><p>Effect size conversion</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ezddm.html">ezddm()</a></code> </p>
-        </td>
-        <td><p>Fit Wagenmaker et al.'s (2007) EZ-diffusion model to single subject's aggregate/averaged data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fit_ezddm.html">fit_ezddm()</a></code> </p>
-        </td>
-        <td><p>Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw single-trial data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hausekeep.html">hausekeep</a></code> </p>
-        </td>
-        <td><p>hausekeep: a package with misc housekeeping functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="normWithin.html">normWithin()</a></code> </p>
-        </td>
-        <td><p>Norms the data within specified groups in the dataframe</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="outliersMAD.html">outliersMAD()</a></code> </p>
-        </td>
-        <td><p>Identify outliers using robust median absolute deviation approach</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="outliersZ.html">outliersZ()</a></code> </p>
-        </td>
-        <td><p>Identify outliers using Z-score cut-off method.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="seWithin.html">seWithin</a></code> </p>
-        </td>
-        <td><p>Compute standard errors (within-subjects)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stderror.html">stderror()</a></code> </p>
-        </td>
-        <td><p>Compute standard errors (between-subjects)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summaryh.html">summaryh()</a></code> </p>
-        </td>
-        <td><p>Summarise statistical models and report effect sizes</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>normWithin</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>idvar</span>, <span class='no'>measurevar</span>, <span class='kw'>betweenvars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>a dataframe</p></td>
+    </tr>
+    <tr>
+      <th>idvar</th>
+      <td><p>the name of the column that identifies each subject</p></td>
+    </tr>
+    <tr>
+      <th>measurevar</th>
+      <td><p>the name of a column that contains the variable to be summariezed</p></td>
+    </tr>
+    <tr>
+      <th>betweenvars</th>
+      <td><p>a vector containing names of columns that are between-subjects variables</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>boolean that indicates whether to ignore NA's</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>a data.frame</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>normWithin</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>sleep</span>, <span class='kw'>idvar</span> <span class='kw'>=</span> <span class='st'>"ID"</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='st'>"extra"</span>, <span class='kw'>betweenvars</span> <span class='kw'>=</span> <span class='st'>"group"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in normWithin(data = sleep, idvar = "ID", measurevar = "extra",     betweenvars = "group"): could not find function "normWithin"</span></div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

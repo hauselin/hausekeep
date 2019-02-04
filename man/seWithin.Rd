@@ -4,7 +4,7 @@
 \alias{seWithin}
 \title{Compute standard errors (within-subjects)}
 \usage{
-seWithin <- (data = NULL, measurevar, betweenvars = NULL, withinvars = NULL,
+seWithin(data = NULL, measurevar, betweenvars = NULL, withinvars = NULL,
 idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE)
 }
 \arguments{
@@ -34,15 +34,14 @@ seWithin is used to compute the standard error(s) for one or more variables, for
 Code adapted from R cookbook (see references).
 }
 \examples{
-#' seWithin(data = ChickWeight, measurevar = "weight",
+seWithin(data = ChickWeight, measurevar = "weight",
 betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
 
 # multiple outcome variables
 ChickWeight2 <- ChickWeight
 ChickWeight2$weight2 <- ChickWeight2$weight * 100 # create a new outcome variable
-seWithin(data = ChickWeight, measurevar = c("weight", "weight2"),
+seWithin(data = ChickWeight2, measurevar = c("weight", "weight2"),
 betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
-   showNormed: whether to show the normed version of the outcome variable
 }
 \references{
 (\url{http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/})

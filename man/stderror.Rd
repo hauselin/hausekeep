@@ -4,8 +4,8 @@
 \alias{stderror}
 \title{Compute standard errors (between-subjects)}
 \usage{
-stderror(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE,
-conf.interval = 0.95, toNumeric = TRUE)
+stderror(data = NULL, measurevar, groupvars = NULL,
+na.rm = TRUE, conf.interval = 0.95, toNumeric = TRUE)
 }
 \arguments{
 \item{data}{a dataframe}
@@ -30,9 +30,7 @@ se is used to compute the standard error(s) for one or more variables, for one o
 Code adapted from R cookbook (see references).
 }
 \examples{
-stderror(data = mtcars, measurevar = "disp", groupvars = c("cyl"))
 stderror(data = mtcars, measurevar = c("mpg", "disp"), groupvars = c("cyl", "am"))
-stderror(data = mtcars, measurevar = c("mpg", "disp"), groupvars = c("cyl", "vs"))
 stderror(data = ChickWeight, measurevar = "weight", groupvars = "Diet")
 }
 \author{
