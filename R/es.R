@@ -29,9 +29,12 @@
 #' \cr \cr
 #' \code{logoddsratio = d / sqrt(3) / pi}
 #' \cr \cr
-#' \code{auc = pnorm(d, 0, 1)}
+#' \code{auc = pnorm(d / sqrt(2), 0, 1)}
 #' \cr \cr
-#' @note The area-under-curve (auc) measure is slightly off...
+#' @note All conversions assume equal-sized groups
+#'
+#' @references
+#' Ruscio 2008
 #'
 #' @author Hause Lin
 #'
@@ -49,7 +52,6 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
     # effectsizes <- vector("list", 7) # list version
     effectsizes <- data.frame(matrix(NA, nrow = length(c(d, r, R2, f, oddsratio, logoddsratio, auc)), ncol = 7)) # dataframe version
     names(effectsizes) <- c("d", "r", "R2", "f", "oddsratio", "logoddsratio", "auc")
-    # auc calculations might be off...
 
     if (length(c(d, r, R2, f, oddsratio, logoddsratio, auc)) < 1) {
         stop("Please specify one effect size!")
@@ -63,7 +65,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$R2 <- effectsizes$r^ 2
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
-        effectsizes$auc <- stats::pnorm(effectsizes$d, 0, 1)
+        effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
     } else if (is.numeric(r)) {
         if (msg) {message(paste0("r: ", r, " ")) }
         effectsizes$d <- (2 * r) / (sqrt(1 - r^2))
@@ -72,7 +74,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$R2 <- effectsizes$r^ 2
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
-        effectsizes$auc <- stats::pnorm(effectsizes$d, 0, 1)
+        effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
     } else if (is.numeric(f)) {
         if (msg) {message(paste0("f: ", f, " ")) }
         effectsizes$d <- f * 2
@@ -81,7 +83,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$R2 <- effectsizes$r^ 2
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
-        effectsizes$auc <- stats::pnorm(effectsizes$d, 0, 1)
+        effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
     } else if (is.numeric(R2)) {
         if (msg) {message(paste0("R2: ", R2, " ")) }
         effectsizes$r <- sqrt(R2)
@@ -90,7 +92,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$R2 <- R2
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
-        effectsizes$auc <- stats::pnorm(effectsizes$d, 0, 1)
+        effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
     } else if (is.numeric(oddsratio)) {
         if (msg) {message(paste0("odds ratio: ", oddsratio, " "))}
         effectsizes$d <- log(oddsratio) * (sqrt(3) / pi)
@@ -99,7 +101,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$R2 <- effectsizes$r^ 2
         effectsizes$oddsratio <- oddsratio
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
-        effectsizes$auc <- stats::pnorm(effectsizes$d, 0, 1)
+        effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
     } else if (is.numeric(logoddsratio)) {
         if (msg) {message(paste0("log odds ratio: ", logoddsratio, " ")) }
         effectsizes$logoddsratio <- logoddsratio
@@ -108,11 +110,11 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$r <- effectsizes$d / sqrt(effectsizes$d^2 + 4) # assumes equal sample size
         effectsizes$R2 <- effectsizes$r^ 2
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
-        effectsizes$auc <- stats::pnorm(effectsizes$d, 0, 1)
-    } else if (is.numeric(auc)) {
+        effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
+    } else if (is.numeric(auc)) { # also known as common language (CL) effect size statistic
         if (msg) {message(paste0("auc: ", auc, " ")) }
         effectsizes$auc <- auc
-        effectsizes$d <- stats::qnorm(auc, 0, 1)
+        effectsizes$d <- stats::qnorm(auc, 0, 1) * sqrt(2) # assumes equal sample size (Ruscio 2008)
         effectsizes$f <- effectsizes$d / 2
         effectsizes$r <- effectsizes$d / sqrt(effectsizes$d^2 + 4) # assumes equal sample size
         effectsizes$R2 <- effectsizes$r^ 2

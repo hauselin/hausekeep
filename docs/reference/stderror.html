@@ -165,33 +165,33 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mpg"</span>, <span class='st'>"disp"</span>), <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"am"</span>))</div><div class='output co'>#&gt; $mpg
-#&gt; # A tibble: 6 x 7
+#&gt; <span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;     cyl    am     N   mpg    sd    se    ci
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4     0     3  22.9 1.45  0.839  3.61
-#&gt; 2     4     1     8  28.1 4.48  1.59   3.75
-#&gt; 3     6     0     4  19.1 1.63  0.816  2.60
-#&gt; 4     6     1     3  20.6 0.751 0.433  1.86
-#&gt; 5     8     0    12  15.0 2.77  0.801  1.76
-#&gt; 6     8     1     2  15.4 0.566 0.4    5.08
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4     0     3  22.9 1.45  0.839  3.61
+#&gt; </span><span style='color: #555555;'>2</span><span>     4     1     8  28.1 4.48  1.59   3.75
+#&gt; </span><span style='color: #555555;'>3</span><span>     6     0     4  19.1 1.63  0.816  2.60
+#&gt; </span><span style='color: #555555;'>4</span><span>     6     1     3  20.6 0.751 0.433  1.86
+#&gt; </span><span style='color: #555555;'>5</span><span>     8     0    12  15.0 2.77  0.801  1.76
+#&gt; </span><span style='color: #555555;'>6</span><span>     8     1     2  15.4 0.566 0.4    5.08
 #&gt; 
 #&gt; $disp
-#&gt; # A tibble: 6 x 7
+#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;     cyl    am     N  disp    sd    se    ci
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4     0     3 136.  14.0   8.07  34.7
-#&gt; 2     4     1     8  93.6 20.5   7.24  17.1
-#&gt; 3     6     0     4 205.  44.7  22.4   71.2
-#&gt; 4     6     1     3 155    8.66  5.    21.5
-#&gt; 5     8     0    12 358.  71.8  20.7   45.6
-#&gt; 6     8     1     2 326   35.4  25    318. 
-#&gt; </div><div class='input'><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='st'>"weight"</span>, <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='st'>"Diet"</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 6
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4     0     3 136.  14.0   8.07  34.7
+#&gt; </span><span style='color: #555555;'>2</span><span>     4     1     8  93.6 20.5   7.24  17.1
+#&gt; </span><span style='color: #555555;'>3</span><span>     6     0     4 205.  44.7  22.4   71.2
+#&gt; </span><span style='color: #555555;'>4</span><span>     6     1     3 155    8.66  5.    21.5
+#&gt; </span><span style='color: #555555;'>5</span><span>     8     0    12 358.  71.8  20.7   45.6
+#&gt; </span><span style='color: #555555;'>6</span><span>     8     1     2 326   35.4  25    318. 
+#&gt; </div><div class='input'><span class='fu'>stderror</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ChickWeight</span>, <span class='kw'>measurevar</span> <span class='kw'>=</span> <span class='st'>"weight"</span>, <span class='kw'>groupvars</span> <span class='kw'>=</span> <span class='st'>"Diet"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 6</span><span>
 #&gt;    Diet     N weight    sd    se    ci
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1   220   103.  56.7  3.82  7.53
-#&gt; 2     2   120   123.  71.6  6.54 12.9 
-#&gt; 3     3   120   143.  86.5  7.90 15.6 
-#&gt; 4     4   118   135.  68.8  6.34 12.5 </div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1   220   103.  56.7  3.82  7.53
+#&gt; </span><span style='color: #555555;'>2</span><span>     2   120   123.  71.6  6.54 12.9 
+#&gt; </span><span style='color: #555555;'>3</span><span>     3   120   143.  86.5  7.90 15.6 
+#&gt; </span><span style='color: #555555;'>4</span><span>     4   118   135.  68.8  6.34 12.5 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

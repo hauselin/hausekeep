@@ -48,15 +48,18 @@ Formulae for conversion
 \cr \cr
 \code{logoddsratio = d / sqrt(3) / pi}
 \cr \cr
-\code{auc = pnorm(d, 0, 1)}
+\code{auc = pnorm(d / sqrt(2), 0, 1)}
 \cr \cr
 }
 \note{
-The area-under-curve (auc) measure is slightly off...
+All conversions assume equal-sized groups
 }
 \examples{
 es(d = 0.3)
 es(r = c(0.1, 0.3))
+}
+\references{
+Ruscio 2008
 }
 \author{
 Hause Lin
