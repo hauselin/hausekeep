@@ -14,8 +14,8 @@ test_that("fit_ezddm works as intended", {
   dataAll$cond2 <- base::sample(c("y", "z"), 200, replace = TRUE) # randomly assign conditions y/z
 
   # fit model to just entire data set (assumes all data came from 1 subject)
-  a <- fit_ezddm(data = dataAll, rts = "rt", responses = "response")
-  expect_equal(a[, .N], 1)
+  # a <- fit_ezddm(data = dataAll, rts = "rt", responses = "response")
+  # expect_equal(a[, .N], 1)
   # fit model to just entire data set (assumes all data came from 1 subject)
   # b <- fit_ezddm(data = dataAll, rts = "rt", responses = "response", id = "subject")
   # expect_equal(b[, .N], 2)

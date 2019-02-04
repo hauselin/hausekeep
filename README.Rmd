@@ -32,7 +32,7 @@ devtools::install_github("hauselin/hausekeep") # you might have to install devto
 
 ## Examples
 
-### `summaryh()` function to generate model results and effect sizes for manuscripts
+### `summaryh()` function to generate model formatted results and effect sizes for manuscripts
 
 ```r
 model_lm <- lm(mpg ~ cyl, mtcars) 

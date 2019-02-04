@@ -2,7 +2,7 @@
 % Please edit documentation in R/summaryh.R
 \name{summaryh}
 \alias{summaryh}
-\title{Summarise statistical models and report effect sizes}
+\title{Generate model formatted results and effect sizes for manuscripts}
 \usage{
 summaryh(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...)
 }
