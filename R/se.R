@@ -163,13 +163,13 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE)
 #'
 #' @examples
-#' seWithin(data = ChickWeight, measurevar = "weight",
+#' result <- seWithin(data = ChickWeight, measurevar = "weight",
 #' betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
 #'
 #' # multiple outcome variables
 #' ChickWeight2 <- ChickWeight
 #' ChickWeight2$weight2 <- ChickWeight2$weight * 100 # create a new outcome variable
-#' seWithin(data = ChickWeight2, measurevar = c("weight", "weight2"),
+#' result <- seWithin(data = ChickWeight2, measurevar = c("weight", "weight2"),
 #' betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
 seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = NULL, idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE) {
   # within-subjects CI (normed and un-normed versions)
