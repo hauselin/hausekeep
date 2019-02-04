@@ -84,8 +84,6 @@ stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, co
 
 
 
-#' @title Norms the data within specified groups in the dataframe
-#' @name normWithin
 #' @param data a dataframe
 #' @param idvar the name of the column that identifies each subject
 #' @param measurevar the name of a column that contains the variable to be summariezed
@@ -98,7 +96,6 @@ stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, co
 #' @import data.table
 #' @examples
 #' normWithin(data = sleep, idvar = "ID", measurevar = "extra", betweenvars = "group")
-#' @export
 normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.rm = TRUE) {
   # Norms the data within specified groups in a data frame; it normalizes each
   # subject (identified by idvar) so that they have the same mean, within each group
