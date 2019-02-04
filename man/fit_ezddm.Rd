@@ -2,17 +2,16 @@
 % Please edit documentation in R/fit_ezddm.R
 \name{fit_ezddm}
 \alias{fit_ezddm}
-\title{Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw data}
+\title{Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw single-trial data.}
 \usage{
-fit_ezddm(data, rts, responses, id = NULL, group = NULL,
-  simCheck = TRUE, decimal = 4)
+fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = TRUE, decimal = 4)
 }
 \arguments{
 \item{data}{data object with reaction time and accuracy variables (long form data expected)}
 
 \item{rts}{specify in characters the name of the reaction time column (reaction time must be in seconds)}
 
-\item{responses}{specify in characters the name of the accuracy column (coded as 0/1 or "lower"/"upper")}
+\item{responses}{specify in characters the name of the accuracy column (coded as 0/1)}
 
 \item{id}{specify in characters the name of your subject/id column (if not specified, assumes data [all rows] belong to a single subject)}
 

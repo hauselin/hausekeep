@@ -2,10 +2,10 @@
 % Please edit documentation in R/outliersZ.R
 \name{outliersZ}
 \alias{outliersZ}
-\title{Identify outliers using Z-score cut-off method}
+\title{Identify outliers using Z-score cut-off method.}
 \usage{
 outliersZ(x, zCutOff = 1.96, replaceOutliersWith = NA,
-  outlierIndices = FALSE, showZValues = FALSE, digits = 2)
+outlierIndices = FALSE, showZValues = FALSE, digits = 2)
 }
 \arguments{
 \item{x}{a vector of numbers}

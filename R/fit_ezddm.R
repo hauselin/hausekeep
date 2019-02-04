@@ -1,11 +1,11 @@
-#' @title Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw data
+#' @title Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw single-trial data.
 #' @name fit_ezddm
 #'
 #' @description Fits Wagenmaker et al.'s (2007) EZ-diffusion model for two-choice response time tasks. To use the function, ensure your dataframe is in long form, has single-trial reaction time (in seconds) and responses (coded as 0 or 1) on each row. You can use the function to fit the EZ-diffusion model to just a single subject or multiple subjects, and separately for each experimental condition (see below for examples).
 #'
 #' @param data data object with reaction time and accuracy variables (long form data expected)
 #' @param rts specify in characters the name of the reaction time column (reaction time must be in seconds)
-#' @param responses specify in characters the name of the accuracy column (coded as 0/1 or "lower"/"upper")
+#' @param responses specify in characters the name of the accuracy column (coded as 0/1)
 #' @param id specify in characters the name of your subject/id column (if not specified, assumes data [all rows] belong to a single subject)
 #' @param group specify in characters the name of your column(s) indicating various conditions (default = NULL)
 #' @param simCheck simulate data (n = 1000) with estimated parameters (using rdiffusion from rtdists package) to check model fit (default = TRUE)
@@ -32,6 +32,10 @@
 #' @importFrom dtplyr tbl_dt
 #' @importFrom dplyr %>%
 #' @export
+#'
+#' @usage
+#' fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = TRUE, decimal = 4)
+#'
 #' @examples
 #' library(rtdists) # load package to simulate data with diffusion parameters
 #' data1 <- rdiffusion(n = 100, a = 2, v = 0.3, t0 = 0.5, z = 0.5 * 2) # simulate data

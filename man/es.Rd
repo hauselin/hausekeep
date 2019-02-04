@@ -2,10 +2,11 @@
 % Please edit documentation in R/es.R
 \name{es}
 \alias{es}
-\title{Effect Size Conversion}
+\title{Effect size conversion}
 \usage{
-es(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL,
-  logoddsratio = NULL, auc = NULL, decimal = 3, msg = TRUE)
+es(d = NULL, r = NULL, R2 = NULL, f = NULL,
+oddsratio = NULL, logoddsratio = NULL,
+auc = NULL, decimal = 3, msg = TRUE)
 }
 \arguments{
 \item{d}{a numeric vector containing Cohen's d effect size(s)}

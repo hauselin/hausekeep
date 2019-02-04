@@ -1,4 +1,4 @@
-#' @title Identify outliers using Z-score cut-off method
+#' @title Identify outliers using Z-score cut-off method.
 #' @name outliersZ
 #'
 #' @description outliersZ is used to identify outliers in vectors using Z-score cut-off
@@ -19,6 +19,11 @@
 #' @author Hause Lin
 #'
 #' @export
+#'
+#' @usage
+#' outliersZ(x, zCutOff = 1.96, replaceOutliersWith = NA,
+#' outlierIndices = FALSE, showZValues = FALSE, digits = 2)
+#'
 #' @examples
 #' example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
 #' outliersZ(example)

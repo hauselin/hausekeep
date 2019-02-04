@@ -23,6 +23,8 @@ Language: en-US
 Imports: 
     dplyr,
     data.table,
+    sjstats,
+    compute.es,
     dtplyr,
     rtdists
 VignetteBuilder: knitr

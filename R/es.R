@@ -1,4 +1,4 @@
-#' @title Effect Size Conversion
+#' @title Effect size conversion
 #' @name es
 #'
 #' @description es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc).
@@ -34,6 +34,11 @@
 #' @note The area-under-curve (auc) measure is slightly off...
 #'
 #' @author Hause Lin
+#'
+#' @usage
+#' es(d = NULL, r = NULL, R2 = NULL, f = NULL,
+#' oddsratio = NULL, logoddsratio = NULL,
+#' auc = NULL, decimal = 3, msg = TRUE)
 #'
 #' @export
 #' @examples

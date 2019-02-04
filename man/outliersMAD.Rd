@@ -5,8 +5,7 @@
 \title{Identify outliers using robust median absolute deviation approach}
 \usage{
 outliersMAD(x, MADCutOff = 2.5, replaceOutliersWith = NA,
-  showMADValues = FALSE, outlierIndices = FALSE, bConstant = 1.4826,
-  digits = 2)
+showMADValues = FALSE, outlierIndices = FALSE, bConstant = 1.4826, digits = 2)
 }
 \arguments{
 \item{x}{a vector of numbers}
@@ -27,7 +26,7 @@ outliersMAD(x, MADCutOff = 2.5, replaceOutliersWith = NA,
 A vector with outliers identified (default converts outliers to NA)
 }
 \description{
-outliersMAD is used to identify outliers in vectors using Leys et al.'s (2003) median absolute deviation approach
+outliersMAD is used to identify outliers in vectors using Leys et al.'s (2003) median absolute deviation approach.
 }
 \details{
 We can identify and remove outliers in our data by identifying data points that are too extreme—either too many standard deviations (SD) away from the mean or too many median absolute deviations (MAD) away from the median. The SD approach might not be ideal with extreme outliers, whereas the MAD approach is much more robust (for comparison of both approaches, see Leys et al., 2013, Journal of Experimental Social Psychology).

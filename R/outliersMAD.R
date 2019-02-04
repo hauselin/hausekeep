@@ -1,7 +1,7 @@
 #' @title Identify outliers using robust median absolute deviation approach
 #' @name outliersMAD
 #'
-#' @description outliersMAD is used to identify outliers in vectors using Leys et al.'s (2003) median absolute deviation approach
+#' @description outliersMAD is used to identify outliers in vectors using Leys et al.'s (2003) median absolute deviation approach.
 #'
 #' @param x a vector of numbers
 #' @param MADCutOff value to use as cutoff (Leys e tal. recommend 2.5 or 3.0 as default)
@@ -22,6 +22,11 @@
 #' @author Hause Lin
 #'
 #' @export
+#'
+#' @usage
+#' outliersMAD(x, MADCutOff = 2.5, replaceOutliersWith = NA,
+#' showMADValues = FALSE, outlierIndices = FALSE, bConstant = 1.4826, digits = 2)
+#'
 #' @examples
 #' example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
 #' outliersMAD(example)
