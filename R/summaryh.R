@@ -1,7 +1,7 @@
 #' @title Summarise statistical models and report effect sizes
 #' @name summaryh
 #'
-#' @description When fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size).
+#' @description When fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test.
 #'
 #' @param model a fitted model
 #' @param decimal round output to decimal places

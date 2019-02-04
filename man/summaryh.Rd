@@ -21,7 +21,7 @@ summaryh(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ..
 A datatable or a list with datatables (if showTable = TRUE or showEffectSizesTable = TRUE)
 }
 \description{
-When fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size).
+When fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test.
 }
 \note{
 Cohen's d: 0.20 (small), 0.50 (medium), .80 (large) (Cohen, 1992)

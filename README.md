@@ -22,6 +22,29 @@ devtools::install_github("hauselin/hausekeep") # you might have to install devto
 Examples
 --------
 
+### `summaryh()` function to generate model results and effect sizes for manuscripts
+
+``` r
+model_lm <- lm(mpg ~ cyl, mtcars) 
+summary(model_lm) # base R summary()
+summaryh(model_lm) # returns APA-formatted output in a data.table (output below)
+summaryh(model_lm, decimal = 5, showTable = T, showEffectSizesTable = T) # optional arguments
+
+# linear mixed effects regression
+library(lme4); library(lmerTest) # load packages to fit mixed effects models
+model <- lmer(weight ~ Time * Diet  + (1 + Time | Chick), data = ChickWeight)
+summary(model)
+summaryh(model, decimal = 4, showTable = T, showEffectSizesTable = T) # optional arguments
+
+# ANOVA
+summaryh(aov(mpg ~ gear, mtcars))
+
+# correlation
+cor.test(mtcars$mpg, mtcars$cyl)
+summaryh(cor.test(mtcars$mpg, mtcars$cyl))
+summaryh(cor.test(mtcars$mpg, mtcars$cyl), 3, T, T)
+```
+
 ### `es()` function to convert between effect sizes
 
 The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve \[AUC\]). Note that AUC calculations are slightly off!
