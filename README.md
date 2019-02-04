@@ -27,7 +27,7 @@ Examples
 ``` r
 model_lm <- lm(mpg ~ cyl, mtcars) 
 summary(model_lm) # base R summary()
-summaryh(model_lm) # returns APA-formatted output in a data.table (output below)
+summaryh(model_lm) # returns APA-formatted output in a data.table
 summaryh(model_lm, decimal = 5, showTable = T, showEffectSizesTable = T) # optional arguments
 
 # linear mixed effects regression
