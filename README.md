@@ -47,20 +47,20 @@ summaryh(cor.test(mtcars$mpg, mtcars$cyl), 3, T, T)
 
 ### `es()` function to convert between effect sizes
 
-The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve \[AUC\]).
+The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve \[AUC\]). Also available as a [Shiny app](https://hause.shinyapps.io/shinyapp_effectsize/).
 
 ``` r
 es(d = 0.2)
 #> d: 0.2
 #>     d   r   R2   f oddsratio logoddsratio   auc
-#> 1 0.2 0.1 0.01 0.1     1.437        0.363 0.579
+#> 1 0.2 0.1 0.01 0.1     1.437        0.363 0.556
 
 es(r = c(0.1, 0.4, 0.7))
 #> r: 0.1 r: 0.4 r: 0.7
 #>       d   r   R2     f oddsratio logoddsratio   auc
-#> 1 0.201 0.1 0.01 0.101     1.440        0.365 0.580
-#> 2 0.873 0.4 0.16 0.436     4.871        1.583 0.809
-#> 3 1.960 0.7 0.49 0.980    35.014        3.556 0.975
+#> 1 0.201 0.1 0.01 0.101     1.440        0.365 0.557
+#> 2 0.873 0.4 0.16 0.436     4.871        1.583 0.731
+#> 3 1.960 0.7 0.49 0.980    35.014        3.556 0.917
 ```
 
 ### `outliersMAD()` identifies outliers using robust median absolute deviation approach

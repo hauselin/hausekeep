@@ -1,7 +1,7 @@
 #' @title Effect size conversion
 #' @name es
 #'
-#' @description es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc).
+#' @description es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc). Also available as a Shiny app here: https://hause.shinyapps.io/shinyapp_effectsize/
 #'
 #' @param d a numeric vector containing Cohen's d effect size(s)
 #' @param r a numeric vector containing correlation r effect size(s)

@@ -57,7 +57,7 @@ summaryh(cor.test(mtcars$mpg, mtcars$cyl), 3, T, T)
 
 ### `es()` function to convert between effect sizes
 
-The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve [AUC]). 
+The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve [AUC]). Also available as a [Shiny app](https://hause.shinyapps.io/shinyapp_effectsize/).
 
 ```{r es example}
 es(d = 0.2)
