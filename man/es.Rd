@@ -53,6 +53,11 @@ Formulae for conversion
 }
 \note{
 All conversions assume equal-sized groups
+Cohen's d: 0.20 (small), 0.50 (medium), .80 (large) (Cohen, 1992)
+\cr
+correlation r: .10 (small), .30 (medium), .50 (large)
+\cr
+R-squared: R2: .02 (small), .13 (medium), .26 (large)
 }
 \examples{
 es(d = 0.3)
