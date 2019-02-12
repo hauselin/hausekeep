@@ -1,7 +1,7 @@
-#' @title Generate model formatted results and effect sizes for manuscripts
+#' @title Generate formatted results and effect sizes for manuscripts
 #' @name summaryh
 #'
-#' @description After fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test.
+#' @description After fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test. Unfortunately, this function won't write your entire results section for you (yet).
 #'
 #' @param model a fitted model
 #' @param decimal round output to decimal places
