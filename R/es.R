@@ -18,20 +18,21 @@
 #' @details Formulae for conversion
 #' \cr \cr
 #' \code{f = d / 2}
-#' \cr \cr
-#' \code{r = d / sqrt(d^2 + 4)}, assumes equal sample size
-#' \cr \cr
+#' \cr
+#' \code{r = d / sqrt(d^2 + 4)}
+#' \cr
 #' \code{d = (2 * r) / sqrt(1 - r^2)}
-#' \cr \cr
+#' \cr
 #' \code{R2 = r^2}
-#' \cr \cr
-#' \code{oddsratio = exp(d / sqrt(3) / pi)}
-#' \cr \cr
-#' \code{logoddsratio = d / sqrt(3) / pi}
-#' \cr \cr
+#' \cr
+#' \code{oddsratio = exp(d / (sqrt(3) / pi))}
+#' \cr
+#' \code{logoddsratio = d / (sqrt(3) / pi)}
+#' \cr
 #' \code{auc = pnorm(d / sqrt(2), 0, 1)}
-#' \cr \cr
-#' @note All conversions assume equal-sized groups
+#' \cr
+#' @note All conversions assume equal-sized groups. Effect size conventions:
+#' \cr
 #' Cohen's d: 0.20 (small), 0.50 (medium), .80 (large) (Cohen, 1992)
 #' \cr
 #' correlation r: .10 (small), .30 (medium), .50 (large)
@@ -39,7 +40,13 @@
 #' R-squared: R2: .02 (small), .13 (medium), .26 (large)
 #'
 #' @references
-#' Ruscio 2008
+#' Borenstein, M., Hedges, L. V., Higgins, J. P. T., & Rothstein, H. R. (2009). Introduction to meta-analysis. Chichester, West Sussex, UK: Wiley.
+#' \cr \cr
+#' Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.), Hillsdale, NJ: Erlbaum.
+#' \cr \cr
+#' Rosenthal, R. (1994). Parametric measures of effect size. In H. Cooper & L. V. Hedges (Eds.), The Handbook of Research Synthesis. New York, NY: Sage.
+#' \cr \cr
+#' Ruscio, J. (2008). A probability-based measure of effect size: Robustness to base rates and other factors. Psychological Methods, 13(1), 19-30. doi:10.1037/1082-989x.13.1.19
 #'
 #' @author Hause Lin
 #'
