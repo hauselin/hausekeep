@@ -275,16 +275,18 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTa
     # make a copy of estimates and convert to correct dp
     estimatesCopy <- estimates[, -1]
     estimatesRound <- estimatesCopy
-    estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
-    estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
-    estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
-    estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
-    # estimatesRound[abs(estimatesCopy) < 0.01] <- sprintf(pdigits, estimatesCopy[abs(estimatesCopy) < 0.01])
+    if (!is.na(sum(estimatesRound$statistic))) {
+      estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
+      estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
+      estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
+      estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
+      # estimatesRound[abs(estimatesCopy) < 0.01] <- sprintf(pdigits, estimatesCopy[abs(estimatesCopy) < 0.01])
 
-    # fix p values
-    estimatesRound$p.value <- round(estimates$p.value, decimal + 2)
-    estimatesRound$p.value <- ifelse(estimatesRound$p.value < .001, "< .001", paste0("= ", sprintf(pdigits, estimatesRound$p.value)))
-    estimatesRound$p.value <- gsub("= 0.", "= .", estimatesRound$p.value)
+      # fix p values
+      estimatesRound$p.value <- round(estimates$p.value, decimal + 2)
+      estimatesRound$p.value <- ifelse(estimatesRound$p.value < .001, "< .001", paste0("= ", sprintf(pdigits, estimatesRound$p.value)))
+      estimatesRound$p.value <- gsub("= 0.", "= .", estimatesRound$p.value)
+    }
 
     # leave df as integers
     estimatesRound$df <- round(estimates$df)
