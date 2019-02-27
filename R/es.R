@@ -10,12 +10,14 @@
 #' @param oddsratio a numeric vector containing odds ratio effect size(s)
 #' @param logoddsratio a numeric vector containing log odds ratio effect size(s)
 #' @param auc a numeric vector containing area-under-curve effect size(s)
+#' @param fishersz a numeric vector containing fisher's z effect size(s)
 #' @param decimal a numeric vector indicating decimal places of output
 #' @param msg a boolean indicating whether to show input effect size(s)
 #'
 #' @return A dataframe with converted effect sizes
 #'
-#' @details Formulae for conversion
+#' @details
+#' Formulae for conversion
 #' \cr \cr
 #' \code{f = d / 2}
 #' \cr
@@ -30,6 +32,8 @@
 #' \code{logoddsratio = d / (sqrt(3) / pi)}
 #' \cr
 #' \code{auc = pnorm(d / sqrt(2), 0, 1)}
+#' \cr
+#' \code{fisher's z = 0.5 * (log(1 + r) - log(1 - r))
 #' \cr
 #' @note All conversions assume equal-sized groups. Effect size conventions:
 #' \cr
@@ -51,21 +55,21 @@
 #' @author Hause Lin
 #'
 #' @usage
-#' es(d = NULL, r = NULL, R2 = NULL, f = NULL,
-#' oddsratio = NULL, logoddsratio = NULL,
-#' auc = NULL, decimal = 3, msg = TRUE)
+#' es(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL,
+#' logoddsratio = NULL, auc = NULL, fishersz = NULL,
+#' decimal = 3, msg = TRUE)
 #'
 #' @export
 #' @examples
 #' es(d = 0.3)
 #' es(r = c(0.1, 0.3))
-es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logoddsratio = NULL, auc = NULL, decimal = 3, msg = TRUE) {
+es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logoddsratio = NULL, auc = NULL, fishersz = NULL, decimal = 3, msg = TRUE) {
 
     # effectsizes <- vector("list", 7) # list version
-    effectsizes <- data.frame(matrix(NA, nrow = length(c(d, r, R2, f, oddsratio, logoddsratio, auc)), ncol = 7)) # dataframe version
-    names(effectsizes) <- c("d", "r", "R2", "f", "oddsratio", "logoddsratio", "auc")
+    effectsizes <- data.frame(matrix(NA, nrow = length(c(d, r, R2, f, oddsratio, logoddsratio, auc, fishersz)), ncol = 8)) # dataframe version
+    names(effectsizes) <- c("d", "r", "R2", "f", "oddsratio", "logoddsratio", "auc", "fishersz")
 
-    if (length(c(d, r, R2, f, oddsratio, logoddsratio, auc)) < 1) {
+    if (length(c(d, r, R2, f, oddsratio, logoddsratio, auc, fishersz)) < 1) {
         stop("Please specify one effect size!")
     }
 
@@ -78,6 +82,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
         effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
+        effectsizes$fishersz <- .5 * log((1+effectsizes$r)/ (1-effectsizes$r))
     } else if (is.numeric(r)) {
         if (msg) {message(paste0("r: ", r, " ")) }
         effectsizes$d <- (2 * r) / (sqrt(1 - r^2))
@@ -87,6 +92,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
         effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
+        effectsizes$fishersz <- .5 * log((1+effectsizes$r)/ (1-effectsizes$r))
     } else if (is.numeric(f)) {
         if (msg) {message(paste0("f: ", f, " ")) }
         effectsizes$d <- f * 2
@@ -96,6 +102,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
         effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
+        effectsizes$fishersz <- .5 * log((1+effectsizes$r)/ (1-effectsizes$r))
     } else if (is.numeric(R2)) {
         if (msg) {message(paste0("R2: ", R2, " ")) }
         effectsizes$r <- sqrt(R2)
@@ -105,6 +112,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
         effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
+        effectsizes$fishersz <- .5 * log((1+effectsizes$r)/ (1-effectsizes$r))
     } else if (is.numeric(oddsratio)) {
         if (msg) {message(paste0("odds ratio: ", oddsratio, " "))}
         effectsizes$d <- log(oddsratio) * (sqrt(3) / pi)
@@ -114,6 +122,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$oddsratio <- oddsratio
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
         effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
+        effectsizes$fishersz <- .5 * log((1+effectsizes$r)/ (1-effectsizes$r))
     } else if (is.numeric(logoddsratio)) {
         if (msg) {message(paste0("log odds ratio: ", logoddsratio, " ")) }
         effectsizes$logoddsratio <- logoddsratio
@@ -123,6 +132,7 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$R2 <- effectsizes$r^ 2
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
+        effectsizes$fishersz <- .5 * log((1+effectsizes$r)/ (1-effectsizes$r))
     } else if (is.numeric(auc)) { # also known as common language (CL) effect size statistic
         if (msg) {message(paste0("auc: ", auc, " ")) }
         effectsizes$auc <- auc
@@ -132,6 +142,17 @@ es <- function(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL, logodd
         effectsizes$R2 <- effectsizes$r^ 2
         effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
         effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
+        effectsizes$fishersz <- .5 * log((1+effectsizes$r)/ (1-effectsizes$r))
+    } else if (is.numeric(fishersz)) {
+        if (msg) {message(paste0("fishersz: ", auc, " ")) }
+        effectsizes$fishersz <- fishersz
+        effectsizes$r <- (exp(effectsizes$fishersz / 0.5) - 1) / (exp(effectsizes$fishersz / 0.5) + 1)
+        effectsizes$d <- (2 * effectsizes$r) / (sqrt(1 - effectsizes$r^2))
+        effectsizes$f <- effectsizes$d / 2
+        effectsizes$R2 <- R2
+        effectsizes$oddsratio <- exp(effectsizes$d / (sqrt(3) / pi))
+        effectsizes$logoddsratio <- effectsizes$d / (sqrt(3) / pi)
+        effectsizes$auc <- stats::pnorm(effectsizes$d/sqrt(2), 0, 1)
     }
 
     round(effectsizes, decimal)

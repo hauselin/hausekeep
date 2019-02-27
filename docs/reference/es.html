@@ -122,9 +122,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>es</span>(<span class='kw'>d</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>oddsratio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>logoddsratio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>auc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>decimal</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>msg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>es</span>(<span class='kw'>d</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>oddsratio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>logoddsratio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fishersz</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>decimal</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>msg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,6 +158,10 @@
       <td><p>a numeric vector containing area-under-curve effect size(s)</p></td>
     </tr>
     <tr>
+      <th>fishersz</th>
+      <td><p>a numeric vector containing fisher's z effect size(s)</p></td>
+    </tr>
+    <tr>
       <th>decimal</th>
       <td><p>a numeric vector indicating decimal places of output</p></td>
     </tr>
@@ -170,25 +174,6 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe with converted effect sizes</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Formulae for conversion
-<br /> <br />
-<code>f = d / 2</code>
-<br />
-<code>r = d / sqrt(d^2 + 4)</code>
-<br />
-<code>d = (2 * r) / sqrt(1 - r^2)</code>
-<br />
-<code>R2 = r^2</code>
-<br />
-<code>oddsratio = exp(d / (sqrt(3) / pi))</code>
-<br />
-<code>logoddsratio = d / (sqrt(3) / pi)</code>
-<br />
-<code>auc = pnorm(d / sqrt(2), 0, 1)</code>
-<br /></p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -212,10 +197,10 @@ Ruscio, J. (2008). A probability-based measure of effect size: Robustness to bas
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>es</span>(<span class='kw'>d</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>d: 0.3 </span></div><div class='output co'>#&gt;     d     r    R2    f oddsratio logoddsratio   auc
-#&gt; 1 0.3 0.148 0.022 0.15     1.723        0.544 0.584</div><div class='input'><span class='fu'>es</span>(<span class='kw'>r</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.1</span>, <span class='fl'>0.3</span>))</div><div class='output co'>#&gt; <span class='message'>r: 0.1 r: 0.3 </span></div><div class='output co'>#&gt;       d   r   R2     f oddsratio logoddsratio   auc
-#&gt; 1 0.201 0.1 0.01 0.101     1.440        0.365 0.557
-#&gt; 2 0.629 0.3 0.09 0.314     3.129        1.141 0.672</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>es</span>(<span class='kw'>d</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>d: 0.3 </span></div><div class='output co'>#&gt;     d     r    R2    f oddsratio logoddsratio   auc fishersz
+#&gt; 1 0.3 0.148 0.022 0.15     1.723        0.544 0.584    0.149</div><div class='input'><span class='fu'>es</span>(<span class='kw'>r</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.1</span>, <span class='fl'>0.3</span>))</div><div class='output co'>#&gt; <span class='message'>r: 0.1 r: 0.3 </span></div><div class='output co'>#&gt;       d   r   R2     f oddsratio logoddsratio   auc fishersz
+#&gt; 1 0.201 0.1 0.01 0.101     1.440        0.365 0.557     0.10
+#&gt; 2 0.629 0.3 0.09 0.314     3.129        1.141 0.672     0.31</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -223,8 +208,6 @@ Ruscio, J. (2008). A probability-based measure of effect size: Robustness to bas
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#note">Note</a></li>
 

@@ -4,9 +4,9 @@
 \alias{es}
 \title{Effect size conversion}
 \usage{
-es(d = NULL, r = NULL, R2 = NULL, f = NULL,
-oddsratio = NULL, logoddsratio = NULL,
-auc = NULL, decimal = 3, msg = TRUE)
+es(d = NULL, r = NULL, R2 = NULL, f = NULL, oddsratio = NULL,
+logoddsratio = NULL, auc = NULL, fishersz = NULL,
+decimal = 3, msg = TRUE)
 }
 \arguments{
 \item{d}{a numeric vector containing Cohen's d effect size(s)}
@@ -23,6 +23,8 @@ auc = NULL, decimal = 3, msg = TRUE)
 
 \item{auc}{a numeric vector containing area-under-curve effect size(s)}
 
+\item{fishersz}{a numeric vector containing fisher's z effect size(s)}
+
 \item{decimal}{a numeric vector indicating decimal places of output}
 
 \item{msg}{a boolean indicating whether to show input effect size(s)}
@@ -32,24 +34,6 @@ A dataframe with converted effect sizes
 }
 \description{
 es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc). Also available as a Shiny app here: https://hause.shinyapps.io/shinyapp_effectsize/
-}
-\details{
-Formulae for conversion
-\cr \cr
-\code{f = d / 2}
-\cr
-\code{r = d / sqrt(d^2 + 4)}
-\cr
-\code{d = (2 * r) / sqrt(1 - r^2)}
-\cr
-\code{R2 = r^2}
-\cr
-\code{oddsratio = exp(d / (sqrt(3) / pi))}
-\cr
-\code{logoddsratio = d / (sqrt(3) / pi)}
-\cr
-\code{auc = pnorm(d / sqrt(2), 0, 1)}
-\cr
 }
 \note{
 All conversions assume equal-sized groups. Effect size conventions:
