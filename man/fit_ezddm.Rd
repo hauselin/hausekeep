@@ -4,7 +4,7 @@
 \alias{fit_ezddm}
 \title{Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw single-trial data.}
 \usage{
-fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = TRUE, decimal = 4)
+fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = FALSE, decimal = 4)
 }
 \arguments{
 \item{data}{data object with reaction time and accuracy variables (long form data expected)}
@@ -17,7 +17,7 @@ fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = TRUE, decima
 
 \item{group}{specify in characters the name of your column(s) indicating various conditions (default = NULL)}
 
-\item{simCheck}{simulate data (n = 1000) with estimated parameters (using rdiffusion from rtdists package) to check model fit (default = TRUE)}
+\item{simCheck}{simulate data (n = 1000) with estimated parameters (using rdiffusion from rtdists package) to check model fit (default = FALSE)}
 
 \item{decimal}{round parameter estimates (default = 4)}
 }

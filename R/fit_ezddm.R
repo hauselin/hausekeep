@@ -8,7 +8,7 @@
 #' @param responses specify in characters the name of the accuracy column (coded as 0/1)
 #' @param id specify in characters the name of your subject/id column (if not specified, assumes data [all rows] belong to a single subject)
 #' @param group specify in characters the name of your column(s) indicating various conditions (default = NULL)
-#' @param simCheck simulate data (n = 1000) with estimated parameters (using rdiffusion from rtdists package) to check model fit (default = TRUE)
+#' @param simCheck simulate data (n = 1000) with estimated parameters (using rdiffusion from rtdists package) to check model fit (default = FALSE)
 #' @param decimal round parameter estimates (default = 4)
 #'
 #' @return A datatable
@@ -34,7 +34,7 @@
 #' @export
 #'
 #' @usage
-#' fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = TRUE, decimal = 4)
+#' fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = FALSE, decimal = 4)
 #'
 #' @examples
 #' library(rtdists) # load package to simulate data with diffusion parameters
@@ -57,7 +57,7 @@
 #' # fit model to each subject by cond1,cond2
 #' fit_ezddm(data = dataAll, rts = "rt", responses = "response",
 #' id = "subject", group = c("cond1", "cond2"))
-fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, simCheck = TRUE, decimal = 4) {
+fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, simCheck = FALSE, decimal = 4) {
 
   # message("Fits EZ-diffusion model (Wagenmaker et al., 2007, Psychonomic Bulletin & Review).\nResponses or choice must be coded as 0 (lower bound) or 1 (upper bound).")
 
