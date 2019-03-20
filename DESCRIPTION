@@ -1,6 +1,6 @@
 Package: hausekeep
 Title: Miscellaneous functions for research and housekeeping
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Date: 2019-02-01
 Authors@R: 
     person(given = "Hause",
