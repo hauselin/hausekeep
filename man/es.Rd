@@ -33,7 +33,7 @@ decimal = 3, msg = TRUE)
 A dataframe with converted effect sizes
 }
 \description{
-es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc). Also available as a Shiny app here: https://hause.shinyapps.io/shinyapp_effectsize/
+es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc). Also available as a Shiny app here: http://escal.site
 }
 \note{
 All conversions assume equal-sized groups. Effect size conventions:
