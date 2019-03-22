@@ -5,7 +5,7 @@
 \title{Compute standard errors (between-subjects)}
 \usage{
 stderror(data = NULL, measurevar, groupvars = NULL,
-na.rm = TRUE, conf.interval = 0.95, toNumeric = TRUE)
+na.rm = TRUE, conf.interval = 0.95, tonumeric = TRUE)
 }
 \arguments{
 \item{data}{a dataframe}
@@ -18,7 +18,7 @@ na.rm = TRUE, conf.interval = 0.95, toNumeric = TRUE)
 
 \item{conf.interval}{confidence interval range}
 
-\item{toNumeric}{whether to convert variables/columns to numeric whenever possible}
+\item{tonumeric}{whether to convert variables/columns to numeric whenever possible}
 }
 \value{
 A dataframe (tibble)

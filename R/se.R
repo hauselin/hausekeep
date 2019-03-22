@@ -6,11 +6,11 @@
 #' @param groupvars a vector containing names of columns that contain grouping variables
 #' @param na.rm boolean that indicates whether to ignore NA's
 #' @param conf.interval confidence interval range
-#' @param toNumeric whether to convert variables/columns to numeric whenever possible
+#' @param tonumeric whether to convert variables/columns to numeric whenever possible
 #'
 #' @usage
 #' stderror(data = NULL, measurevar, groupvars = NULL,
-#' na.rm = TRUE, conf.interval = 0.95, toNumeric = TRUE)
+#' na.rm = TRUE, conf.interval = 0.95, tonumeric = TRUE)
 #' @note Code adapted from R cookbook (see references).
 #' @author Hause Lin
 #' @import data.table
@@ -21,7 +21,7 @@
 #' stderror(data = mtcars, measurevar = c("mpg", "disp"), groupvars = c("cyl", "am"))
 #' stderror(data = ChickWeight, measurevar = "weight", groupvars = "Diet")
 #' @export
-stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, conf.interval = 0.95, toNumeric = TRUE) {
+stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, conf.interval = 0.95, tonumeric = TRUE) {
 
   # convert to datatable and tibble
   data <- data.table(data)
@@ -56,7 +56,7 @@ stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, co
     ciMult <- stats::qt(conf.interval / 2 + 0.5, unlist(datac$N) - 1)
     datac[, ci := se * ciMult]
 
-    if (toNumeric) {
+    if (tonumeric) {
       # convert columns to numeric class if possible, else, leave as character
       oldwarning <- getOption("warn")
       options(warn = -1)
@@ -208,7 +208,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
     }
 
     # Get the means from the un-normed data
-    datac <- stderror(data, measurevar[i], groupvars = c(betweenvars, withinvars), na.rm = na.rm, conf.interval = conf.interval, toNumeric = FALSE)
+    datac <- stderror(data, measurevar[i], groupvars = c(betweenvars, withinvars), na.rm = na.rm, conf.interval = conf.interval, tonumeric = FALSE)
 
     # Drop all the unused columns (these will be calculated with normed data)
     datac$sd <- NULL
@@ -222,7 +222,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
     measurevar_n <- paste(measurevar[i], "Normed", sep = "")
 
     # Collapse the normed data - now we can treat between and within vars the same
-    ndatac <- stderror(ndata, measurevar_n, groupvars = c(betweenvars, withinvars), na.rm = na.rm, conf.interval = conf.interval, toNumeric = FALSE)
+    ndatac <- stderror(ndata, measurevar_n, groupvars = c(betweenvars, withinvars), na.rm = na.rm, conf.interval = conf.interval, tonumeric = FALSE)
 
     # Apply correction from Morey (2008) to the standard error and confidence interval
     # Get the product of the number of conditions of within-S variables
