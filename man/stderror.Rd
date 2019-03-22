@@ -14,7 +14,7 @@ na.rm = TRUE, conf.interval = 0.95, tonumeric = TRUE)
 
 \item{groupvars}{a vector containing names of columns that contain grouping variables}
 
-\item{na.rm}{boolean that indicates whether to ignore NA's}
+\item{na.rm}{boolean that indicates whether to ignore NA values}
 
 \item{conf.interval}{confidence interval range}
 
@@ -27,7 +27,7 @@ A dataframe (tibble)
 se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe.
 }
 \note{
-Code adapted from R cookbook (see references).
+Code adapted from R cookbook (see references)
 }
 \examples{
 stderror(data = mtcars, measurevar = c("mpg", "disp"), groupvars = c("cyl", "am"))

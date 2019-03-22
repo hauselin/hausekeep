@@ -5,7 +5,7 @@
 \title{Compute standard errors (within-subjects)}
 \usage{
 seWithin(data = NULL, measurevar, betweenvars = NULL, withinvars = NULL,
-idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE)
+idvar = NULL, na.rm = TRUE, conf.interval = 0.95, shownormed = FALSE)
 }
 \arguments{
 \item{data}{a dataframe}
@@ -22,7 +22,7 @@ idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE)
 
 \item{conf.interval}{confidence interval range}
 
-\item{showNormed}{whether to show noramlized results}
+\item{shownormed}{whether to show noramlized results}
 }
 \value{
 A data.table

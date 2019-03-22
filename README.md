@@ -10,7 +10,7 @@ status](https://ci.appveyor.com/api/projects/status/github/hauselin/hausekeep?br
 [![Coverage
 status](https://codecov.io/gh/hauselin/hausekeep/branch/master/graph/badge.svg)](https://codecov.io/github/hauselin/hausekeep?branch=master)
 
-[![DOI](https://zenodo.org/badge/168783741.svg)](https://zenodo.org/badge/latestdoi/168783741)
+[![DOI](https://zenodo.org/badge/168783741.svg)](https://doi.org/10.5281/zenodo.2555874)
 
 Functions to make it easier to analyse and summarise data and results in
 R. For documentation, see <https://hauselin.github.io/hausekeep/>

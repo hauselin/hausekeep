@@ -4,14 +4,14 @@
 #' @param data a dataframe
 #' @param measurevar the name(s) of column(s) that contain the variable to be summariezed
 #' @param groupvars a vector containing names of columns that contain grouping variables
-#' @param na.rm boolean that indicates whether to ignore NA's
+#' @param na.rm boolean that indicates whether to ignore NA values
 #' @param conf.interval confidence interval range
 #' @param tonumeric whether to convert variables/columns to numeric whenever possible
 #'
 #' @usage
 #' stderror(data = NULL, measurevar, groupvars = NULL,
 #' na.rm = TRUE, conf.interval = 0.95, tonumeric = TRUE)
-#' @note Code adapted from R cookbook (see references).
+#' @note Code adapted from R cookbook (see references)
 #' @author Hause Lin
 #' @import data.table
 #' @importFrom dplyr tbl_df
@@ -136,7 +136,7 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' @param idvar the name of the column that identifies each subject
 #' @param na.rm boolean that indicates whether to ignore NA's
 #' @param conf.interval confidence interval range
-#' @param showNormed whether to show noramlized results
+#' @param shownormed whether to show noramlized results
 #'
 #' @seealso \code{\link{stderror}}
 #'
@@ -160,7 +160,7 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' @seealso \code{\link{stderror}}
 #' @usage
 #' seWithin(data = NULL, measurevar, betweenvars = NULL, withinvars = NULL,
-#' idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE)
+#' idvar = NULL, na.rm = TRUE, conf.interval = 0.95, shownormed = FALSE)
 #'
 #' @examples
 #' result <- seWithin(data = ChickWeight, measurevar = "weight",
@@ -171,7 +171,7 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' ChickWeight2$weight2 <- ChickWeight2$weight * 100 # create a new outcome variable
 #' result <- seWithin(data = ChickWeight2, measurevar = c("weight", "weight2"),
 #' betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
-seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = NULL, idvar = NULL, na.rm = TRUE, conf.interval = 0.95, showNormed = FALSE) {
+seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = NULL, idvar = NULL, na.rm = TRUE, conf.interval = 0.95, shownormed = FALSE) {
   # within-subjects CI (normed and un-normed versions)
   ## Summarizes data, handling within-subjects variables by removing inter-subject variability.
   ## It will still work if there are no within-S variables.
@@ -185,7 +185,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
   ##   idvar: the name of a column that identifies each subject (or matched subjects)
   ##   na.rm: a boolean that indicates whether to ignore NA's
   ##   conf.interval: the percent range of the confidence interval (default is 95%)
-  ##    showNormed: whether to show the normed version of the outcome variable
+  ##    shownormed: whether to show the normed version of the outcome variable
 
   data <- data.frame(data) # convert to data.frame
 
@@ -258,7 +258,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
     options(warn = oldwarning)
 
     # whether to show normed version
-    if (showNormed == FALSE) {
+    if (shownormed == FALSE) {
       # print(measurevar_n)
       merged[, (measurevar_n) := NULL]
     }
