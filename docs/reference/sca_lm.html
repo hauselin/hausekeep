@@ -162,27 +162,27 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># model with 1 covariate</span>
 <span class='no'>m1</span> <span class='kw'>&lt;-</span> <span class='fu'>sca_lm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>ivs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"carb"</span>), <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"vs"</span>))
-<span class='no'>m1</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"modelformula"</span>, <span class='st'>"estimate"</span>, <span class='st'>"p.value"</span>, <span class='st'>"es.r"</span>)] <span class='co'># model, beta, p value, effect size</span></div><div class='output co'>#&gt;              modelformula estimate p.value  es.r
-#&gt;  1:       mpg ~ carb + vs   20.061   0.000 0.838
-#&gt;  2:       mpg ~ carb + vs   -0.954   0.126 0.281
-#&gt;  3:       mpg ~ carb + vs    6.199   0.003 0.511
-#&gt;  4: mpg ~ cyl + carb + vs   41.107   0.000 0.877
-#&gt;  5: mpg ~ cyl + carb + vs   -2.981   0.000 0.714
-#&gt;  6: mpg ~ cyl + carb + vs   -0.636   0.155 0.266
-#&gt;  7: mpg ~ cyl + carb + vs   -1.786   0.385 0.164
-#&gt;  8:        mpg ~ cyl + vs   39.625   0.000 0.867
-#&gt;  9:        mpg ~ cyl + vs   -3.091   0.000 0.717
-#&gt; 10:        mpg ~ cyl + vs   -0.939   0.638 0.088</div><div class='input'>
+<span class='no'>m1</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"modelformula"</span>, <span class='st'>"term"</span>, <span class='st'>"estimate"</span>, <span class='st'>"p.value"</span>, <span class='st'>"es.r"</span>)] <span class='co'># model, term, beta, p value, effect size</span></div><div class='output co'>#&gt;              modelformula        term estimate p.value  es.r
+#&gt;  1:       mpg ~ carb + vs (Intercept)   20.061   0.000 0.838
+#&gt;  2:       mpg ~ carb + vs        carb   -0.954   0.126 0.281
+#&gt;  3:       mpg ~ carb + vs          vs    6.199   0.003 0.511
+#&gt;  4: mpg ~ cyl + carb + vs (Intercept)   41.107   0.000 0.877
+#&gt;  5: mpg ~ cyl + carb + vs         cyl   -2.981   0.000 0.714
+#&gt;  6: mpg ~ cyl + carb + vs        carb   -0.636   0.155 0.266
+#&gt;  7: mpg ~ cyl + carb + vs          vs   -1.786   0.385 0.164
+#&gt;  8:        mpg ~ cyl + vs (Intercept)   39.625   0.000 0.867
+#&gt;  9:        mpg ~ cyl + vs         cyl   -3.091   0.000 0.717
+#&gt; 10:        mpg ~ cyl + vs          vs   -0.939   0.638 0.088</div><div class='input'>
 <span class='co'># model without covariates</span>
 <span class='no'>m2</span> <span class='kw'>&lt;-</span> <span class='fu'>sca_lm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>ivs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"gear"</span>))
-<span class='no'>m2</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"modelformula"</span>, <span class='st'>"estimate"</span>, <span class='st'>"p.value"</span>, <span class='st'>"es.r"</span>)]</div><div class='output co'>#&gt;        modelformula estimate p.value  es.r
-#&gt; 1:        mpg ~ cyl   37.885   0.000 0.958
-#&gt; 2:        mpg ~ cyl   -2.876   0.000 0.852
-#&gt; 3: mpg ~ cyl + gear   34.659   0.000 0.793
-#&gt; 4: mpg ~ cyl + gear   -2.743   0.000 0.806
-#&gt; 5: mpg ~ cyl + gear    0.652   0.477 0.133
-#&gt; 6:       mpg ~ gear    5.623   0.262 0.204
-#&gt; 7:       mpg ~ gear    3.923   0.005 0.480</div></pre>
+<span class='no'>m2</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"modelformula"</span>, <span class='st'>"term"</span>, <span class='st'>"estimate"</span>, <span class='st'>"p.value"</span>, <span class='st'>"es.r"</span>)]</div><div class='output co'>#&gt;        modelformula        term estimate p.value  es.r
+#&gt; 1:        mpg ~ cyl (Intercept)   37.885   0.000 0.958
+#&gt; 2:        mpg ~ cyl         cyl   -2.876   0.000 0.852
+#&gt; 3: mpg ~ cyl + gear (Intercept)   34.659   0.000 0.793
+#&gt; 4: mpg ~ cyl + gear         cyl   -2.743   0.000 0.806
+#&gt; 5: mpg ~ cyl + gear        gear    0.652   0.477 0.133
+#&gt; 6:       mpg ~ gear (Intercept)    5.623   0.262 0.204
+#&gt; 7:       mpg ~ gear        gear    3.923   0.005 0.480</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
