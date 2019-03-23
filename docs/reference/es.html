@@ -193,30 +193,35 @@
 <br />
 <code>auc = pnorm(d / sqrt(2), 0, 1)</code>
 <br />
-<code>fisher's z = 0.5 * (log(1 + r) - log(1 - r))}
-\cr
-}
-\note{
-All conversions assume equal-sized groups. Effect size conventions:
-\cr
+<code>fishers z = 0.5 * [log(1 + r) - log(1 - r)]</code>
+<br /></p>
+    
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>All conversions assume equal-sized groups. Effect size conventions:
+<br />
 Cohen's d: 0.20 (small), 0.50 (medium), .80 (large) (Cohen, 1992)
 <br />
 correlation r: .10 (small), .30 (medium), .50 (large)
 <br />
-R-squared: R2: .02 (small), .13 (medium), .26 (large)
-</code>
-    es(d = 0.3)
-es(r = c(0.1, 0.3))
-    Borenstein, M., Hedges, L. V., Higgins, J. P. T., &amp; Rothstein, H. R. (2009). Introduction to meta-analysis. Chichester, West Sussex, UK: Wiley.
+R-squared: R2: .02 (small), .13 (medium), .26 (large)</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Borenstein, M., Hedges, L. V., Higgins, J. P. T., &amp; Rothstein, H. R. (2009). Introduction to meta-analysis. Chichester, West Sussex, UK: Wiley.
 <br /> <br />
 Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.), Hillsdale, NJ: Erlbaum.
 <br /> <br />
 Rosenthal, R. (1994). Parametric measures of effect size. In H. Cooper &amp; L. V. Hedges (Eds.), The Handbook of Research Synthesis. New York, NY: Sage.
 <br /> <br />
-Ruscio, J. (2008). A probability-based measure of effect size: Robustness to base rates and other factors. Psychological Methods, 13(1), 19-30. doi:10.1037/1082-989x.13.1.19
-    Hause Lin</p>
+Ruscio, J. (2008). A probability-based measure of effect size: Robustness to base rates and other factors. Psychological Methods, 13(1), 19-30. doi:10.1037/1082-989x.13.1.19</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>es</span>(<span class='kw'>d</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>d: 0.3 </span></div><div class='output co'>#&gt;     d     r    R2    f oddsratio logoddsratio   auc fishersz
+#&gt; 1 0.3 0.148 0.022 0.15     1.723        0.544 0.584    0.149</div><div class='input'><span class='fu'>es</span>(<span class='kw'>r</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.1</span>, <span class='fl'>0.3</span>))</div><div class='output co'>#&gt; <span class='message'>r: 0.1 r: 0.3 </span></div><div class='output co'>#&gt;       d   r   R2     f oddsratio logoddsratio   auc fishersz
+#&gt; 1 0.201 0.1 0.01 0.101     1.440        0.365 0.557     0.10
+#&gt; 2 0.629 0.3 0.09 0.314     3.129        1.141 0.672     0.31</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -226,8 +231,16 @@ Ruscio, J. (2008). A probability-based measure of effect size: Robustness to bas
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
 
+      <li><a href="#note">Note</a></li>
+
+      <li><a href="#references">References</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
+    <h2>Author</h2>
+    <p>Hause Lin</p>
   </div>
 </div>
 

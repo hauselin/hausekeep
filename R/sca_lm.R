@@ -28,8 +28,13 @@
 #' @importFrom stats lm as.formula
 #' @export
 #' @examples
-#' sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "carb"), covariates = c("disp", "vs"))
-#' sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "carb"))
+#' # model with 1 covariate
+#' m1 <- sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "carb"), covariates = c("vs"))
+#' m1[, c("modelformula", "estimate", "p.value", "es.r")] # model, beta, p value, effect size
+#'
+#' # model without covariates
+#' m2 <- sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "gear"))
+#' m2[, c("modelformula", "estimate", "p.value", "es.r")]
 sca_lm <- function(data, dv, ivs, covariates = NULL) {
 
   # ivs

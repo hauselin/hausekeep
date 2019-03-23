@@ -160,91 +160,29 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>sca_lm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>ivs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"carb"</span>), <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"disp"</span>, <span class='st'>"vs"</span>))</div><div class='output co'>#&gt;                     modelformula cyl carb disp vs        term estimate
-#&gt;  1:            mpg ~ carb + disp   0    1    1  0 (Intercept)   31.153
-#&gt;  2:            mpg ~ carb + disp   0    1    1  0        carb   -0.956
-#&gt;  3:            mpg ~ carb + disp   0    1    1  0        disp   -0.036
-#&gt;  4:       mpg ~ carb + disp + vs   0    1    1  1 (Intercept)   31.619
-#&gt;  5:       mpg ~ carb + disp + vs   0    1    1  1        carb   -0.995
-#&gt;  6:       mpg ~ carb + disp + vs   0    1    1  1        disp   -0.037
-#&gt;  7:       mpg ~ carb + disp + vs   0    1    1  1          vs   -0.365
-#&gt;  8:              mpg ~ carb + vs   0    1    0  1 (Intercept)   20.061
-#&gt;  9:              mpg ~ carb + vs   0    1    0  1        carb   -0.954
-#&gt; 10:              mpg ~ carb + vs   0    1    0  1          vs    6.199
-#&gt; 11:      mpg ~ cyl + carb + disp   1    1    1  0 (Intercept)   33.911
-#&gt; 12:      mpg ~ cyl + carb + disp   1    1    1  0         cyl   -0.976
-#&gt; 13:      mpg ~ cyl + carb + disp   1    1    1  0        carb   -0.737
-#&gt; 14:      mpg ~ cyl + carb + disp   1    1    1  0        disp   -0.025
-#&gt; 15: mpg ~ cyl + carb + disp + vs   1    1    1  1 (Intercept)   37.056
-#&gt; 16: mpg ~ cyl + carb + disp + vs   1    1    1  1         cyl   -1.326
-#&gt; 17: mpg ~ cyl + carb + disp + vs   1    1    1  1        carb   -0.839
-#&gt; 18: mpg ~ cyl + carb + disp + vs   1    1    1  1        disp   -0.025
-#&gt; 19: mpg ~ cyl + carb + disp + vs   1    1    1  1          vs   -1.687
-#&gt; 20:        mpg ~ cyl + carb + vs   1    1    0  1 (Intercept)   41.107
-#&gt; 21:        mpg ~ cyl + carb + vs   1    1    0  1         cyl   -2.981
-#&gt; 22:        mpg ~ cyl + carb + vs   1    1    0  1        carb   -0.636
-#&gt; 23:        mpg ~ cyl + carb + vs   1    1    0  1          vs   -1.786
-#&gt; 24:             mpg ~ cyl + disp   1    0    1  0 (Intercept)   34.661
-#&gt; 25:             mpg ~ cyl + disp   1    0    1  0         cyl   -1.587
-#&gt; 26:             mpg ~ cyl + disp   1    0    1  0        disp   -0.021
-#&gt; 27:        mpg ~ cyl + disp + vs   1    0    1  1 (Intercept)   35.881
-#&gt; 28:        mpg ~ cyl + disp + vs   1    0    1  1         cyl   -1.750
-#&gt; 29:        mpg ~ cyl + disp + vs   1    0    1  1        disp   -0.020
-#&gt; 30:        mpg ~ cyl + disp + vs   1    0    1  1          vs   -0.634
-#&gt; 31:               mpg ~ cyl + vs   1    0    0  1 (Intercept)   39.625
-#&gt; 32:               mpg ~ cyl + vs   1    0    0  1         cyl   -3.091
-#&gt; 33:               mpg ~ cyl + vs   1    0    0  1          vs   -0.939
-#&gt;                     modelformula cyl carb disp vs        term estimate
-#&gt;     std.error df statistic p.value  es.r   es.d es.r.squared es.adj.r.squared
-#&gt;  1:     1.264 29    24.654   0.000 0.977  9.156        0.774            0.758
-#&gt;  2:     0.359 29    -2.664   0.012 0.443 -0.989        0.774            0.758
-#&gt;  3:     0.005 29    -7.762   0.000 0.822 -2.883        0.774            0.758
-#&gt;  4:     2.530 28    12.495   0.000 0.921  4.723        0.774            0.750
-#&gt;  5:     0.408 28    -2.439   0.021 0.419 -0.922        0.774            0.750
-#&gt;  6:     0.006 28    -5.985   0.000 0.749 -2.262        0.774            0.750
-#&gt;  7:     1.706 28    -0.214   0.832 0.040 -0.081        0.774            0.750
-#&gt;  8:     2.425 29     8.271   0.000 0.838  3.072        0.485            0.450
-#&gt;  9:     0.605 29    -1.577   0.126 0.281 -0.586        0.485            0.450
-#&gt; 10:     1.939 29     3.198   0.003 0.511  1.188        0.485            0.450
-#&gt; 11:     2.476 28    13.698   0.000 0.933  5.177        0.786            0.764
-#&gt; 12:     0.756 28    -1.291   0.207 0.237 -0.488        0.786            0.764
-#&gt; 13:     0.393 28    -1.876   0.071 0.334 -0.709        0.786            0.764
-#&gt; 14:     0.010 28    -2.452   0.021 0.420 -0.927        0.786            0.764
-#&gt; 15:     4.277 27     8.663   0.000 0.858  3.334        0.793            0.762
-#&gt; 16:     0.852 27    -1.556   0.131 0.287 -0.599        0.793            0.762
-#&gt; 17:     0.410 27    -2.046   0.051 0.366 -0.788        0.793            0.762
-#&gt; 18:     0.010 27    -2.424   0.022 0.423 -0.933        0.793            0.762
-#&gt; 19:     1.869 27    -0.903   0.375 0.171 -0.348        0.793            0.762
-#&gt; 20:     4.266 28     9.635   0.000 0.877  3.642        0.748            0.721
-#&gt; 21:     0.553 28    -5.396   0.000 0.714 -2.039        0.748            0.721
-#&gt; 22:     0.435 28    -1.462   0.155 0.266 -0.552        0.748            0.721
-#&gt; 23:     2.025 28    -0.882   0.385 0.164 -0.333        0.748            0.721
-#&gt; 24:     2.547 29    13.609   0.000 0.930  5.054        0.760            0.743
-#&gt; 25:     0.712 29    -2.230   0.034 0.383 -0.828        0.760            0.743
-#&gt; 26:     0.010 29    -2.007   0.054 0.349 -0.745        0.760            0.743
-#&gt; 27:     4.474 28     8.021   0.000 0.835  3.032        0.761            0.735
-#&gt; 28:     0.872 28    -2.007   0.055 0.355 -0.758        0.761            0.735
-#&gt; 29:     0.010 28    -1.941   0.062 0.344 -0.734        0.761            0.735
-#&gt; 30:     1.896 28    -0.334   0.741 0.063 -0.126        0.761            0.735
-#&gt; 31:     4.225 29     9.380   0.000 0.867  3.483        0.728            0.710
-#&gt; 32:     0.558 29    -5.538   0.000 0.717 -2.057        0.728            0.710
-#&gt; 33:     1.978 29    -0.475   0.638 0.088 -0.176        0.728            0.710
-#&gt;     std.error df statistic p.value  es.r   es.d es.r.squared es.adj.r.squared</div><div class='input'><span class='fu'>sca_lm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>ivs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"carb"</span>))</div><div class='output co'>#&gt;        modelformula cyl carb        term estimate std.error df statistic
-#&gt; 1:       mpg ~ carb   0    1 (Intercept)   25.872     1.837 30    14.085
-#&gt; 2:       mpg ~ carb   0    1        carb   -2.056     0.569 30    -3.616
-#&gt; 3:        mpg ~ cyl   1    0 (Intercept)   37.885     2.074 30    18.268
-#&gt; 4:        mpg ~ cyl   1    0         cyl   -2.876     0.322 30    -8.920
-#&gt; 5: mpg ~ cyl + carb   1    1 (Intercept)   37.813     2.054 29    18.409
-#&gt; 6: mpg ~ cyl + carb   1    1         cyl   -2.625     0.376 29    -6.989
-#&gt; 7: mpg ~ cyl + carb   1    1        carb   -0.526     0.415 29    -1.267
-#&gt;    p.value  es.r   es.d es.r.squared es.adj.r.squared
-#&gt; 1:   0.000 0.932  5.143        0.304            0.280
-#&gt; 2:   0.001 0.551 -1.320        0.304            0.280
-#&gt; 3:   0.000 0.958  6.670        0.726            0.717
-#&gt; 4:   0.000 0.852 -3.257        0.726            0.717
-#&gt; 5:   0.000 0.960  6.837        0.741            0.723
-#&gt; 6:   0.000 0.792 -2.596        0.741            0.723
-#&gt; 7:   0.215 0.229 -0.471        0.741            0.723</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># model with 1 covariate</span>
+<span class='no'>m1</span> <span class='kw'>&lt;-</span> <span class='fu'>sca_lm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>ivs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"carb"</span>), <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"vs"</span>))
+<span class='no'>m1</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"modelformula"</span>, <span class='st'>"estimate"</span>, <span class='st'>"p.value"</span>, <span class='st'>"es.r"</span>)] <span class='co'># model, beta, p value, effect size</span></div><div class='output co'>#&gt;              modelformula estimate p.value  es.r
+#&gt;  1:       mpg ~ carb + vs   20.061   0.000 0.838
+#&gt;  2:       mpg ~ carb + vs   -0.954   0.126 0.281
+#&gt;  3:       mpg ~ carb + vs    6.199   0.003 0.511
+#&gt;  4: mpg ~ cyl + carb + vs   41.107   0.000 0.877
+#&gt;  5: mpg ~ cyl + carb + vs   -2.981   0.000 0.714
+#&gt;  6: mpg ~ cyl + carb + vs   -0.636   0.155 0.266
+#&gt;  7: mpg ~ cyl + carb + vs   -1.786   0.385 0.164
+#&gt;  8:        mpg ~ cyl + vs   39.625   0.000 0.867
+#&gt;  9:        mpg ~ cyl + vs   -3.091   0.000 0.717
+#&gt; 10:        mpg ~ cyl + vs   -0.939   0.638 0.088</div><div class='input'>
+<span class='co'># model without covariates</span>
+<span class='no'>m2</span> <span class='kw'>&lt;-</span> <span class='fu'>sca_lm</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>ivs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"cyl"</span>, <span class='st'>"gear"</span>))
+<span class='no'>m2</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"modelformula"</span>, <span class='st'>"estimate"</span>, <span class='st'>"p.value"</span>, <span class='st'>"es.r"</span>)]</div><div class='output co'>#&gt;        modelformula estimate p.value  es.r
+#&gt; 1:        mpg ~ cyl   37.885   0.000 0.958
+#&gt; 2:        mpg ~ cyl   -2.876   0.000 0.852
+#&gt; 3: mpg ~ cyl + gear   34.659   0.000 0.793
+#&gt; 4: mpg ~ cyl + gear   -2.743   0.000 0.806
+#&gt; 5: mpg ~ cyl + gear    0.652   0.477 0.133
+#&gt; 6:       mpg ~ gear    5.623   0.262 0.204
+#&gt; 7:       mpg ~ gear    3.923   0.005 0.480</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

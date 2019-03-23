@@ -186,6 +186,16 @@ dataAll<span class="op">$</span>cond2 &lt;-<span class="st"> </span><span class=
 <span class="co"># fit model to each subject by cond1,cond2</span>
 <span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>, <span class="dt">id =</span> <span class="st">"subject"</span>, <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cond1"</span>, <span class="st">"cond2"</span>))</code></pre></div>
 </div>
+<div id="sca_lm-fits-every-possible-linear-regression-model-given-a-set-of-predictors-and-covariates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#sca_lm-fits-every-possible-linear-regression-model-given-a-set-of-predictors-and-covariates" class="anchor"></a><code><a href="reference/sca_lm.html">sca_lm()</a></code> fits every possible linear regression model given a set of predictors and covariates</h3>
+<p><code><a href="reference/sca_lm.html">sca_lm()</a></code> is a basic implementation of <a href="http://sticerd.lse.ac.uk/seminarpapers/psyc16022016.pdf">specification curve analysis</a> for linear regression.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># models to fit: mpg ~ cyl; mpg ~ carb; mpg ~ cyl + carb</span>
+<span class="kw"><a href="reference/sca_lm.html">sca_lm</a></span>(<span class="dt">data =</span> mtcars, <span class="dt">dv =</span> <span class="st">"mpg"</span>, <span class="dt">ivs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cyl"</span>, <span class="st">"carb"</span>)) <span class="co"># default no covariates </span>
+
+<span class="co"># models to fit (with and without covariate vs): mpg ~ cyl; mpg ~ carb; mpg ~ cyl + carb</span>
+<span class="kw"><a href="reference/sca_lm.html">sca_lm</a></span>(<span class="dt">data =</span> mtcars, <span class="dt">dv =</span> <span class="st">"mpg"</span>, <span class="dt">ivs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cyl"</span>, <span class="st">"carb"</span>), <span class="dt">covariates =</span> <span class="st">"vs"</span>)</code></pre></div>
+</div>
 </div>
 </div>
   </div>

@@ -109,3 +109,15 @@ fit_ezddm(data = dataAll, rts = "rt", responses = "response", id = "subject", gr
 # fit model to each subject by cond1,cond2
 fit_ezddm(data = dataAll, rts = "rt", responses = "response", id = "subject", group = c("cond1", "cond2"))
 ```
+
+### `sca_lm()` fits every possible linear regression model given a set of predictors and covariates
+
+`sca_lm()` is a basic implementation of [specification curve analysis](http://sticerd.lse.ac.uk/seminarpapers/psyc16022016.pdf) for linear regression.
+
+```r
+# models to fit: mpg ~ cyl; mpg ~ carb; mpg ~ cyl + carb
+sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "carb")) # default no covariates 
+
+# models to fit (with and without covariate vs): mpg ~ cyl; mpg ~ carb; mpg ~ cyl + carb
+sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "carb"), covariates = "vs")
+```
