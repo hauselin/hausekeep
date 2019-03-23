@@ -22,7 +22,7 @@
 #' @usage
 #' sca_lm(data, dv, ivs, covariates = NULL)
 #'
-#' @importFrom dplyr left_join distinct tibble
+#' @importFrom dplyr left_join distinct tibble bind_rows
 #' @importFrom combinat permn
 #' @importFrom data.table setDT
 #' @importFrom stats lm as.formula
@@ -30,11 +30,11 @@
 #' @examples
 #' # model with 1 covariate
 #' m1 <- sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "carb"), covariates = c("vs"))
-#' m1[, c("modelformula", "term", "estimate", "p.value", "es.r")] # model, term, beta, p value, effect size
+#' m1[, c("modelformula", "term", "estimate", "p.value")] # model, term, beta, p value
 #'
 #' # model without covariates
 #' m2 <- sca_lm(data = mtcars, dv = "mpg", ivs = c("cyl", "gear"))
-#' m2[, c("modelformula", "term", "estimate", "p.value", "es.r")]
+#' m2[, c("modelformula", "term", "estimate", "es.r")] # es.r is effect size
 sca_lm <- function(data, dv, ivs, covariates = NULL) {
 
   # ivs
