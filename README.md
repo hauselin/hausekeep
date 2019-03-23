@@ -7,7 +7,7 @@ hausekeep
 
 [![DOI](https://zenodo.org/badge/168783741.svg)](https://doi.org/10.5281/zenodo.2555874)
 
-Functions to make it easier to analyse and summarise data and results in R. For documentation, see <https://hauselin.github.io/hausekeep/>
+Functions to make it easier to analyse and summarise data and results in R. For documentation, see <https://hauselin.github.io/hausekeep/> Also check out my R tutorials [here](https://hausetutorials.netlify.com/).
 
 Installation
 ------------
@@ -39,7 +39,8 @@ summaryh(model_lm, decimal = 5, showTable = T, showEffectSizesTable = T) # optio
 # linear mixed effects regression
 library(lme4); library(lmerTest) # load packages to fit mixed effects models
 model <- lmer(weight ~ Time * Diet  + (1 + Time | Chick), data = ChickWeight)
-summary(model)
+summary(model) # standard summary
+summaryh(model)
 summaryh(model, decimal = 4, showTable = T, showEffectSizesTable = T) # optional arguments
 
 # ANOVA

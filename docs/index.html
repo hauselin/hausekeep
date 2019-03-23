@@ -86,7 +86,7 @@
 <a href="#hausekeep" class="anchor"></a>hausekeep</h1></div>
 
 <p><a href="https://doi.org/10.5281/zenodo.2555874"><img src="https://zenodo.org/badge/168783741.svg" alt="DOI"></a></p>
-<p>Functions to make it easier to analyse and summarise data and results in R. For documentation, see <a href="https://hauselin.github.io/hausekeep/" class="uri">https://hauselin.github.io/hausekeep/</a></p>
+<p>Functions to make it easier to analyse and summarise data and results in R. For documentation, see <a href="https://hauselin.github.io/hausekeep/" class="uri">https://hauselin.github.io/hausekeep/</a> Also check out my R tutorials <a href="https://hausetutorials.netlify.com/">here</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -114,7 +114,8 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <span class="co"># linear mixed effects regression</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(lme4); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(lmerTest) <span class="co"># load packages to fit mixed effects models</span>
 model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/lme4/topics/lmer">lmer</a></span>(weight <span class="op">~</span><span class="st"> </span>Time <span class="op">*</span><span class="st"> </span>Diet  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Time <span class="op">|</span><span class="st"> </span>Chick), <span class="dt">data =</span> ChickWeight)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(model)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(model) <span class="co"># standard summary</span>
+<span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model)
 <span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model, <span class="dt">decimal =</span> <span class="dv">4</span>, <span class="dt">showTable =</span> T, <span class="dt">showEffectSizesTable =</span> T) <span class="co"># optional arguments</span>
 
 <span class="co"># ANOVA</span>
