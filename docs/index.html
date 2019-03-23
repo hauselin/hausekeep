@@ -85,14 +85,14 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#hausekeep" class="anchor"></a>hausekeep</h1></div>
 
-<p><a href="https://zenodo.org/badge/latestdoi/168783741"><img src="https://zenodo.org/badge/168783741.svg" alt="DOI"></a></p>
+<p><a href="https://doi.org/10.5281/zenodo.2555874"><img src="https://zenodo.org/badge/168783741.svg" alt="DOI"></a></p>
 <p>Functions to make it easier to analyse and summarise data and results in R. For documentation, see <a href="https://hauselin.github.io/hausekeep/" class="uri">https://hauselin.github.io/hausekeep/</a></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the package, type the following commands into the R console:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"hauselin/hausekeep"</span>) <span class="co"># you might have to install devtools first (see above)</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
+devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"hauselin/hausekeep"</span>) <span class="co"># you might have to install devtools first (see above)</span></code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
@@ -106,85 +106,85 @@
 <li>ANOVA output: F(1, 30) = 9.00, p = .005, r = 0.48</li>
 <li>t-test output: t(23) = −4.67, p &lt; .001, r = 0.70</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">model_lm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(mpg <span class="op">~</span><span class="st"> </span>cyl, mtcars) </a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(model_lm) <span class="co"># base R summary()</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model_lm) <span class="co"># returns APA-formatted output in a data.table</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model_lm, <span class="dt">decimal =</span> <span class="dv">5</span>, <span class="dt">showTable =</span> T, <span class="dt">showEffectSizesTable =</span> T) <span class="co"># optional arguments</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># linear mixed effects regression</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(lme4); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(lmerTest) <span class="co"># load packages to fit mixed effects models</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/lme4/topics/lmer">lmer</a></span>(weight <span class="op">~</span><span class="st"> </span>Time <span class="op">*</span><span class="st"> </span>Diet  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Time <span class="op">|</span><span class="st"> </span>Chick), <span class="dt">data =</span> ChickWeight)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(model)</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model, <span class="dt">decimal =</span> <span class="dv">4</span>, <span class="dt">showTable =</span> T, <span class="dt">showEffectSizesTable =</span> T) <span class="co"># optional arguments</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># ANOVA</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/aov">aov</a></span>(mpg <span class="op">~</span><span class="st"> </span>gear, mtcars))</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co"># correlation</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>cyl)</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>cyl))</a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>cyl), <span class="dv">3</span>, T, T)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_lm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(mpg <span class="op">~</span><span class="st"> </span>cyl, mtcars) 
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(model_lm) <span class="co"># base R summary()</span>
+<span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model_lm) <span class="co"># returns APA-formatted output in a data.table</span>
+<span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model_lm, <span class="dt">decimal =</span> <span class="dv">5</span>, <span class="dt">showTable =</span> T, <span class="dt">showEffectSizesTable =</span> T) <span class="co"># optional arguments</span>
+
+<span class="co"># linear mixed effects regression</span>
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(lme4); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(lmerTest) <span class="co"># load packages to fit mixed effects models</span>
+model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/lme4/topics/lmer">lmer</a></span>(weight <span class="op">~</span><span class="st"> </span>Time <span class="op">*</span><span class="st"> </span>Diet  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Time <span class="op">|</span><span class="st"> </span>Chick), <span class="dt">data =</span> ChickWeight)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(model)
+<span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(model, <span class="dt">decimal =</span> <span class="dv">4</span>, <span class="dt">showTable =</span> T, <span class="dt">showEffectSizesTable =</span> T) <span class="co"># optional arguments</span>
+
+<span class="co"># ANOVA</span>
+<span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/aov">aov</a></span>(mpg <span class="op">~</span><span class="st"> </span>gear, mtcars))
+
+<span class="co"># correlation</span>
+<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>cyl)
+<span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>cyl))
+<span class="kw"><a href="reference/summaryh.html">summaryh</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>cyl), <span class="dv">3</span>, T, T)</code></pre></div>
 </div>
 <div id="es-converts-between-effect-size-measures" class="section level3">
 <h3 class="hasAnchor">
 <a href="#es-converts-between-effect-size-measures" class="anchor"></a><code><a href="reference/es.html">es()</a></code> converts between effect size measures</h3>
 <p>The <code>es</code> function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve [AUC]). Also available as a <a href="http://escal.site">Shiny app</a>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/es.html">es</a></span>(<span class="dt">d =</span> <span class="fl">0.2</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; d: 0.2</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;     d   r   R2   f oddsratio logoddsratio   auc fishersz</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; 1 0.2 0.1 0.01 0.1     1.437        0.363 0.556      0.1</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="reference/es.html">es</a></span>(<span class="dt">r =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.7</span>))</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; r: 0.1 r: 0.4 r: 0.7</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;       d   r   R2     f oddsratio logoddsratio   auc fishersz</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; 1 0.201 0.1 0.01 0.101     1.440        0.365 0.557    0.100</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 2 0.873 0.4 0.16 0.436     4.871        1.583 0.731    0.424</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 3 1.960 0.7 0.49 0.980    35.014        3.556 0.917    0.867</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/es.html">es</a></span>(<span class="dt">d =</span> <span class="fl">0.2</span>)
+<span class="co">#&gt; d: 0.2</span>
+<span class="co">#&gt;     d   r   R2   f oddsratio logoddsratio   auc fishersz</span>
+<span class="co">#&gt; 1 0.2 0.1 0.01 0.1     1.437        0.363 0.556      0.1</span>
+
+<span class="kw"><a href="reference/es.html">es</a></span>(<span class="dt">r =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.7</span>))
+<span class="co">#&gt; r: 0.1 r: 0.4 r: 0.7</span>
+<span class="co">#&gt;       d   r   R2     f oddsratio logoddsratio   auc fishersz</span>
+<span class="co">#&gt; 1 0.201 0.1 0.01 0.101     1.440        0.365 0.557    0.100</span>
+<span class="co">#&gt; 2 0.873 0.4 0.16 0.436     4.871        1.583 0.731    0.424</span>
+<span class="co">#&gt; 3 1.960 0.7 0.49 0.980    35.014        3.556 0.917    0.867</span></code></pre></div>
 </div>
 <div id="outliersmad-identifies-outliers-using-robust-median-absolute-deviation-approach" class="section level3">
 <h3 class="hasAnchor">
 <a href="#outliersmad-identifies-outliers-using-robust-median-absolute-deviation-approach" class="anchor"></a><code><a href="reference/outliersMAD.html">outliersMAD()</a></code> identifies outliers using robust median absolute deviation approach</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">example &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">1000</span>) <span class="co"># 1000 is an outlier</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="reference/outliersMAD.html">outliersMAD</a></span>(example) <span class="co"># MAD approach</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; 1 outliers detected.</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Outliers replaced with NA</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; [1]  1  3  3  6  8 10 10 NA</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">1000</span>) <span class="co"># 1000 is an outlier</span>
+<span class="kw"><a href="reference/outliersMAD.html">outliersMAD</a></span>(example) <span class="co"># MAD approach</span>
+<span class="co">#&gt; 1 outliers detected.</span>
+<span class="co">#&gt; Outliers replaced with NA</span>
+<span class="co">#&gt; [1]  1  3  3  6  8 10 10 NA</span></code></pre></div>
 </div>
 <div id="outliersz-identifies-outliers-using-z-score-cut-off" class="section level3">
 <h3 class="hasAnchor">
 <a href="#outliersz-identifies-outliers-using-z-score-cut-off" class="anchor"></a><code><a href="reference/outliersZ.html">outliersZ()</a></code> identifies outliers using Z-score cut-off</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">example &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">1000</span>) <span class="co"># 1000 is an outlier</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="reference/outliersZ.html">outliersZ</a></span>(example) <span class="co"># SD approach</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; 1 outliers detected.</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; Outliers replaced with NA</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; [1]  1  3  3  6  8 10 10 NA</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co"># compare with MAD approach from above</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="kw"><a href="reference/outliersZ.html">outliersZ</a></span>(example) <span class="co"># SD approach</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 1 outliers detected.</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Outliers replaced with NA</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [1]  1  3  3  6  8 10 10 NA</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">1000</span>) <span class="co"># 1000 is an outlier</span>
+<span class="kw"><a href="reference/outliersZ.html">outliersZ</a></span>(example) <span class="co"># SD approach</span>
+<span class="co">#&gt; 1 outliers detected.</span>
+<span class="co">#&gt; Outliers replaced with NA</span>
+<span class="co">#&gt; [1]  1  3  3  6  8 10 10 NA</span>
+
+<span class="co"># compare with MAD approach from above</span>
+<span class="kw"><a href="reference/outliersZ.html">outliersZ</a></span>(example) <span class="co"># SD approach</span>
+<span class="co">#&gt; 1 outliers detected.</span>
+<span class="co">#&gt; Outliers replaced with NA</span>
+<span class="co">#&gt; [1]  1  3  3  6  8 10 10 NA</span></code></pre></div>
 </div>
 <div id="fit_ezddm-fits-ez-diffusion-model-for-two-choice-response-time-tasks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fit_ezddm-fits-ez-diffusion-model-for-two-choice-response-time-tasks" class="anchor"></a><code><a href="reference/fit_ezddm.html">fit_ezddm()</a></code> fits EZ-diffusion model for two-choice response time tasks</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rtdists) <span class="co"># load package to help us simulate some data</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">data1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rtdists/topics/Diffusion">rdiffusion</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">a =</span> <span class="dv">2</span>, <span class="dt">v =</span> <span class="fl">0.3</span>, <span class="dt">t0 =</span> <span class="fl">0.5</span>, <span class="dt">z =</span> <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>) <span class="co"># simulate data</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">data2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rtdists/topics/Diffusion">rdiffusion</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">a =</span> <span class="dv">2</span>, <span class="dt">v =</span> <span class="fl">-0.3</span>, <span class="dt">t0 =</span> <span class="fl">0.5</span>, <span class="dt">z =</span> <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>) <span class="co"># simulate data</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">dataAll &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(data1, data2) <span class="co"># join data</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">dataAll<span class="op">$</span>response &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(dataAll<span class="op">$</span>response <span class="op">==</span><span class="st"> "upper"</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># convert responses to 1 and 0</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">dataAll<span class="op">$</span>subject &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">each =</span> <span class="dv">100</span>) <span class="co"># assign subject id</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">dataAll<span class="op">$</span>cond1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dv">200</span>, <span class="dt">replace =</span> T) <span class="co"># randomly assign conditions a/b</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">dataAll<span class="op">$</span>cond2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"y"</span>, <span class="st">"z"</span>), <span class="dv">200</span>, <span class="dt">replace =</span> T) <span class="co"># randomly assign conditions y/z</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co"># fit model to just entire data set (assumes all data came from 1 subject)</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>)</a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co"># fit model to each subject (no conditions)</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>, <span class="dt">id =</span> <span class="st">"subject"</span>) </a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co"># fit model to each subject by cond1</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>, <span class="dt">id =</span> <span class="st">"subject"</span>, <span class="dt">group =</span> <span class="st">"cond1"</span>) </a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co"># fit model to each subject by cond1,cond2</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>, <span class="dt">id =</span> <span class="st">"subject"</span>, <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cond1"</span>, <span class="st">"cond2"</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rtdists) <span class="co"># load package to help us simulate some data</span>
+data1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rtdists/topics/Diffusion">rdiffusion</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">a =</span> <span class="dv">2</span>, <span class="dt">v =</span> <span class="fl">0.3</span>, <span class="dt">t0 =</span> <span class="fl">0.5</span>, <span class="dt">z =</span> <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>) <span class="co"># simulate data</span>
+data2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rtdists/topics/Diffusion">rdiffusion</a></span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">a =</span> <span class="dv">2</span>, <span class="dt">v =</span> <span class="op">-</span><span class="fl">0.3</span>, <span class="dt">t0 =</span> <span class="fl">0.5</span>, <span class="dt">z =</span> <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>) <span class="co"># simulate data</span>
+dataAll &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(data1, data2) <span class="co"># join data</span>
+dataAll<span class="op">$</span>response &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(dataAll<span class="op">$</span>response <span class="op">==</span><span class="st"> "upper"</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># convert responses to 1 and 0</span>
+dataAll<span class="op">$</span>subject &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">each =</span> <span class="dv">100</span>) <span class="co"># assign subject id</span>
+dataAll<span class="op">$</span>cond1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>), <span class="dv">200</span>, <span class="dt">replace =</span> T) <span class="co"># randomly assign conditions a/b</span>
+dataAll<span class="op">$</span>cond2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"y"</span>, <span class="st">"z"</span>), <span class="dv">200</span>, <span class="dt">replace =</span> T) <span class="co"># randomly assign conditions y/z</span>
+
+<span class="co"># fit model to just entire data set (assumes all data came from 1 subject)</span>
+<span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>)
+<span class="co"># fit model to each subject (no conditions)</span>
+<span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>, <span class="dt">id =</span> <span class="st">"subject"</span>) 
+<span class="co"># fit model to each subject by cond1</span>
+<span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>, <span class="dt">id =</span> <span class="st">"subject"</span>, <span class="dt">group =</span> <span class="st">"cond1"</span>) 
+<span class="co"># fit model to each subject by cond1,cond2</span>
+<span class="kw"><a href="reference/fit_ezddm.html">fit_ezddm</a></span>(<span class="dt">data =</span> dataAll, <span class="dt">rts =</span> <span class="st">"rt"</span>, <span class="dt">responses =</span> <span class="st">"response"</span>, <span class="dt">id =</span> <span class="st">"subject"</span>, <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cond1"</span>, <span class="st">"cond2"</span>))</code></pre></div>
 </div>
 </div>
 </div>

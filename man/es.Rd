@@ -35,6 +35,26 @@ A dataframe with converted effect sizes
 \description{
 es is used to convert one effect size to other effect size measures. Currently supports Cohen's d, corelation r, r-squared, Cohen's f, odds ratio, log odds ratio, and area-under-curve (auc). Also available as a Shiny app here: http://escal.site
 }
+\details{
+Formulae for conversion
+\cr \cr
+\code{f = d / 2}
+\cr
+\code{r = d / sqrt(d^2 + 4)}
+\cr
+\code{d = (2 * r) / sqrt(1 - r^2)}
+\cr
+\code{R2 = r^2}
+\cr
+\code{oddsratio = exp(d / (sqrt(3) / pi))}
+\cr
+\code{logoddsratio = d / (sqrt(3) / pi)}
+\cr
+\code{auc = pnorm(d / sqrt(2), 0, 1)}
+\cr
+\code{fishers z = 0.5 * [log(1 + r) - log(1 - r)]}
+\cr
+}
 \note{
 All conversions assume equal-sized groups. Effect size conventions:
 \cr
