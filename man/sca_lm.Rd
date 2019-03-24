@@ -7,7 +7,7 @@
 sca_lm(data, dv, ivs, covariates = NULL)
 }
 \arguments{
-\item{data}{dataset}
+\item{data}{dataframe}
 
 \item{dv}{dependent variable (outcome variable) (character)}
 

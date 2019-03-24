@@ -3,7 +3,7 @@
 #'
 #' @description sca_lm is used to run specification curve analysis using linear regression. Fits every possible model for your specified dependent variable, predictor variables, and covariates
 #'
-#' @param data dataset
+#' @param data dataframe
 #' @param dv dependent variable (outcome variable) (character)
 #' @param ivs independent variable(s) or predictor(s) (character)
 #' @param covariates covariates (character)
@@ -52,7 +52,7 @@ sca_lm <- function(data, dv, ivs, covariates = NULL) {
   # covariates
   if (!is.null(covariates)) {
     n_covariates <- length(covariates)
-    mat <- matrix(rep(1, n_covariates), ncol = n_covariates)
+    mat <- matrix(c(rep(1, n_covariates), rep(0, n_covariates)), ncol = n_covariates, byrow = T)
     for (i in 1:n_covariates) {
       tempv <- c(rep(1, i), rep(0, n_covariates - i))
       mattemp <- matrix(unlist(combinat::permn(tempv)), ncol = n_covariates)
