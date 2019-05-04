@@ -19,15 +19,14 @@ after_success:
 
 repos:
   CRAN: https://cloud.r-project.org
-ropensci: http://packages.ropensci.org
+  ropensci: http://packages.ropensci.org
 
 r_binary_packages:
   # - gsl
   - devtools
   - data.table
   - knitr
-  # - rtdists
-  - covr
+  - rtdists
   - testthat
   - knitr
   - rmarkdown
@@ -38,5 +37,5 @@ r_packages:
   - dplyr
   - spelling
   - sjstats
-  - rtdists
   - dtplyr
+  - covr
