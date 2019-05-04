@@ -1,6 +1,7 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
+dist: trusty
 sudo: required
 # install:
   # - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
@@ -21,11 +22,9 @@ repos:
 ropensci: http://packages.ropensci.org
 
 r_binary_packages:
-  - gsl
+  # - gsl
   - devtools
-  - dplyr
   - data.table
-  - dtplyr
   - knitr
   # - rtdists
   - covr
@@ -36,6 +35,8 @@ r_binary_packages:
   - combinat
 
 r_packages:
+  - dplyr
   - spelling
   - sjstats
   - rtdists
+  - dtplyr
