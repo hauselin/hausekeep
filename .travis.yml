@@ -15,7 +15,7 @@ addons:
     packages:
     - libcurl4-openssl-dev
     - libxml2-dev
-    - libgsl2-dev
+    - libgsl0-dev
 
 repos:
   CRAN: https://cloud.r-project.org
@@ -23,10 +23,10 @@ repos:
 
 r_binary_packages:
   - gsl
+  - rtdists
   - devtools
   - data.table
   - knitr
-  - rtdists
   - testthat
   - knitr
   - rmarkdown
