@@ -34,6 +34,7 @@ Details to follow
 Notes to follow
 }
 \examples{
+\dontrun{
 library(rtdists) # load package to simulate data with diffusion parameters
 data1 <- rdiffusion(n = 100, a = 2, v = 0.3, t0 = 0.5, z = 0.5 * 2) # simulate data
 data2 <- rdiffusion(n = 100, a = 2, v = -0.3, t0 = 0.5, z = 0.5 * 2) # simulate data
@@ -54,6 +55,7 @@ fit_ezddm(data = dataAll, rts = "rt", responses = "response", id = "subject", gr
 # fit model to each subject by cond1,cond2
 fit_ezddm(data = dataAll, rts = "rt", responses = "response",
 id = "subject", group = c("cond1", "cond2"))
+}
 }
 \references{
 \itemize{
