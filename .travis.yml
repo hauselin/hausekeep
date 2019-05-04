@@ -30,9 +30,11 @@ r_binary_packages:
   - rtdists
   - covr
   - testthat
-  - spelling
   - knitr
   - rmarkdown
-  - sjstats
   - compute.es
   - combinat
+
+r_packages:
+  - spelling
+  - sjstats
