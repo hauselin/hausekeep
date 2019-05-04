@@ -1,11 +1,10 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-dist: trusty
 sudo: required
-# install:
-  # - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
-  # - Rscript -e 'install.packages(c("dplyr", "data.table", "dtplyr", "knitr", "rtdists", "covr", "testthat", "spelling", "knitr", "rmarkdown", "sjstats", "compute.es", "combinat"), repos = "http://cran.rstudio.com")'
+install:
+  - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
+  - Rscript -e 'install.packages(c("gsl","dplyr", "data.table", "dtplyr", "knitr", "rtdists", "covr", "testthat", "spelling", "knitr", "rmarkdown", "sjstats", "compute.es", "combinat"), repos = "http://cran.rstudio.com")'
 cache: packages
 after_success:
   - Rscript -e 'covr::codecov()'
@@ -19,24 +18,7 @@ addons:
 
 repos:
   CRAN: https://cloud.r-project.org
-  ropensci: http://packages.ropensci.org
+ropensci: http://packages.ropensci.org
 
 r_binary_packages:
-  # - gsl
-  - rtdists
-  - devtools
-  - data.table
-  - knitr
-  - testthat
-  - knitr
-  - rmarkdown
-  - compute.es
-  - combinat
-
-r_packages:
-  - rtdists
-  - dplyr
-  - spelling
-  - sjstats
-  - dtplyr
-  - covr
+  - gsl
