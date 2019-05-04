@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • hausekeep</title>
+<title>Logit function — logit • hausekeep</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Logit function — logit" />
+
+<meta property="og:description" content="Applies logit transformation" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -106,120 +109,76 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Logit function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hauselin/hausekeep/blob/master/R/logit.R'><code>R/logit.R</code></a></small>
+    <div class="hidden name"><code>logit.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Applies logit transformation</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="demean.html">demean()</a></code> </p>
-        </td>
-        <td><p>De-mean or mean center variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="es.html">es()</a></code> </p>
-        </td>
-        <td><p>Effect size conversion</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ezddm.html">ezddm()</a></code> </p>
-        </td>
-        <td><p>Fit Wagenmaker et al.'s (2007) EZ-diffusion model to single subject's aggregate/averaged data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fit_ezddm.html">fit_ezddm()</a></code> </p>
-        </td>
-        <td><p>Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw single-trial data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hausekeep.html">hausekeep</a></code> </p>
-        </td>
-        <td><p>hausekeep: a package with misc housekeeping functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="logit.html">logit()</a></code> </p>
-        </td>
-        <td><p>Logit function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="logit_inverse.html">logit_inverse()</a></code> </p>
-        </td>
-        <td><p>Logistic (sigmoid or inverse logit) function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="outliersMAD.html">outliersMAD()</a></code> </p>
-        </td>
-        <td><p>Identify outliers using robust median absolute deviation approach</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="outliersZ.html">outliersZ()</a></code> </p>
-        </td>
-        <td><p>Identify outliers using Z-score cut-off method.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sca_lm.html">sca_lm()</a></code> </p>
-        </td>
-        <td><p>Specification curve analysis (SCA) for linear regression</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="seWithin.html">seWithin()</a></code> </p>
-        </td>
-        <td><p>Compute standard errors (within-subjects)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="stderror.html">stderror()</a></code> </p>
-        </td>
-        <td><p>Compute standard errors (between-subjects)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summaryh.html">summaryh()</a></code> </p>
-        </td>
-        <td><p>Generate formatted results and effect sizes for manuscripts</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zscore.html">zscore()</a></code> </p>
-        </td>
-        <td><p>Compute z-score</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>logit</span>(<span class='no'>x</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>a vector of probability values (0 to 1)</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A vector</p>
+    
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Formula: log(p / (1 - p))
+<br /> Returns NA values if input values are not between 0 and 1.
+<br />
+See <a href='https://hausetutorials.netlify.com/posts/2019-04-13-logistic-regression/#inverse-logit-and-logit-functions'>https://hausetutorials.netlify.com/posts/2019-04-13-logistic-regression/#inverse-logit-and-logit-functions</a> for intro to logit and inverse logit functions.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>logit</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>100</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt;   [1]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;   [7]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [13]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [19]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [25]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [31]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [37]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [43]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [49]         NaN         NaN -3.88156380 -2.74084002 -2.18605128 -1.80359393
+#&gt;  [55] -1.50407740 -1.25276297 -1.03236290 -0.83290912 -0.64802675 -0.47328770
+#&gt;  [61] -0.30538165 -0.14165052  0.02020271  0.18232156  0.34687094  0.51621647
+#&gt;  [67]  0.69314718  0.88119941  1.08518927  1.31218639  1.57350590  1.88939794
+#&gt;  [73]  2.30258509  2.93385687  4.58496748         NaN         NaN         NaN
+#&gt;  [79]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [85]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [91]         NaN         NaN         NaN         NaN         NaN         NaN
+#&gt;  [97]         NaN         NaN         NaN         NaN</div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#note">Note</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
+    <h2>Author</h2>
+    <p>Hause Lin</p>
   </div>
 </div>
 

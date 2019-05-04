@@ -43,6 +43,8 @@
 #' correlation r: .10 (small), .30 (medium), .50 (large)
 #' \cr
 #' R-squared: R2: .02 (small), .13 (medium), .26 (large)
+#' \cr
+#' Shiny app: \url{http://escal.site}
 #'
 #' @references
 #' Borenstein, M., Hedges, L. V., Higgins, J. P. T., & Rothstein, H. R. (2009). Introduction to meta-analysis. Chichester, West Sussex, UK: Wiley.

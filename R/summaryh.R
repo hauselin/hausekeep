@@ -136,92 +136,103 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
 #' @export
 summaryh.anova <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+  # ensure significant digits with sprintf
+  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
+  if (decimal <= 2) {
+    pdigits <- paste0("%.", 3, "f")
+  } else {
+    pdigits <- paste0("%.", decimal, "f")
+  }
 
-    # example output: F(3, 10) = 39, p < .001, r = 0.32
-    if (class(model)[1] == "anova") {
-        estimates <- data.frame(model) # get estimates and put in dataframe
-    } else if (class(model)[1] == "aov") {
-        estimates <- data.frame(stats::anova(model)) # get estimates and put in dataframe
-    }
-    effectNames <- rownames(estimates) # get names of effects
-    colnames(estimates) <- tolower(colnames(estimates))
+  # example output: F(3, 10) = 39, p < .001, r = 0.32
+  if (class(model)[1] == "anova") {
+    estimates <- data.frame(model) # get estimates and put in dataframe
+  } else if (class(model)[1] == "aov") {
+    estimates <- data.frame(stats::anova(model)) # get estimates and put in dataframe
+  }
+  effectNames <- rownames(estimates) # get names of effects
+  colnames(estimates) <- tolower(colnames(estimates))
+
+  if (names(model)[1] == 'Sum Sq') { # if output format resembles anova table from a lmer model...
+    estimates['dfResid'] <- estimates["dendf"]  # get model degrees of freedom
+    colnames(estimates) <- c('sum.sq', 'mean.sq', 'df', 'df.resid', 'f.value', 'p.value', 'df.resid') # rename columns
+    estimates <- data.frame(term = effectNames, estimates, stringsAsFactors = FALSE)
+    rownames(estimates) <- NULL
+    estimates <- estimates[estimates$term != "Residuals", ]
+    esCohensf <- 0
+  } else {
     estimates$dfResid <- estimates["Residuals", "df"]  # get model degrees of freedom
     colnames(estimates) <- c('df', 'sum.sq', 'mean.sq', 'f.value', 'p.value', 'df.resid') # rename columns
     estimates <- data.frame(term = effectNames, estimates, stringsAsFactors = FALSE)
     rownames(estimates) <- NULL
     estimates <- estimates[estimates$term != "Residuals", ]
-
-    # effect sizes
+    # effect size
     esCohensf <- cohens_f(model) # calculate Cohen's f
-    if (is.data.frame(esCohensf)) { # sometimes output is a dataframe; if so, extract cohens.f variable
-        estimates$es.f <- esCohensf$cohens.f
-    } else {
-        estimates$es.f <- esCohensf
-    }
+  }
 
-    estimates$es.r <- es(f = estimates$es.f, msg = F, decimal = decimal)$r
+  # effect sizes
+  if (is.data.frame(esCohensf)) { # sometimes output is a dataframe; if so, extract cohens.f variable
+    estimates$es.f <- esCohensf$cohens.f
+  } else {
+    estimates$es.f <- esCohensf
+  }
 
-    # make a copy of estimates and convert to correct dp
-    estimatesCopy <- estimates[, -1]
-    estimatesRound <- estimatesCopy
-    estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
-    estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
-    estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
-    estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
-    # estimatesRound[abs(estimatesCopy) < 0.01] <- sprintf(pdigits, estimatesCopy[abs(estimatesCopy) < 0.01])
+  estimates$es.r <- es(f = estimates$es.f, msg = F, decimal = decimal)$r
 
-    # fix p values
-    estimatesRound$p.value <- round(estimates$p.value, decimal + 2)
-    estimatesRound$p.value <- ifelse(estimatesRound$p.value < .001, "< .001", paste0("= ", sprintf(pdigits, estimatesRound$p.value)))
-    estimatesRound$p.value <- gsub("= 0.", "= .", estimatesRound$p.value)
+  # make a copy of estimates and convert to correct dp
+  estimatesCopy <- estimates[, -1]
+  estimatesRound <- estimatesCopy
+  estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
+  estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
+  estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
+  estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
+  # estimatesRound[abs(estimatesCopy) < 0.01] <- sprintf(pdigits, estimatesCopy[abs(estimatesCopy) < 0.01])
 
-    # leave df as integers
-    estimatesRound$df <- round(estimates$df)
-    estimatesRound$df.resid <- round(estimates$df.resid)
+  # fix p values
+  estimatesRound$p.value <- round(estimates$p.value, decimal + 2)
+  estimatesRound$p.value <- ifelse(estimatesRound$p.value < .001, "< .001", paste0("= ", sprintf(pdigits, estimatesRound$p.value)))
+  estimatesRound$p.value <- gsub("= 0.", "= .", estimatesRound$p.value)
 
-    formattedOutput <- paste0("F(", estimatesRound$df, ", ", estimatesRound$df.resid, ")",
-                              " = ", estimatesRound$f.value,
-                              ", p ", estimatesRound$p.value,
-                              ", r = ", estimatesRound$es.r)
+  # leave df as integers
+  estimatesRound$df <- round(estimates$df)
+  estimatesRound$df.resid <- round(estimates$df.resid)
 
-    # convert hyphens to minus (only possible on UNIX systems)
-    if (.Platform$OS.type == 'unix') { # if linux/mac, ensure negative sign is minus, not hyphens
-        formattedOutput <- gsub("-", replacement = "\u2212", formattedOutput)
-    }
+  formattedOutput <- paste0("F(", estimatesRound$df, ", ", estimatesRound$df.resid, ")",
+                            " = ", estimatesRound$f.value,
+                            ", p ", estimatesRound$p.value,
+                            ", r = ", estimatesRound$es.r)
 
-    formattedOutputDf <- data.table(term = as.character(estimates$term),
-                                    results = as.character(formattedOutput))
+  # convert hyphens to minus (only possible on UNIX systems)
+  if (.Platform$OS.type == 'unix') { # if linux/mac, ensure negative sign is minus, not hyphens
+    formattedOutput <- gsub("-", replacement = "\u2212", formattedOutput)
+  }
 
-    outputList <- list(results = formattedOutputDf)
+  formattedOutputDf <- data.table(term = as.character(estimates$term),
+                                  results = as.character(formattedOutput))
 
-    if (showTable) {
+  outputList <- list(results = formattedOutputDf)
 
-        # format table nicely
-        estimatesOutput <- data.frame(lapply(estimates[, -1], round, decimal + 1))
-        estimatesOutput <- data.table(term = as.character(estimates$term), estimatesOutput)
-        outputList$results2 <- estimatesOutput
-    }
+  if (showTable) {
 
-    if (showEffectSizesTable) {
+    # format table nicely
+    estimatesOutput <- data.frame(lapply(estimates[, -1], round, decimal + 1))
+    estimatesOutput <- data.table(term = as.character(estimates$term), estimatesOutput)
+    outputList$results2 <- estimatesOutput
+  }
 
-        # get all other effect sizes
-        effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
-        outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
+  if (showEffectSizesTable) {
 
-    }
-    options(scipen = 0) # enable scientific notation
-    if (length(outputList) > 1) {
-        return(outputList)
-    } else {
-        return(formattedOutputDf)
-    }
+    # get all other effect sizes
+    effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
+    outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
+
+  }
+  options(scipen = 0) # enable scientific notation
+  if (length(outputList) > 1) {
+    return(outputList)
+  } else {
+    return(formattedOutputDf)
+  }
 
 }
 
@@ -1065,6 +1076,93 @@ summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, showEffectSi
 # summaryh(mf)
 #' @export
 summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
+
+  # ensure significant digits with sprintf
+  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
+  if (decimal <= 2) {
+    pdigits <- paste0("%.", 3, "f")
+  } else {
+    pdigits <- paste0("%.", decimal, "f")
+  }
+
+  # example output: d = 0.12 (95% HPD = [0.01, 1.01])
+  estimatesTemp <- data.frame(model$estimates)
+  estimates <- data.frame(estimate = as.numeric(estimatesTemp$Mean),
+                          ciLower = as.numeric(estimatesTemp$HPD95lower),
+                          ciUpper = as.numeric(estimatesTemp$HPD95upper),
+                          bf = model$BF) # get estimates and put in dataframe
+
+  # make a copy of estimates and convert to correct dp
+  estimatesCopy <- estimates
+  estimatesRound <- estimatesCopy
+  estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
+  estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
+  estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
+  estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
+  # estimatesRound[abs(estimatesCopy) < 0.01] <- sprintf(pdigits, estimatesCopy[abs(estimatesCopy) < 0.01])
+
+  # fix p values
+  # estimatesRound$p.value <- round(estimates$p.value, decimal + 2)
+  # estimatesRound$p.value <- ifelse(estimatesRound$p.value < .001, "< .001", paste0("= ", sprintf(pdigits, estimatesRound$p.value)))
+  # estimatesRound$p.value <- gsub("= 0.", "= .", estimatesRound$p.value)
+  #
+  formattedOutput <- paste0("d = ", estimatesRound$estimate,
+                            " (95% HPD = [", estimatesRound$ciLower, ", ", estimatesRound$ciUpper, "])")
+
+  # if (estimates$p.value %between% c(0.01, 0.05)) {
+  #     stars <- "*  "
+  # } else if (estimates$p.value %between% c(0.001, 0.01)) {
+  #     stars <- "**"
+  # } else if (estimates$p.value < 0.001) {
+  #     stars <- "***"
+  # } else {
+  #     stars <- "   "
+  # }
+  #
+
+  formattedOutput2 <- paste0(estimatesRound$estimate, " [", estimatesRound$ciLower, ", ", estimatesRound$ciUpper, "]")
+
+  # convert hyphens to minus (only possible on UNIX systems)
+  if (.Platform$OS.type == 'unix') { # if linux/mac, ensure negative sign is minus, not hyphens
+    formattedOutput <- gsub("-", replacement = "\u2212", formattedOutput)
+  }
+
+  formattedOutputDf <- data.table(results = as.character(formattedOutput), results2 = as.character(formattedOutput2))
+
+  outputList <- list(results = formattedOutputDf)
+
+  if (showTable) {
+
+    # format table nicely
+    estimatesOutput <- data.frame(lapply(estimates, round, decimal + 1))
+    estimatesOutput <- data.table(estimatesOutput)
+    outputList$results2 <- estimatesOutput
+  }
+
+  if (showEffectSizesTable) {
+
+    outputList$effectSizes <- NULL
+
+  }
+
+  options(scipen = 0) # enable scientific notation
+  if (length(outputList) > 1) {
+    return(outputList)
+  } else {
+    return(formattedOutputDf)
+  }
+
+}
+
+
+
+# library(metaBMA)
+# model <- meta_random(towels$logOR, towels$SE, towels$study, d = "halfnorm",d.par = c(0, .3))
+# model
+# class(model)
+# summaryh(model)
+#' @export
+summaryh.meta_random <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01

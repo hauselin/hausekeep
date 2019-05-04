@@ -44,7 +44,7 @@ result <- seWithin(data = ChickWeight2, measurevar = c("weight", "weight2"),
 betweenvars = "Diet", withinvars = "Time", idvar = "Chick")
 }
 \references{
-(\url{http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/})
+\url{http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/}
 }
 \seealso{
 \code{\link{stderror}}

@@ -146,7 +146,7 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' Code adapted from R cookbook (see references).
 #'
 #' @references
-#' (\url{http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/})
+#' \url{http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/}
 #'
 #' @return A data.table
 #'
