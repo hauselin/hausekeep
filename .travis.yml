@@ -23,10 +23,17 @@ install:
 #    - libgsl0-dev
 
 r_binary_packages:
+  - dplyr
   - devtools
   - knitr
   - rmarkdown
   - covr
   - testthat
+  - spelling
+  - data.table
+  - sjstats
+  - compute.es
+  - combinat
+
 #   - gsl
 #   - rtdists
