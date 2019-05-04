@@ -15,7 +15,7 @@ addons:
     packages:
     - libcurl4-openssl-dev
     - libxml2-dev
-    - libgsl2
+    - libgsl2-dev
 
 repos:
   CRAN: https://cloud.r-project.org
