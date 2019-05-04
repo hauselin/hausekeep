@@ -4,10 +4,10 @@
 \alias{logit}
 \title{Logit function}
 \usage{
-logit(x)
+logit(p)
 }
 \arguments{
-\item{x}{a vector of probability values (0 to 1)}
+\item{p}{a vector of probability values (0 to 1)}
 }
 \value{
 A vector

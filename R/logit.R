@@ -3,7 +3,7 @@
 #'
 #' @description Applies logit transformation
 #'
-#' @param x a vector of probability values (0 to 1)
+#' @param p a vector of probability values (0 to 1)
 #'
 #' @return A vector
 #'
@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @usage
-#' logit(x)
+#' logit(p)
 #'
 #' @examples
 #' logit(seq(-2, 2, length.out = 100))
