@@ -16,12 +16,12 @@ install:
   # - Rscript -e 'install.packages("rtdists", repos = "http://cran.rstudio.com")'
   # - Rscript -e 'install.packages(c("gsl","dplyr", "data.table", "dtplyr", "rtdists", "covr", "testthat", "spelling", "knitr", "rmarkdown", "sjstats", "compute.es", "combinat"), repos = "http://cran.rstudio.com")'
 
-#addons:
-#  apt:
-#    packages:
-#    - libcurl4-openssl-dev
-#    - libxml2-dev
-#    - libgsl0-dev
+addons:
+  apt:
+    packages:
+    - libcurl4-openssl-dev
+    - libxml2-dev
+    - libgsl0-dev
 
 r_binary_packages:
   - dplyr
