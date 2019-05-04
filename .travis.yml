@@ -22,7 +22,7 @@ repos:
   ropensci: http://packages.ropensci.org
 
 r_binary_packages:
-  # - gsl
+  - gsl
   - devtools
   - data.table
   - knitr
@@ -34,6 +34,7 @@ r_binary_packages:
   - combinat
 
 r_packages:
+  - rtdists
   - dplyr
   - spelling
   - sjstats
