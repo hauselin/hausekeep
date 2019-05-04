@@ -21,13 +21,13 @@ repos:
 ropensci: http://packages.ropensci.org
 
 r_binary_packages:
-  #- gsl
+  - gsl
   - devtools
   - dplyr
   - data.table
   - dtplyr
   - knitr
-  - rtdists
+  # - rtdists
   - covr
   - testthat
   - knitr
@@ -38,3 +38,4 @@ r_binary_packages:
 r_packages:
   - spelling
   - sjstats
+  - rtdists
