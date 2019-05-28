@@ -10,6 +10,8 @@ after_success:
 before_install:
   - sudo apt-get install libgsl0-dev
   - sudo apt-get install -y libxml2-dev
+  # - apt-get install libgsl-dev libgsl2
+  # - sudo apt-get install -y libcurl-dev
 addons:
   apt:
     packages:
@@ -37,5 +39,3 @@ r_binary_packages:
   - sjstats
   - compute.es
   - combinat
-#   - gsl
-#   - rtdists

@@ -1,7 +1,7 @@
 Package: hausekeep
 Title: Miscellaneous functions for research and housekeeping
-Version: 0.0.0.9002
-Date: 2019-02-01
+Version: 0.0.0.9003
+Date: 2019-05-28
 Authors@R: 
     person(given = "Hause",
            family = "Lin",
@@ -26,7 +26,6 @@ Imports:
     sjstats,
     compute.es,
     dtplyr,
-    rtdists,
     combinat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

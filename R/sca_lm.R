@@ -22,7 +22,7 @@
 #' @usage
 #' sca_lm(data, dv, ivs, covariates = NULL)
 #'
-#' @importFrom dplyr left_join distinct tibble bind_rows
+#' @importFrom dplyr left_join distinct tibble bind_rows arrange
 #' @importFrom combinat permn
 #' @importFrom data.table setDT
 #' @importFrom stats lm as.formula
@@ -47,7 +47,10 @@ sca_lm <- function(data, dv, ivs, covariates = NULL) {
   }
   colnames(mat) <- paste0(ivs)
   mat_iv_df <- dplyr::distinct(data.table(mat))
-  mat_iv_df
+  #mat_iv_df
+
+  # remove rows without any predictors
+  mat_iv_df <- mat_iv_df[rowSums(mat_iv_df) != 0]
 
   # covariates
   if (!is.null(covariates)) {
@@ -60,7 +63,7 @@ sca_lm <- function(data, dv, ivs, covariates = NULL) {
     }
     colnames(mat) <- paste0(covariates)
     mat_cov_df <- dplyr::distinct(data.table(mat))
-    mat_cov_df
+    # mat_cov_df
   }
 
   # create all combinations of ivs and covaraites
@@ -74,17 +77,19 @@ sca_lm <- function(data, dv, ivs, covariates = NULL) {
   }
   data.table::setDT(dt1)
 
+  # remove rows without any predictors
+  dt1 <- dt1[rowSums(dt1) != 0]
+
   # build model formula
   dt1[, modelformula := ""]
   for (i in 1:nrow(dt1)) {
     dt1[i, modelformula := paste0(dv, " ~ ", paste0(names(dt1)[which(dt1[i, ] == 1)], collapse = " + "))]
   }
 
-  # fit models
   results <- dt1[, summaryh(stats::lm(stats::as.formula(modelformula), data = data), showTable = T)$results2,
                  by = modelformula]
 
-  results <- dplyr::left_join(dt1, results, by = "modelformula")
+  results <- dplyr::left_join(dt1, results, by = "modelformula") %>% dplyr::distinct()
   setDT(results)
-  results
+  return(results)
 }

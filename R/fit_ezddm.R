@@ -8,7 +8,6 @@
 #' @param responses specify in characters the name of the accuracy column (coded as 0/1)
 #' @param id specify in characters the name of your subject/id column (if not specified, assumes data [all rows] belong to a single subject)
 #' @param group specify in characters the name of your column(s) indicating various conditions (default = NULL)
-#' @param simCheck simulate data (n = 1000) with estimated parameters (using rdiffusion from rtdists package) to check model fit (default = FALSE)
 #' @param decimal round parameter estimates (default = 4)
 #'
 #' @return A datatable
@@ -25,7 +24,6 @@
 #'
 #' @seealso \code{\link{ezddm}}
 #'
-#' @import rtdists
 #' @import data.table
 #' @importFrom dplyr select
 #' @importFrom dplyr left_join
@@ -34,7 +32,7 @@
 #' @export
 #'
 #' @usage
-#' fit_ezddm(data, rts, responses, id = NULL, group = NULL, simCheck = FALSE, decimal = 4)
+#' fit_ezddm(data, rts, responses, id = NULL, group = NULL, decimal = 4)
 #'
 #' @examples
 #' \dontrun{
@@ -59,7 +57,7 @@
 #' fit_ezddm(data = dataAll, rts = "rt", responses = "response",
 #' id = "subject", group = c("cond1", "cond2"))
 #' }
-fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, simCheck = FALSE, decimal = 4) {
+fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4) {
 
   # message("Fits EZ-diffusion model (Wagenmaker et al., 2007, Psychonomic Bulletin & Review).\nResponses or choice must be coded as 0 (lower bound) or 1 (upper bound).")
 
@@ -142,23 +140,23 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, simCheck = 
   setDT(resultsFinal) # ensure it's data table format
   setnames(resultsFinal, c("Ter", "rtVar"), c("t0_Ter", "rt1Var"))
 
-  # simulate data
-  if (simCheck) {
-    resultsToSimulate <- copy(resultsFinal)
-    simulatedData <- resultsToSimulate[a > 0 & t0_Ter > 0, rdiffusion(n = 1000, a = a * 10, v = v * 10, t0 = t0_Ter, z = 0.5 * a * 10), by = c(id, group)]
-    simulatedData[, response_num := as.numeric()]
-    simulatedData[response == 'upper', response_num := 1]
-    simulatedData[response == 'lower', response_num := 0]
-    simulateBehavOverall <- simulatedData[, .(responseSim = round(mean(response_num, na.rm = T), 3),
-                                              rtOverallSim = round(mean(rt, na.rm = T), 3)),
-                                          by = c(id, group)]
-    simulateBehav0 <- simulatedData[response_num == 0, .(rt0Sim = round(mean(rt, na.rm = T), 3)), by = c(id, group)]
-    simulateBehav1 <- simulatedData[response_num == 1, .(rt1Sim = round(mean(rt, na.rm = T), 3)), by = c(id, group)]
-    simulateBehav <- left_join(simulateBehavOverall, simulateBehav0, by = c(id, group))
-    simulateBehav <- left_join(simulateBehav, simulateBehav1, by = c(id, group))
-    resultsFinal <- left_join(resultsFinal, simulateBehav, by = c(id, group))
-    resultsFinal <- dplyr::select(resultsFinal, 1, group, n:rt1Var, response, responseSim, rtOverall, rtOverallSim, rt0, rt0Sim, rt1, rt1Sim)
-  }
+  # # simulate data
+  # if (simCheck) {
+  #   resultsToSimulate <- copy(resultsFinal)
+  #   simulatedData <- resultsToSimulate[a > 0 & t0_Ter > 0, rdiffusion(n = 1000, a = a * 10, v = v * 10, t0 = t0_Ter, z = 0.5 * a * 10), by = c(id, group)]
+  #   simulatedData[, response_num := as.numeric()]
+  #   simulatedData[response == 'upper', response_num := 1]
+  #   simulatedData[response == 'lower', response_num := 0]
+  #   simulateBehavOverall <- simulatedData[, .(responseSim = round(mean(response_num, na.rm = T), 3),
+  #                                             rtOverallSim = round(mean(rt, na.rm = T), 3)),
+  #                                         by = c(id, group)]
+  #   simulateBehav0 <- simulatedData[response_num == 0, .(rt0Sim = round(mean(rt, na.rm = T), 3)), by = c(id, group)]
+  #   simulateBehav1 <- simulatedData[response_num == 1, .(rt1Sim = round(mean(rt, na.rm = T), 3)), by = c(id, group)]
+  #   simulateBehav <- left_join(simulateBehavOverall, simulateBehav0, by = c(id, group))
+  #   simulateBehav <- left_join(simulateBehav, simulateBehav1, by = c(id, group))
+  #   resultsFinal <- left_join(resultsFinal, simulateBehav, by = c(id, group))
+  #   resultsFinal <- dplyr::select(resultsFinal, 1, group, n:rt1Var, response, responseSim, rtOverall, rtOverallSim, rt0, rt0Sim, rt1, rt1Sim)
+  # }
 
   # round results
   resultsFinal[, a := round(a, decimal)]
