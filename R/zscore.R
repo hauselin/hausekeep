@@ -2,14 +2,14 @@
 #' @name zscore
 #' @description Computes z-score (standardized scores)
 #' @param x A vector
-#' @param n use n or n-1 in the denominator when computing SD (default 0 for n; -1 for n = -1)
+#' @param n use n or n-1 in the denominator when computing SD (default 0 for n; use -1 for n = -1)
 #' @return A vector
 #'
 #' @note Formula: (x - mean(x)) / SD(x)
 #' @author Hause Lin
 #' @export
 #' @usage
-#' zscore(x, n)
+#' zscore(x, n = 0)
 #' @examples
 #' zscore(1:10)
 #' zscore(1:10, n = 0) # default n = 0 (SD is computed using n)

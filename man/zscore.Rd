@@ -4,12 +4,12 @@
 \alias{zscore}
 \title{Compute z-score}
 \usage{
-zscore(x, n)
+zscore(x, n = 0)
 }
 \arguments{
 \item{x}{A vector}
 
-\item{n}{use n or n-1 in the denominator when computing SD (default 0 for n; -1 for n = -1)}
+\item{n}{use n or n-1 in the denominator when computing SD (default 0 for n; use -1 for n = -1)}
 }
 \value{
 A vector
