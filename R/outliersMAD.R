@@ -24,31 +24,38 @@
 #' @export
 #'
 #' @usage
-#' outliersMAD(x, MADCutOff = 2.5, replaceOutliersWith = NA,
+#' outliersMAD(x, MADCutOff = 3.0, replaceOutliersWith = NA,
 #' showMADValues = FALSE, outlierIndices = FALSE, bConstant = 1.4826, digits = 2)
 #'
 #' @examples
-#' example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
+#' example <- c(1, 3, 3, 6, 8, 10, 10, 1000, -1000) # 1000 is an outlier
 #' outliersMAD(example)
 #' outliersMAD(example, MADCutOff = 3.0)
 #' outliersMAD(example, MADCutOff = 2.5, replaceOutliersWith = -999)
 #' outliersMAD(example, MADCutOff = 1.5, outlierIndices = TRUE)
 #' outliersMAD(example, MADCutOff = 1.5, showMADValues = TRUE)
-outliersMAD <- function(x, MADCutOff = 2.5, replaceOutliersWith = NA, showMADValues = FALSE, outlierIndices = FALSE, bConstant = 1.4826, digits = 2) {
+#' outliersMAD(example, MADCutOff = 1.5, showMADValues = TRUE, replaceOutliersWith = -88)
+outliersMAD <- function(x, MADCutOff = 3.0, replaceOutliersWith = NA, showMADValues = FALSE, outlierIndices = FALSE, bConstant = 1.4826, digits = 2) {
   # bConstant: usually, b = 1.4826, a constant linked to the assumption of normality of the data, disregarding the abnormality induced by out- liers (Rousseeuw & Croux, 1993).
 
   # compute number of absolute MADs away for each value: formula: abs( ( x - median(x) ) )/ mad(x)
-  absMADAway <- abs((x - stats::median(x, na.rm = T))/stats::mad(x, constant = bConstant, na.rm = T))
+  MADAway <- (x - stats::median(x, na.rm = T)) / stats::mad(x, constant = bConstant, na.rm = T)
+  absMADAway <- abs(MADAway)
   # subset data that has absMADAway greater than the MADCutOff and replace them with replace
   x[absMADAway > MADCutOff] <- replaceOutliersWith
   outliers <- length(x[absMADAway > MADCutOff])
   if (showMADValues) { # if values == TRUE, return number of mads for each value
-    message("Showing absolute MAD from median for each value.")
+    message("Showing MAD from median for each value.")
     message(paste0(outliers, " outliers detected."))
-    return(round(absMADAway, digits))
+    return(round(MADAway, digits))
   } else if (outlierIndices) {
     message("Showing indices of outliers.")
-    return(which(is.na(x)))
+    if (is.na(replaceOutliersWith)) {
+      return(which(is.na(x)))
+    } else {
+      return(x[x == replaceOutliersWith])
+    }
+
   } else {
     message(paste0(outliers, " outliers detected."))
     message(paste0("Outliers replaced with ", replaceOutliersWith))

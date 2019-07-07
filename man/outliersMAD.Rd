@@ -4,7 +4,7 @@
 \alias{outliersMAD}
 \title{Identify outliers using robust median absolute deviation approach}
 \usage{
-outliersMAD(x, MADCutOff = 2.5, replaceOutliersWith = NA,
+outliersMAD(x, MADCutOff = 3.0, replaceOutliersWith = NA,
 showMADValues = FALSE, outlierIndices = FALSE, bConstant = 1.4826, digits = 2)
 }
 \arguments{
@@ -32,12 +32,13 @@ outliersMAD is used to identify outliers in vectors using Leys et al.'s (2003) m
 We can identify and remove outliers in our data by identifying data points that are too extreme—either too many standard deviations (SD) away from the mean or too many median absolute deviations (MAD) away from the median. The SD approach might not be ideal with extreme outliers, whereas the MAD approach is much more robust (for comparison of both approaches, see Leys et al., 2013, Journal of Experimental Social Psychology).
 }
 \examples{
-example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
+example <- c(1, 3, 3, 6, 8, 10, 10, 1000, -1000) # 1000 is an outlier
 outliersMAD(example)
 outliersMAD(example, MADCutOff = 3.0)
 outliersMAD(example, MADCutOff = 2.5, replaceOutliersWith = -999)
 outliersMAD(example, MADCutOff = 1.5, outlierIndices = TRUE)
 outliersMAD(example, MADCutOff = 1.5, showMADValues = TRUE)
+outliersMAD(example, MADCutOff = 1.5, showMADValues = TRUE, replaceOutliersWith = -88)
 }
 \references{
 \itemize{
