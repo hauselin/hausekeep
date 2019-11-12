@@ -27,7 +27,6 @@
 #' @import data.table
 #' @importFrom dplyr select
 #' @importFrom dplyr left_join
-#' @importFrom dtplyr tbl_dt
 #' @importFrom dplyr %>%
 #' @export
 #'
@@ -61,7 +60,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
 
   # message("Fits EZ-diffusion model (Wagenmaker et al., 2007, Psychonomic Bulletin & Review).\nResponses or choice must be coded as 0 (lower bound) or 1 (upper bound).")
 
-  data <- tbl_dt(data)
+  data <- data.table(data)
 
   # create new variables
   data$rtCol <- data[, get(rts)]
@@ -111,7 +110,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
   ddmRt <- data[response_num == 1, .(rt = mean(rtCol, na.rm = T), rtVar = stats::var(rtCol, na.rm = T)), by = c(id, group)]
 
   # calculate responses for each subject, each condition
-  ddmAcc <- tbl_dt(data[, .(acc = mean(response_num, na.rm = T), n = .N), by = c(id, group)])
+  ddmAcc <- data.table(data[, .(acc = mean(response_num, na.rm = T), n = .N), by = c(id, group)])
 
   if (sum(ddmAcc[, acc] %in% c(0.5, 1)) > 0) {
     n_corrected <- sum(ddmAcc[, acc] %in% c(0.5, 1))
@@ -169,7 +168,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
     resultsFinal$temporary_subject <- NULL
   }
 
-  return(tbl_dt(resultsFinal))
+  return(resultsFinal)
 
 }
 

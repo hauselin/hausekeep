@@ -35,8 +35,9 @@ outliersZ <- function(x, zCutOff = 1.96, replaceOutliersWith = NA, outlierIndice
 
   # compute standard deviation (sample version n = n [not n-1])
   stdev <- sqrt(sum((x - mean(x, na.rm = T))^2, na.rm = T) / sum(!is.na(x)))
-  # compute absolute Z values for each value
-  absZ <- abs(x - mean(x, na.rm = T)) / stdev
+  # compute Z values for each value
+  Zvals <- (x - mean(x, na.rm = T)) / stdev
+  absZ <- abs(Zvals)
   # subset data that has absZ greater than the zCutOff and replace them with replace
   # can also replace with other values (such as max/mean of data)
   x[absZ > zCutOff] <- replaceOutliersWith
@@ -45,7 +46,7 @@ outliersZ <- function(x, zCutOff = 1.96, replaceOutliersWith = NA, outlierIndice
   if (showZValues) {
     message("Showing absolute z-scores for each value.")
     message(paste0(outliers, " outliers detected."))
-    return(round(absZ, digits)) # if values == TRUE, return z score for each value
+    return(round(Zvals, digits)) # if values == TRUE, return z score for each value
   } else if (outlierIndices) {
     message("Showing indices of outliers.")
     return(which(is.na(x)))

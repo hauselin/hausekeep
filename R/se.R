@@ -24,7 +24,7 @@
 stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, conf.interval = 0.95, tonumeric = TRUE) {
 
   # convert to datatable and tibble
-  data <- data.table(data)
+  data <- data.table::data.table(data)
 
   # function to compute N without NAs
   length2 <- function(x, na.rm = FALSE) {
@@ -93,7 +93,6 @@ stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, co
 #' @return a data.frame
 #' @description normWithin norms the data within specified groups in a data frame
 #' @importFrom dplyr left_join
-#' @importFrom dtplyr tbl_dt
 #' @import data.table
 #' @examples
 #' \dontrun{
@@ -105,12 +104,13 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
   # specified by betweenvars.
   # norm data (this function will only be used by seWithin, and won't have to be called directly)
 
-  data <- tbl_dt(data)
+  data <- data.table::data.table(data)
   setkeyv(data, idvar) # sort by idvar
 
   data.subjMean <- data[, .(unlist(lapply(.SD, mean, na.rm = na.rm))), by = c(idvar, betweenvars), .SDcols = measurevar] # compute mean for each subject
   setnames(data.subjMean, c(idvar, betweenvars,'subjMean'))
   dataNew <- left_join(data, data.subjMean)
+  dataNew <- data.table::data.table(dataNew)
   setkeyv(dataNew, c(idvar, betweenvars)) # sort
 
   measureNormedVar <- paste0(measurevar, "Normed")
@@ -157,7 +157,6 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' @importFrom dplyr tbl_df
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate_if
-#' @importFrom dtplyr tbl_dt
 #' @importFrom stats sd
 #' @export
 #' @seealso \code{\link{stderror}}
@@ -232,7 +231,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
     nWithinGroups <- prod(vapply(ndatac[,withinvars, drop = FALSE], FUN = function(x) length(levels(x)), FUN.VALUE = numeric(1)))
     correctionFactor <- sqrt( nWithinGroups / (nWithinGroups-1) )
 
-    ndatacTbl <- tbl_dt(ndatac)
+    ndatacTbl <- data.table::data.table(ndatac)
 
     # Apply the correction factor
     # setnames(ndatacTbl, c("sd", "se"), c("stdev", "stderror"))
@@ -245,7 +244,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
     merged <- left_join(datac, ndatacTbl)
     merged <- mutate_if(merged, is.factor, as.character) #if factor, convert to character
     merged[order( unlist((merged[, 1])), decreasing =  F), ] #arrange by first column
-    merged <- tbl_dt(merged)
+    merged <- data.table::data.table(merged)
     message("Factors have been converted to characters.")
 
     # convert columns to numeric class if possible, else, leave as character
