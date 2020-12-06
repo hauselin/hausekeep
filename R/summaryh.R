@@ -39,7 +39,8 @@ summaryh.default <- function(model, decimal = 2, showTable = FALSE, showEffectSi
 
 #### summaryh class methods
 # anova
-#' @importFrom sjstats cohens_f
+#' @import effectsize
+#' @importFrom effectsize cohens_f
 #' @export
 summaryh.aov <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
 
@@ -66,12 +67,8 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
     estimates <- estimates[estimates$term != "Residuals", ]
 
     # effect sizes
-    esCohensf <- cohens_f(model) # calculate Cohen's f
-    if (is.data.frame(esCohensf)) { # sometimes output is a dataframe; if so, extract cohens.f variable
-        estimates$es.f <- esCohensf$cohens.f
-    } else {
-        estimates$es.f <- esCohensf
-    }
+    esCohensf <- effectsize::cohens_f(model) # calculate Cohen's f
+    estimates$es.f <- esCohensf$Cohens_f_partial
 
     estimates$es.r <- es(f = estimates$es.f, msg = F, decimal = decimal)$r
 
@@ -167,15 +164,11 @@ summaryh.anova <- function(model, decimal = 2, showTable = FALSE, showEffectSize
     rownames(estimates) <- NULL
     estimates <- estimates[estimates$term != "Residuals", ]
     # effect size
-    esCohensf <- cohens_f(model) # calculate Cohen's f
+    esCohensf <- cohens_f(model)$Cohens_f_partial # calculate Cohen's f
   }
 
   # effect sizes
-  if (is.data.frame(esCohensf)) { # sometimes output is a dataframe; if so, extract cohens.f variable
-    estimates$es.f <- esCohensf$cohens.f
-  } else {
-    estimates$es.f <- esCohensf
-  }
+  estimates$es.f <- esCohensf
 
   estimates$es.r <- es(f = estimates$es.f, msg = F, decimal = decimal)$r
 
@@ -526,14 +519,16 @@ summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, showEffectS
     if (!is.null(confInterval)) { # report CIs, not SE
         formattedOutput <- paste0("b = ", estimatesRound$estimate,
                                   ", ", confIntervalChar, " CI [", estimatesRound$ciLower, " ", estimatesRound$ciUpper, "]",
-                                  ", z(", estimatesRound$df, ")",
+                                  # ", z(", estimatesRound$df, ")",
+                                  ", z",
                                   " = ", estimatesRound$statistic,
                                   ", p ", estimatesRound$p.value,
                                   ", r = ", estimatesRound$es.r)
     } else { # report SE, not CIs
         formattedOutput <- paste0("b = ", estimatesRound$estimate,
                                   ", SE = ", estimatesRound$std.error,
-                                  ", z(", estimatesRound$df, ")",
+                                  # ", z(", estimatesRound$df, ")",
+                                  ", z",
                                   " = ", estimatesRound$statistic,
                                   ", p ", estimatesRound$p.value,
                                   ", r = ", estimatesRound$es.r)

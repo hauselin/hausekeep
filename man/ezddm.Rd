@@ -4,8 +4,12 @@
 \alias{ezddm}
 \title{Fit Wagenmaker et al.'s (2007) EZ-diffusion model to single subject's aggregate/averaged data.}
 \usage{
-ezddm(propCorrect, rtCorrectVariance_seconds, rtCorrectMean_seconds,
-  nTrials = NULL)
+ezddm(
+  propCorrect,
+  rtCorrectVariance_seconds,
+  rtCorrectMean_seconds,
+  nTrials = NULL
+)
 }
 \arguments{
 \item{propCorrect}{proportion correct (apply edge correction if necessary)}

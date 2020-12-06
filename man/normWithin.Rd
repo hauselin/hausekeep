@@ -4,8 +4,7 @@
 \alias{normWithin}
 \title{Norms data within groups}
 \usage{
-normWithin(data = NULL, idvar, measurevar, betweenvars = NULL,
-  na.rm = TRUE)
+normWithin(data = NULL, idvar, measurevar, betweenvars = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{data}{a dataframe}

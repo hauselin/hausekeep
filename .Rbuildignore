@@ -6,3 +6,5 @@
 ^README\.Rmd$
 ^hausekeep\.Rproj$
 ^\.Rproj\.user$
+^docs$
+README.Rmd
