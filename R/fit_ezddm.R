@@ -60,7 +60,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
 
   # message("Fits EZ-diffusion model (Wagenmaker et al., 2007, Psychonomic Bulletin & Review).\nResponses or choice must be coded as 0 (lower bound) or 1 (upper bound).")
 
-  data <- data.table(data)
+  data <- data.table::data.table(data)
 
   # create new variables
   data$rtCol <- data[, get(rts)]
@@ -96,15 +96,17 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
                        by = c(id, group)]
   behav0 <- data[response_num == 0, .(rt0 = round(mean(rtCol, na.rm = T), 3)), by = c(id, group)]
   behav1 <- data[response_num == 1, .(rt1 = round(mean(rtCol, na.rm = T), 3)), by = c(id, group)]
-  behav <- left_join(behavOverall, behav0, by = c(id, group))
-  behav <- left_join(behav, behav1, by = c(id, group))
+  behav <- left_join(data.frame(behavOverall), data.frame(behav0), by = c(id, group))
+  behav <- left_join(data.frame(behav), data.frame(behav1), by = c(id, group))
+  behav <- data.table::data.table(behav)
 
   # get grouping variables
   dataGroup <- data[, .(n = .N), by = c(id, group)]
   dataGroup0 <- data[response_num == 0, .(n0 = .N), by = c(id, group)]
   dataGroup1 <- data[response_num == 1, .(n1 = .N), by = c(id, group)]
-  dataGroup <- left_join(dataGroup, dataGroup0, by = c(id, group))
-  dataGroup <- left_join(dataGroup, dataGroup1, by = c(id, group))
+  dataGroup <- left_join(data.frame(dataGroup), data.frame(dataGroup0), by = c(id, group))
+  dataGroup <- left_join(data.frame(dataGroup), data.frame(dataGroup1), by = c(id, group))
+  dataGroup <- data.table::data.table(dataGroup)
 
   # for accurate responses (coded as 1), calculate mean RT and RT variance for each subject, each condition
   ddmRt <- data[response_num == 1, .(rt = mean(rtCol, na.rm = T), rtVar = stats::var(rtCol, na.rm = T)), by = c(id, group)]
@@ -124,19 +126,19 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
   # if acc is 0 or 50, add 0.001 to acc a bit so model fitting works
   ddmAcc[acc %in% c(0.5), acc := acc + 0.00001]
 
-  dataForDDM <- left_join(ddmRt, ddmAcc, by = c(id, group))
-  setDT(dataForDDM)
+  dataForDDM <- left_join(data.frame(ddmRt), data.frame(ddmAcc), by = c(id, group))
+  dataForDDM <- data.table::data.table(dataForDDM)
 
   # fit ez ddm model to each subject, each condition
   ddmResults <- dataForDDM[, ezddm(propCorrect = acc, rtCorrectVariance_seconds = rtVar, rtCorrectMean_seconds = rt),
                            by = c(id, group)]
-  resultsFinal <- left_join(dataGroup, ddmResults, by = c(id, group))
+  resultsFinal <- left_join(data.frame(dataGroup), data.frame(ddmResults), by = c(id, group))
   resultsFinal <- left_join(resultsFinal, ddmRt, by = c(id, group))
   resultsFinal <- left_join(resultsFinal, ddmAcc, by = c(id, group, "n"))
   resultsFinal <- left_join(resultsFinal, behav, by = c(id, group))
   resultsFinal <- dplyr::select(resultsFinal, -rt, -acc)
 
-  setDT(resultsFinal) # ensure it's data table format
+  resultsFinal <- data.table::data.table(resultsFinal) # ensure it's data table format
   setnames(resultsFinal, c("Ter", "rtVar"), c("t0_Ter", "rt1Var"))
 
   # # simulate data

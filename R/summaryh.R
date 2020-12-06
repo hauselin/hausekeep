@@ -6,9 +6,10 @@
 #' @param model a fitted model
 #' @param decimal round output to decimal places
 #' @param showTable show results in table format (returns list)
-#' @param showEffectSizesTable show other effect sizes computed using es function
+#' @param tbl_es show other effect sizes computed using es function
+#' @param es effect size measure to report (for now, it's always r but options will be introduced later)
 #' @param ... further arguments passed to or from other methods
-#' @return A datatable or a list with datatables (if showTable = TRUE or showEffectSizesTable = TRUE)
+#' @return A datatable or a list of datatables (if showTable = TRUE or tbl_es = TRUE)
 #'
 #' @import data.table
 #' @note
@@ -21,19 +22,17 @@
 #' @export
 #'
 #' @usage
-#' summaryh(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...)
+#' summaryh(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...)
 #'
 #' @examples
 #' summaryh(lm(mpg ~ qsec, mtcars))
 #' summaryh(aov(mpg ~ gear, mtcars))
-#' summaryh(cor.test(mtcars$mpg, mtcars$gear), showEffectSizesTable = TRUE)
-#' summaryh(t.test(mpg ~ vs, mtcars), showTable = TRUE)
-#' summaryh(glm(vs ~ 1, mtcars, family = "binomial"), showTable = TRUE)
-summaryh <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+#' summaryh(cor.test(mtcars$mpg, mtcars$gear), tbl_es = TRUE)
+summaryh <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
     UseMethod("summaryh")
 }
 
-summaryh.default <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.default <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
   return(summary(model))
 }
 
@@ -42,7 +41,7 @@ summaryh.default <- function(model, decimal = 2, showTable = FALSE, showEffectSi
 #' @import effectsize
 #' @importFrom effectsize cohens_f
 #' @export
-summaryh.aov <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -69,7 +68,6 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
     # effect sizes
     esCohensf <- effectsize::cohens_f(model) # calculate Cohen's f
     estimates$es.f <- esCohensf$Cohens_f_partial
-
     estimates$es.r <- es(f = estimates$es.f, msg = F, decimal = decimal)$r
 
     # make a copy of estimates and convert to correct dp
@@ -111,13 +109,15 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
         estimatesOutput <- data.frame(lapply(estimates[, -1], round, decimal + 1))
         estimatesOutput <- data.table(term = as.character(estimates$term), estimatesOutput)
         outputList$results2 <- estimatesOutput
+        # return(outputList$results2)
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
         outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
     options(scipen = 0) # enable scientific notation
@@ -131,7 +131,7 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
 
 # anova
 #' @export
-summaryh.anova <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.anova <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -213,11 +213,12 @@ summaryh.anova <- function(model, decimal = 2, showTable = FALSE, showEffectSize
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     # get all other effect sizes
     effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
     outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
+    return(outputList$effectSizes)
 
   }
   options(scipen = 0) # enable scientific notation
@@ -231,7 +232,7 @@ summaryh.anova <- function(model, decimal = 2, showTable = FALSE, showEffectSize
 
 # lm
 #' @export
-summaryh.lm <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
+summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -329,11 +330,12 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTa
         outputList$results2 <- estimatesOutput
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
         outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
 
@@ -348,7 +350,7 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTa
 
 # glm
 #' @export
-summaryh.glm <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
+summaryh.glm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -440,11 +442,12 @@ summaryh.glm <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
         outputList$results2 <- estimatesOutput
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal)
         outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
     options(scipen = 0) # enable scientific notation
@@ -458,7 +461,7 @@ summaryh.glm <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
 
 # glmer
 #' @export
-summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
+summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -552,11 +555,12 @@ summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, showEffectS
         outputList$results2 <- estimatesOutput
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal)
         outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
     options(scipen = 0) # enable scientific notation
@@ -570,13 +574,13 @@ summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, showEffectS
 
 # lmer without lmerTest
 #' @export
-summaryh.lmerMod <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.lmerMod <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
     message("Please install/load lmerTest package and then refit your model!")
 }
 
 # lmer with lmerTest
 #' @export
-summaryh.merModLmerTest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.merModLmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -662,11 +666,12 @@ summaryh.merModLmerTest <- function(model, decimal = 2, showTable = FALSE, showE
 
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
         outputList$effectSizes <- data.frame(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
     options(scipen = 0) # enable scientific notation
@@ -679,7 +684,7 @@ summaryh.merModLmerTest <- function(model, decimal = 2, showTable = FALSE, showE
 }
 
 #' @export
-summaryh.lme <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.lme <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -765,11 +770,12 @@ summaryh.lme <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
 
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
         outputList$effectSizes <- data.frame(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
     options(scipen = 0) # enable scientific notation
@@ -782,7 +788,7 @@ summaryh.lme <- function(model, decimal = 2, showTable = FALSE, showEffectSizesT
 }
 
 #' @export
-summaryh.lmerModLmerTest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.lmerModLmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -868,11 +874,12 @@ summaryh.lmerModLmerTest <- function(model, decimal = 2, showTable = FALSE, show
 
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
         outputList$effectSizes <- data.frame(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
     options(scipen = 0) # enable scientific notation
@@ -885,7 +892,7 @@ summaryh.lmerModLmerTest <- function(model, decimal = 2, showTable = FALSE, show
 }
 
 #' @export
-summaryh.lmerTest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.lmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
     # ensure significant digits with sprintf
     digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -971,11 +978,12 @@ summaryh.lmerTest <- function(model, decimal = 2, showTable = FALSE, showEffectS
 
     }
 
-    if (showEffectSizesTable) {
+    if (tbl_es) {
 
         # get all other effect sizes
         effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
         outputList$effectSizes <- data.frame(term = as.character(estimates$term), effectSizes)
+        return(outputList$effectSizes)
 
     }
     options(scipen = 0) # enable scientific notation
@@ -988,7 +996,7 @@ summaryh.lmerTest <- function(model, decimal = 2, showTable = FALSE, showEffectS
 }
 
 #' @export
-summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
+summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -1050,9 +1058,10 @@ summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, showEffectSi
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     outputList$effectSizes <- NULL
+    return("Not available.")
 
   }
 
@@ -1070,7 +1079,7 @@ summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, showEffectSi
 # mf
 # summaryh(mf)
 #' @export
-summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
+summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -1134,9 +1143,10 @@ summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, showEffec
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     outputList$effectSizes <- NULL
+    return("Not available.")
 
   }
 
@@ -1157,7 +1167,7 @@ summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, showEffec
 # class(model)
 # summaryh(model)
 #' @export
-summaryh.meta_random <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, confInterval = NULL, ...) {
+summaryh.meta_random <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -1221,9 +1231,10 @@ summaryh.meta_random <- function(model, decimal = 2, showTable = FALSE, showEffe
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     outputList$effectSizes <- NULL
+    return("Not available.")
 
   }
 
@@ -1237,23 +1248,23 @@ summaryh.meta_random <- function(model, decimal = 2, showTable = FALSE, showEffe
 }
 
 #' @export
-summaryh.htest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...) {
+summaryh.htest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
   if (grepl("t-test", model$method, ignore.case = T)) {
-    reportTtest(model = model, decimal = decimal, showTable = showTable, showEffectSizesTable = showEffectSizesTable)
+    reportTtest(model = model, decimal = decimal, showTable = showTable, tbl_es = tbl_es)
   } else if (grepl("Pearson's product-moment correlation", model$method, ignore.case = T)) {
-    reportCortestPearson(model = model, decimal = decimal, showTable = showTable, showEffectSizesTable = showEffectSizesTable)
+    reportCortestPearson(model = model, decimal = decimal, showTable = showTable, tbl_es = tbl_es)
   } else if (grepl("Kendall's rank correlation tau", model$method, ignore.case = T)) {
-    reportCortest(model = model, decimal = decimal, showTable = showTable, showEffectSizesTable = showEffectSizesTable)
+    reportCortest(model = model, decimal = decimal, showTable = showTable, tbl_es = tbl_es)
   } else if (grepl("Spearman's rank correlation rho", model$method, ignore.case = T)) {
-    reportCortest(model = model, decimal = decimal, showTable = showTable, showEffectSizesTable = showEffectSizesTable)
+    reportCortest(model = model, decimal = decimal, showTable = showTable, tbl_es = tbl_es)
   } else if (grepl("Pearson's Chi-squared test", model$method, ignore.case = T)) {
-    reportCHISQ(model = model, decimal = decimal, showTable = showTable, showEffectSizesTable = showEffectSizesTable)
+    reportCHISQ(model = model, decimal = decimal, showTable = showTable, tbl_es = tbl_es)
   }
 }
 
 
 #### specific htests
-reportTtest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE) {
+reportTtest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -1312,11 +1323,12 @@ reportTtest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTa
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     # get all other effect sizes
     effectSizes <- es(r = abs(round(as.numeric(estimates$es.r), decimal + 1)), decimal = decimal, msg = F)
     outputList$effectSizes <- data.table(term = as.character(model$data.name), effectSizes)
+    return(outputList$effectSizes)
 
   }
   options(scipen = 0) # enable scientific notation
@@ -1329,7 +1341,7 @@ reportTtest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTa
 }
 
 #' @importFrom compute.es chies
-reportCHISQ <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE) {
+reportCHISQ <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -1388,11 +1400,12 @@ reportCHISQ <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTa
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     # get all other effect sizes
     effectSizes <- es(r = abs(round(as.numeric(estimates$es.r), decimal + 1)), decimal = decimal, msg = F)
     outputList$effectSizes <- data.table(term = as.character(model$data.name), effectSizes)
+    return(outputList$effectSizes)
 
   }
   options(scipen = 0) # enable scientific notation
@@ -1404,7 +1417,7 @@ reportCHISQ <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTa
 
 }
 
-reportCortest <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE) {
+reportCortest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -1459,11 +1472,12 @@ reportCortest <- function(model, decimal = 2, showTable = FALSE, showEffectSizes
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     # get all other effect sizes
     effectSizes <- es(r = abs(round(as.numeric(estimates$estimate), decimal + 1)), decimal = decimal, msg = F)
     outputList$effectSizes <- data.table(term = as.character(model$data.name), effectSizes)
+    return(outputList$effectSizes)
 
   }
   options(scipen = 0) # enable scientific notation
@@ -1475,7 +1489,7 @@ reportCortest <- function(model, decimal = 2, showTable = FALSE, showEffectSizes
 
 }
 
-reportCortestPearson <- function(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE) {
+reportCortestPearson <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
   # ensure significant digits with sprintf
   digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
@@ -1537,11 +1551,12 @@ reportCortestPearson <- function(model, decimal = 2, showTable = FALSE, showEffe
     outputList$results2 <- estimatesOutput
   }
 
-  if (showEffectSizesTable) {
+  if (tbl_es) {
 
     # get all other effect sizes
     effectSizes <- es(r = abs(round(as.numeric(estimates$estimate), decimal + 1)), decimal = decimal, msg = F)
     outputList$effectSizes <- data.table(term = as.character(model$data.name), effectSizes)
+    return(outputList$effectSizes)
 
   }
   options(scipen = 0) # enable scientific notation

@@ -24,6 +24,7 @@ Imports:
     dplyr,
     effectsize,
     data.table,
+    tibble,
     sjstats,
     compute.es,
     dtplyr,

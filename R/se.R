@@ -14,9 +14,9 @@
 #' @note Code adapted from R cookbook (see references)
 #' @author Hause Lin
 #' @import data.table
-#' @importFrom dplyr tbl_df
+#' @import tibble
 #' @importFrom stats sd
-#' @return A dataframe (tibble)
+#' @return A data.table
 #' @examples
 #' stderror(data = mtcars, measurevar = c("mpg", "disp"), groupvars = c("cyl", "am"))
 #' stderror(data = ChickWeight, measurevar = "weight", groupvars = "Diet")
@@ -70,7 +70,7 @@ stderror <- function(data = NULL, measurevar, groupvars = NULL, na.rm = TRUE, co
       options(warn = oldwarning)
     }
 
-    resultsList[[measurevar[i]]] <- tbl_df(datac)
+    resultsList[[measurevar[i]]] <- data.table::data.table(datac)
 
   }
 
@@ -109,7 +109,7 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 
   data.subjMean <- data[, .(unlist(lapply(.SD, mean, na.rm = na.rm))), by = c(idvar, betweenvars), .SDcols = measurevar] # compute mean for each subject
   setnames(data.subjMean, c(idvar, betweenvars,'subjMean'))
-  dataNew <- left_join(data, data.subjMean)
+  dataNew <- left_join(data.frame(data), data.frame(data.subjMean))
   dataNew <- data.table::data.table(dataNew)
   setkeyv(dataNew, c(idvar, betweenvars)) # sort
 
@@ -154,7 +154,7 @@ normWithin <- function (data = NULL, idvar, measurevar, betweenvars = NULL, na.r
 #' @return A data.table
 #'
 #' @import data.table
-#' @importFrom dplyr tbl_df
+#' @import tibble
 #' @importFrom dplyr left_join
 #' @importFrom dplyr mutate_if
 #' @importFrom stats sd
@@ -187,7 +187,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
   ##   idvar: the name of a column that identifies each subject (or matched subjects)
   ##   na.rm: a boolean that indicates whether to ignore NA's
   ##   conf.interval: the percent range of the confidence interval (default is 95%)
-  ##    shownormed: whether to show the normed version of the outcome variable
+  ##   shownormed: whether to show the normed version of the outcome variable
 
   data <- data.frame(data) # convert to data.frame
 
@@ -225,6 +225,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
 
     # Collapse the normed data - now we can treat between and within vars the same
     ndatac <- stderror(ndata, measurevar_n, groupvars = c(betweenvars, withinvars), na.rm = na.rm, conf.interval = conf.interval, tonumeric = FALSE)
+    ndatac <- data.frame(ndatac)
 
     # Apply correction from Morey (2008) to the standard error and confidence interval
     # Get the product of the number of conditions of within-S variables
@@ -241,7 +242,7 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
     # setnames(ndatacTbl, c("stdev", "stderror"), c("sd", "se"))
 
     # Combine the un-normed means with the normed results
-    merged <- left_join(datac, ndatacTbl)
+    merged <- left_join(data.frame(datac), data.frame(ndatacTbl))
     merged <- mutate_if(merged, is.factor, as.character) #if factor, convert to character
     merged[order( unlist((merged[, 1])), decreasing =  F), ] #arrange by first column
     merged <- data.table::data.table(merged)
@@ -265,16 +266,16 @@ seWithin <- function (data = NULL, measurevar, betweenvars = NULL, withinvars = 
       merged[, (measurevar_n) := NULL]
     }
 
-    resultsList[[measurevar[i]]] <- data.table(merged)
+    resultsList[[measurevar[i]]] <- data.table::data.table(merged)
     message(cat("Confidence intervals: ", conf.interval, sep = ""))
 
   }
 
   if (length(measurevar) == 1) {
-    print(resultsList[[measurevar[1]]])
+    # print(resultsList[[measurevar[1]]])
     return(resultsList[[measurevar[1]]])
   } else {
-    print(resultsList)
+    # print(resultsList)
     return(resultsList)
   }
 

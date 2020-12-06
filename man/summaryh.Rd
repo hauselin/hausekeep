@@ -4,7 +4,7 @@
 \alias{summaryh}
 \title{Generate formatted results and effect sizes for manuscripts}
 \usage{
-summaryh(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ...)
+summaryh(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...)
 }
 \arguments{
 \item{model}{a fitted model}
@@ -13,12 +13,14 @@ summaryh(model, decimal = 2, showTable = FALSE, showEffectSizesTable = FALSE, ..
 
 \item{showTable}{show results in table format (returns list)}
 
-\item{showEffectSizesTable}{show other effect sizes computed using es function}
+\item{tbl_es}{show other effect sizes computed using es function}
+
+\item{es}{effect size measure to report (for now, it's always r but options will be introduced later)}
 
 \item{...}{further arguments passed to or from other methods}
 }
 \value{
-A datatable or a list with datatables (if showTable = TRUE or showEffectSizesTable = TRUE)
+A datatable or a list of datatables (if showTable = TRUE or tbl_es = TRUE)
 }
 \description{
 After fitting models, use summaryh() in place of summary() to get APA (American Psychological Association) formatted output that also includes effect size estimates for each effect (r effect size). Currently supports lm, glm, aov, anova, lmer, lme, t-test, chisq.test, and cor.test. Unfortunately, this function won't write your entire results section for you (yet).
@@ -33,9 +35,7 @@ R-squared: R2: .02 (small), .13 (medium), .26 (large)
 \examples{
 summaryh(lm(mpg ~ qsec, mtcars))
 summaryh(aov(mpg ~ gear, mtcars))
-summaryh(cor.test(mtcars$mpg, mtcars$gear), showEffectSizesTable = TRUE)
-summaryh(t.test(mpg ~ vs, mtcars), showTable = TRUE)
-summaryh(glm(vs ~ 1, mtcars, family = "binomial"), showTable = TRUE)
+summaryh(cor.test(mtcars$mpg, mtcars$gear), tbl_es = TRUE)
 }
 \author{
 Hause Lin

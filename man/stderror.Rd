@@ -21,7 +21,7 @@ na.rm = TRUE, conf.interval = 0.95, tonumeric = TRUE)
 \item{tonumeric}{whether to convert variables/columns to numeric whenever possible}
 }
 \value{
-A dataframe (tibble)
+A data.table
 }
 \description{
 se is used to compute the standard error(s) for one or more variables, for one or more groups in a dataframe.
