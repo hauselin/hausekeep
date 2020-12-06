@@ -176,9 +176,9 @@ R-squared: R2: .02 (small), .13 (medium), .26 (large)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>summaryh</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>qsec</span>, <span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           term                                                  results
-#&gt; 1: (Intercept) b = −5.11, SE = 10.03, t(30) = −0.51, p = .614, r = 0.09
-#&gt; 2:        qsec    b = 1.41, SE = 0.56, t(30) = 2.53, p = .017, r = 0.42</div><div class='input'><span class='fu'>summaryh</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>gear</span>, <span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           term                                                   results
+#&gt; 1: (Intercept) b = −5.11, SE = 10.03, t(30) = −0.51, p = .614, r = −0.09
+#&gt; 2:        qsec     b = 1.41, SE = 0.56, t(30) = 2.53, p = .017, r = 0.42</div><div class='input'><span class='fu'>summaryh</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>gear</span>, <span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    term                             results
 #&gt; 1: gear F(1, 30) = 9.00, p = .005, r = 0.48</div><div class='input'><span class='fu'>summaryh</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/cor.test.html'>cor.test</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>mpg</span>, <span class='va'>mtcars</span><span class='op'>$</span><span class='va'>gear</span><span class='op'>)</span>, tbl_es <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                          term    d    r   R2    f oddsratio logoddsratio  auc

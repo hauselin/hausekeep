@@ -192,13 +192,13 @@
 <span class='va'>m2</span> <span class='op'>&lt;-</span> <span class='fu'>sca_lm</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>mtcars</span>, dv <span class='op'>=</span> <span class='st'>"mpg"</span>, ivs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cyl"</span>, <span class='st'>"gear"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>m2</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"modelformula"</span>, <span class='st'>"term"</span>, <span class='st'>"estimate"</span>, <span class='st'>"es.r"</span><span class='op'>)</span><span class='op'>]</span> <span class='co'># es.r is effect size</span>
 </div><div class='output co'>#&gt;        modelformula        term estimate  es.r
-#&gt; 1: mpg ~ cyl + gear (Intercept)   34.659 0.793
-#&gt; 2: mpg ~ cyl + gear         cyl   -2.743 0.806
-#&gt; 3: mpg ~ cyl + gear        gear    0.652 0.133
-#&gt; 4:        mpg ~ cyl (Intercept)   37.885 0.958
-#&gt; 5:        mpg ~ cyl         cyl   -2.876 0.852
-#&gt; 6:       mpg ~ gear (Intercept)    5.623 0.204
-#&gt; 7:       mpg ~ gear        gear    3.923 0.480</div></pre>
+#&gt; 1: mpg ~ cyl + gear (Intercept)   34.659  0.79
+#&gt; 2: mpg ~ cyl + gear         cyl   -2.743 -0.81
+#&gt; 3: mpg ~ cyl + gear        gear    0.652  0.13
+#&gt; 4:        mpg ~ cyl (Intercept)   37.885  0.96
+#&gt; 5:        mpg ~ cyl         cyl   -2.876 -0.85
+#&gt; 6:       mpg ~ gear (Intercept)    5.623  0.20
+#&gt; 7:       mpg ~ gear        gear    3.923  0.48</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -43,13 +43,9 @@ summaryh.default <- function(model, decimal = 2, showTable = FALSE, tbl_es = FAL
 #' @export
 summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: F(3, 10) = 39, p < .001, r = 0.32
     if (class(model)[1] == "anova") {
@@ -69,34 +65,29 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
     esCohensf <- effectsize::cohens_f(model) # calculate Cohen's f
     estimates$es.f <- esCohensf$Cohens_f_partial
     estimates$es.r <- es(f = estimates$es.f, msg = F, decimal = decimal)$r
+    effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = FALSE)
+    temp_dat <- determine_es(es, effectSizes, estimates)
+    es_var <- temp_dat$es_var
+    estimates <- temp_dat$estimates
+    if (tbl_es) {
+        return(data.table(term = as.character(estimates$term), effectSizes))
+    }
 
-    # make a copy of estimates and convert to correct dp
-    estimatesCopy <- estimates[, -1]
-    estimatesRound <- estimatesCopy
-    estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
-    estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
-    estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
-    estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
-    # estimatesRound[abs(estimatesCopy) < 0.01] <- sprintf(pdigits, estimatesCopy[abs(estimatesCopy) < 0.01])
-
-    # fix p values
-    estimatesRound$p.value <- round(estimates$p.value, decimal + 2)
-    estimatesRound$p.value <- ifelse(estimatesRound$p.value < .001, "< .001", paste0("= ", sprintf(pdigits, estimatesRound$p.value)))
-    estimatesRound$p.value <- gsub("= 0.", "= .", estimatesRound$p.value)
-
+    # round stats
+    estimatesRound <- format_stats(estimates, decimal, digits)
+    estimatesRound$p.value <- format_pvals(estimates, decimal, pdigits) 
     # leave df as integers
     estimatesRound$df <- round(estimates$df)
     estimatesRound$df.resid <- round(estimates$df.resid)
 
     formattedOutput <- paste0("F(", estimatesRound$df, ", ", estimatesRound$df.resid, ")",
                               " = ", estimatesRound$f.value,
-                              ", p ", estimatesRound$p.value,
-                              ", r = ", estimatesRound$es.r)
-
-    # convert hyphens to minus (only possible on UNIX systems)
-    if (.Platform$OS.type == 'unix') { # if linux/mac, ensure negative sign is minus, not hyphens
-        formattedOutput <- gsub("-", replacement = "\u2212", formattedOutput)
+                              ", p ", estimatesRound$p.value)
+    if (!is.null(es)) {
+      formattedOutput <- paste0(formattedOutput, ", ", es, " = ", estimatesRound[es_var][, 1])
     }
+
+    formattedOutput <- format_minus(formattedOutput)
 
     formattedOutputDf <- data.table(term = as.character(estimates$term),
                                     results = as.character(formattedOutput))
@@ -104,7 +95,6 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
     outputList <- list(results = formattedOutputDf)
 
     if (showTable) {
-
         # format table nicely
         estimatesOutput <- data.frame(lapply(estimates[, -1], round, decimal + 1))
         estimatesOutput <- data.table(term = as.character(estimates$term), estimatesOutput)
@@ -112,14 +102,6 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
         # return(outputList$results2)
     }
 
-    if (tbl_es) {
-
-        # get all other effect sizes
-        effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
-        outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
-        return(outputList$effectSizes)
-
-    }
     options(scipen = 0) # enable scientific notation
     if (length(outputList) > 1) {
         return(outputList)
@@ -133,13 +115,9 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
 #' @export
 summaryh.anova <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: F(3, 10) = 39, p < .001, r = 0.32
   if (class(model)[1] == "anova") {
@@ -232,15 +210,11 @@ summaryh.anova <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE
 
 # lm
 #' @export
-summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
+summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ci = NULL, ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: b = −2.88, SE = 0.32, t(30) = −8.92, p < .001, r = .85
     estimates <- data.frame(stats::coef(summary(model))) # get estimates and put in dataframe
@@ -252,9 +226,9 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, e
     estimates <- data.frame(term = effectNames, estimates, stringsAsFactors = FALSE)
     rownames(estimates) <- NULL
 
-    if (!is.null(confInterval)) {
-        confIntervalChar <- paste0(confInterval * 100, "%")
-        confIntervals <- stats::confint(model, level = confInterval)
+    if (!is.null(ci)) {
+        confIntervalChar <- paste0(ci * 100, "%")
+        confIntervals <- stats::confint(model, level = ci)
         if (nrow(estimates) == 1) {
             names(confIntervals) <- c('ciLower', 'ciUpper')
             confIntervals <- data.frame(ciLower = confIntervals[1], ciUpper = confIntervals[2])
@@ -269,74 +243,58 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, e
         estimates <- cbind(estimates, confIntervals)
     }
 
-    # effect sizes
-    estimates$es.r <-  sqrt((estimates$statistic ^ 2 / (estimates$statistic ^ 2 + estimates$df))) # r
-    estimates$es.d <-  (2 * estimates$statistic) / sqrt(estimates$df) # d
-
+    # compute effect sizes
+    estimates$es.r <-  sqrt((estimates$statistic ^ 2 / (estimates$statistic ^ 2 + estimates$df))) * sign(estimates$statistic)# r
+    estimates$es.d <-  (2 * estimates$statistic) / sqrt(estimates$df) * sign(estimates$statistic) # d
     # R2
     estimates$es.r.squared <- summary(model)$r.squared
     estimates$es.adj.r.squared <- summary(model)$adj.r.squared
-
-    # make a copy of estimates and convert to correct dp
-    estimatesCopy <- estimates[, -1]
-    estimatesRound <- estimatesCopy
-    if (!is.na(sum(estimatesRound$statistic))) {
-      estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
-      estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
-      estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
-      estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
-      # estimatesRound[abs(estimatesCopy) < 0.01] <- sprintf(pdigits, estimatesCopy[abs(estimatesCopy) < 0.01])
-
-      # fix p values
-      estimatesRound$p.value <- round(estimates$p.value, decimal + 2)
-      estimatesRound$p.value <- ifelse(estimatesRound$p.value < .001, "< .001", paste0("= ", sprintf(pdigits, estimatesRound$p.value)))
-      estimatesRound$p.value <- gsub("= 0.", "= .", estimatesRound$p.value)
+    # get all effect sizes
+    effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = FALSE)
+    temp_dat <- determine_es(es, effectSizes, estimates)
+    es_var <- temp_dat$es_var
+    estimates <- temp_dat$estimates
+    if (tbl_es) {
+        return(data.table(term = as.character(estimates$term), effectSizes))
     }
+    
+    if (!is.na(sum(estimates$statistic))) {
+      estimatesRound <- format_stats(estimates, decimal, digits)
+      estimatesRound$p.value <- format_pvals(estimates, decimal, pdigits) 
+    } else {
+      estimatesRound <- estimates[, -1]
+    }
+    estimatesRound$df <- round(estimates$df)  # leave df as integers
 
-    # leave df as integers
-    estimatesRound$df <- round(estimates$df)
-
-    if (!is.null(confInterval)) { # report CIs, not SE
+    # format output
+    if (!is.null(ci)) { # report CIs, not SE
         formattedOutput <- paste0("b = ", estimatesRound$estimate,
-                                  ", ", confIntervalChar, " CI [", estimatesRound$ciLower, " ", estimatesRound$ciUpper, "]",
-                                  ", t(", estimatesRound$df, ")",
-                                  " = ", estimatesRound$statistic,
-                                  ", p ", estimatesRound$p.value,
-                                  ", r = ", estimatesRound$es.r)
-    } else { # report SE, not CIs
+                                  ", ", confIntervalChar, " CI [", estimatesRound$ciLower, " ", estimatesRound$ciUpper, "]")
+    } else { # report SEs
         formattedOutput <- paste0("b = ", estimatesRound$estimate,
-                                  ", SE = ", estimatesRound$std.error,
-                                  ", t(", estimatesRound$df, ")",
-                                  " = ", estimatesRound$statistic,
-                                  ", p ", estimatesRound$p.value,
-                                  ", r = ", estimatesRound$es.r)
+                                  ", SE = ", estimatesRound$std.error)
+    }
+    formattedOutput <- paste0(formattedOutput, 
+                              ", t(", estimatesRound$df, ")",
+                              " = ", estimatesRound$statistic,
+                              ", p ", estimatesRound$p.value)
+    if (!is.null(es)) {
+      formattedOutput <- paste0(formattedOutput, ", ", es, " = ", estimatesRound[es_var][, 1])
     }
 
-    # convert hyphens to minus (only possible on UNIX systems)
-    if (.Platform$OS.type == 'unix') { # if linux/mac, ensure negative sign is minus, not hyphens
-        formattedOutput <- gsub("-", replacement = "\u2212", formattedOutput)
-    }
+    formattedOutput <- format_minus(formattedOutput)
 
+    # final output
     formattedOutputDf <- data.table(term = as.character(estimates$term),
                                     results = as.character(formattedOutput))
 
     outputList <- list(results = formattedOutputDf)
 
     if (showTable) {
-
         # format table nicely
         estimatesOutput <- data.frame(lapply(estimates[, -1], round, decimal + 1))
         estimatesOutput <- data.table(term = as.character(estimates$term), estimatesOutput)
         outputList$results2 <- estimatesOutput
-    }
-
-    if (tbl_es) {
-
-        # get all other effect sizes
-        effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = F)
-        outputList$effectSizes <- data.table(term = as.character(estimates$term), effectSizes)
-        return(outputList$effectSizes)
-
     }
 
     options(scipen = 0) # enable scientific notation
@@ -350,15 +308,11 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, e
 
 # glm
 #' @export
-summaryh.glm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
+summaryh.glm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ci = NULL, ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: b = −2.88, SE = 0.32, z(30) = −8.92, p < .001, r = .85
     estimates <- data.frame(stats::coef(summary(model))) # get estimates and put in dataframe
@@ -369,9 +323,9 @@ summaryh.glm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
     estimates <- data.frame(term = effectNames, estimates)
     rownames(estimates) <- NULL
 
-    if (!is.null(confInterval)) {
-        confIntervalChar <- paste0(confInterval * 100, "%")
-        confIntervals <- stats::confint(model, level = confInterval)
+    if (!is.null(ci)) {
+        confIntervalChar <- paste0(ci * 100, "%")
+        confIntervals <- stats::confint(model, level = ci)
         if (nrow(estimates) == 1) {
             names(confIntervals) <- c('ciLower', 'ciUpper')
             confIntervals <- data.frame(ciLower = confIntervals[1], ciUpper = confIntervals[2])
@@ -408,7 +362,7 @@ summaryh.glm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
     # leave df as integers
     estimatesRound$df <- round(estimates$df)
 
-    if (!is.null(confInterval)) { # report CIs, not SE
+    if (!is.null(ci)) { # report CIs, not SE
         formattedOutput <- paste0("b = ", estimatesRound$estimate,
                                   ", ", confIntervalChar, " CI [", estimatesRound$ciLower, " ", estimatesRound$ciUpper, "]",
                                   ", z(", estimatesRound$df, ")",
@@ -461,15 +415,11 @@ summaryh.glm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
 
 # glmer
 #' @export
-summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
+summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ci = NULL, ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: b = −2.88, SE = 0.32, z(30) = −8.92, p < .001, r = .85
     estimates <- data.frame(stats::coef(summary(model))) # get estimates and put in dataframe
@@ -480,9 +430,9 @@ summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, tbl_es = FA
     estimates <- data.frame(term = effectNames, estimates)
     rownames(estimates) <- NULL
 
-    if (!is.null(confInterval)) {
-        confIntervalChar <- paste0(confInterval * 100, "%")
-        confIntervals <- stats::confint(model, level = confInterval)
+    if (!is.null(ci)) {
+        confIntervalChar <- paste0(ci * 100, "%")
+        confIntervals <- stats::confint(model, level = ci)
         if (nrow(estimates) == 1) {
             names(confIntervals) <- c('ciLower', 'ciUpper')
             confIntervals <- data.frame(ciLower = confIntervals[1], ciUpper = confIntervals[2])
@@ -519,7 +469,7 @@ summaryh.glmerMod <- function(model, decimal = 2, showTable = FALSE, tbl_es = FA
     # leave df as integers
     estimatesRound$df <- round(estimates$df)
 
-    if (!is.null(confInterval)) { # report CIs, not SE
+    if (!is.null(ci)) { # report CIs, not SE
         formattedOutput <- paste0("b = ", estimatesRound$estimate,
                                   ", ", confIntervalChar, " CI [", estimatesRound$ciLower, " ", estimatesRound$ciUpper, "]",
                                   # ", z(", estimatesRound$df, ")",
@@ -582,13 +532,9 @@ summaryh.lmerMod <- function(model, decimal = 2, showTable = FALSE, tbl_es = FAL
 #' @export
 summaryh.merModLmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: b = −2.88, SE = 0.32, t(30) = −8.92, p < .001, r = .85
     estimates <- data.frame(stats::coef(summary(model))) # get estimates and put in dataframe
@@ -686,13 +632,9 @@ summaryh.merModLmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_e
 #' @export
 summaryh.lme <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: b = −2.88, SE = 0.32, t(30) = −8.92, p < .001, r = .85
     estimates <- data.frame(stats::coef(summary(model))) # get estimates and put in dataframe
@@ -790,13 +732,9 @@ summaryh.lme <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
 #' @export
 summaryh.lmerModLmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: b = −2.88, SE = 0.32, t(30) = −8.92, p < .001, r = .85
     estimates <- data.frame(stats::coef(summary(model))) # get estimates and put in dataframe
@@ -894,13 +832,9 @@ summaryh.lmerModLmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_
 #' @export
 summaryh.lmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ...) {
 
-    # ensure significant digits with sprintf
-    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-    if (decimal <= 2) {
-        pdigits <- paste0("%.", 3, "f")
-    } else {
-        pdigits <- paste0("%.", decimal, "f")
-    }
+    format_digits <- format_decimal(decimal)
+    digits <- format_digits$digits  # non-p-value digits
+    pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
     # example output: b = −2.88, SE = 0.32, t(30) = −8.92, p < .001, r = .85
     estimates <- data.frame(stats::coef(summary(model))) # get estimates and put in dataframe
@@ -996,15 +930,11 @@ summaryh.lmerTest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FA
 }
 
 #' @export
-summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
+summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ci = NULL, ...) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: g = 0.12 (95% CI = [0.01, 1.01])
   estimates <- data.frame(estimate = as.numeric(model$b),
@@ -1079,15 +1009,11 @@ summaryh.rma.uni <- function(model, decimal = 2, showTable = FALSE, tbl_es = FAL
 # mf
 # summaryh(mf)
 #' @export
-summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
+summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ci = NULL, ...) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: d = 0.12 (95% HPD = [0.01, 1.01])
   estimatesTemp <- data.frame(model$estimates)
@@ -1167,15 +1093,11 @@ summaryh.meta_fixed <- function(model, decimal = 2, showTable = FALSE, tbl_es = 
 # class(model)
 # summaryh(model)
 #' @export
-summaryh.meta_random <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', confInterval = NULL, ...) {
+summaryh.meta_random <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, es = 'r', ci = NULL, ...) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: d = 0.12 (95% HPD = [0.01, 1.01])
   estimatesTemp <- data.frame(model$estimates)
@@ -1266,13 +1188,9 @@ summaryh.htest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE
 #### specific htests
 reportTtest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: t(30) = 5.82, p < .001
   estimates <- data.frame(df = model$parameter,
@@ -1343,13 +1261,9 @@ reportTtest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 #' @importFrom compute.es chies
 reportCHISQ <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: r(30) = 0.82, p < .001
   estimates <- data.frame(df = model$parameter,
@@ -1419,13 +1333,9 @@ reportCHISQ <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
 reportCortest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: r = 0.82, p < .001
   estimates <- data.frame(estimate = model$estimate,
@@ -1491,13 +1401,9 @@ reportCortest <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE)
 
 reportCortestPearson <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE) {
 
-  # ensure significant digits with sprintf
-  digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
-  if (decimal <= 2) {
-    pdigits <- paste0("%.", 3, "f")
-  } else {
-    pdigits <- paste0("%.", decimal, "f")
-  }
+  format_digits <- format_decimal(decimal)
+  digits <- format_digits$digits  # non-p-value digits
+  pdigits <- format_digits$pdigits  # p-value digits (minimum 3 decimal places)
 
   # example output: r(30) = 0.82, p < .001
 
@@ -1566,4 +1472,55 @@ reportCortestPearson <- function(model, decimal = 2, showTable = FALSE, tbl_es =
     return(formattedOutputDf)
   }
 
+}
+
+format_decimal <- function(decimal) {
+    # ensure significant digits with sprintf
+    digits <- paste0("%.", decimal, "f") # e.g, 0.10 not 0.1, 0.009, not 0.01
+    if (decimal <= 2) {
+        pdigits <- paste0("%.", 3, "f")
+    } else {
+        pdigits <- paste0("%.", decimal, "f")
+    }
+    return(list(digits = digits, pdigits = pdigits))
+}
+
+
+format_pvals <- function(estimates, decimal, pdigits) {
+    pvals <- round(estimates$p.value, decimal + 2)
+    pvals <- ifelse(pvals < .001, "< .001", paste0("= ", sprintf(pdigits, pvals)))
+    pvals <- gsub("= 0.", "= .", pvals)
+    return(pvals)
+}
+
+format_minus <- function(x, os='unix') {
+    if (.Platform$OS.type == os) { # if linux/mac, ensure negative sign is minus, not hyphens
+        x <- gsub("-", replacement = "\u2212", x)
+    }
+    return(x)
+}
+
+format_stats <- function(estimates, decimal, digits) {
+  # make a copy of estimates and convert to correct dp
+  estimatesCopy <- estimates[, -1]
+  estimatesRound <- estimatesCopy
+  estimatesRound[abs(estimatesCopy) >= 0.01] <- round(estimatesRound[abs(estimatesCopy) >= 0.01], decimal)
+  estimatesRound[abs(estimatesCopy) >= 0.01] <- sprintf(digits, estimatesCopy[abs(estimatesCopy) >= 0.01])
+  estimatesRound[abs(estimatesCopy) < 0.01] <- signif(estimatesCopy[abs(estimatesCopy) < 0.01], digits = 1)
+  estimatesRound[abs(estimatesCopy) < 0.0000001] <- 0
+  return(estimatesRound)
+}
+
+determine_es <- function(es, effectSizes, estimates) {
+    if (is.null(es)) {  # always provide r effect size
+      es_var <- "es.r"
+    } else {  # select effect size to report
+      if (es %in% names(effectSizes)) {
+        es_var <- paste0("es.", es) 
+        estimates[es_var] <- effectSizes[es]
+      } else {
+        stop(paste0("Available effect sizes: ", paste(names(effectSizes), collapse = ", ")))
+      }
+    }
+    return(list(es_var = es_var, estimates = estimates))
 }

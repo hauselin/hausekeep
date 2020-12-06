@@ -64,7 +64,7 @@ summaryh(cor.test(mtcars$mpg, mtcars$cyl))
 
 ### `es()` converts between effect size measures
 
-The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve [AUC]). Also available as at https://www.escal.site.
+The `es` function converts one effect size into other effect sizes (e.g., d, r, R<sup>2</sup>, f, odds ratio, log odds ratio, area-under-curve [AUC]). Also available at https://www.escal.site.
 
 ```{r es example}
 es(d = 0.2)
