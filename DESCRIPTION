@@ -1,5 +1,5 @@
 Package: hausekeep
-Title: Miscellaneous functions for research and housekeeping
+Title: Miscellaneous helper and utility functions
 Version: 0.0.0.9003
 Date: 2019-05-28
 Authors@R: 
@@ -9,7 +9,7 @@ Authors@R:
            email = "hauselin@gmail.com", 
            comment = c(ORCID = "0000-0003-4590-7039"))
 Maintainer: Hause Lin <hauselin@gmail.com>
-Description: Miscellaneous functions
+Description: Miscellaneous functions for data analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
