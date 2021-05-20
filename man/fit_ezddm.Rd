@@ -4,7 +4,7 @@
 \alias{fit_ezddm}
 \title{Fit Wagenmaker et al.'s (2007) EZ-diffusion model to multiple subjects and groups using raw single-trial data.}
 \usage{
-fit_ezddm(data, rts, responses, id = NULL, group = NULL, decimal = 4)
+fit_ezddm(data, rts, responses, id = NULL, group = NULL, s = 0.1, decimal = 4)
 }
 \arguments{
 \item{data}{data object with reaction time and accuracy variables (long form data expected)}
@@ -16,6 +16,8 @@ fit_ezddm(data, rts, responses, id = NULL, group = NULL, decimal = 4)
 \item{id}{specify in characters the name of your subject/id column (if not specified, assumes data [all rows] belong to a single subject)}
 
 \item{group}{specify in characters the name of your column(s) indicating various conditions (default = NULL)}
+
+\item{s}{scaling parameter (often set to 0.1 or 1.0)}
 
 \item{decimal}{round parameter estimates (default = 4)}
 }

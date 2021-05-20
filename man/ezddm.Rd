@@ -8,6 +8,7 @@ ezddm(
   propCorrect,
   rtCorrectVariance_seconds,
   rtCorrectMean_seconds,
+  s = 0.1,
   nTrials = NULL
 )
 }
@@ -17,6 +18,8 @@ ezddm(
 \item{rtCorrectVariance_seconds}{variance of correct reaction times (in seconds)}
 
 \item{rtCorrectMean_seconds}{mean of correct reaction times (in seconds)}
+
+\item{s}{scaling parameter (often set to 0.1 or 1.0)}
 
 \item{nTrials}{number of trials (useful for edge correction) (optional)}
 }

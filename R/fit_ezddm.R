@@ -8,6 +8,7 @@
 #' @param responses specify in characters the name of the accuracy column (coded as 0/1)
 #' @param id specify in characters the name of your subject/id column (if not specified, assumes data [all rows] belong to a single subject)
 #' @param group specify in characters the name of your column(s) indicating various conditions (default = NULL)
+#' @param s scaling parameter (often set to 0.1 or 1.0)
 #' @param decimal round parameter estimates (default = 4)
 #'
 #' @return A datatable
@@ -31,7 +32,7 @@
 #' @export
 #'
 #' @usage
-#' fit_ezddm(data, rts, responses, id = NULL, group = NULL, decimal = 4)
+#' fit_ezddm(data, rts, responses, id = NULL, group = NULL, s = 0.1, decimal = 4)
 #'
 #' @examples
 #' \dontrun{
@@ -56,7 +57,7 @@
 #' fit_ezddm(data = dataAll, rts = "rt", responses = "response",
 #' id = "subject", group = c("cond1", "cond2"))
 #' }
-fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4) {
+fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, s = 0.1, decimal = 4) {
 
   # message("Fits EZ-diffusion model (Wagenmaker et al., 2007, Psychonomic Bulletin & Review).\nResponses or choice must be coded as 0 (lower bound) or 1 (upper bound).")
 
@@ -130,7 +131,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
   dataForDDM <- data.table::data.table(dataForDDM)
 
   # fit ez ddm model to each subject, each condition
-  ddmResults <- dataForDDM[, ezddm(propCorrect = acc, rtCorrectVariance_seconds = rtVar, rtCorrectMean_seconds = rt),
+  ddmResults <- dataForDDM[, ezddm(propCorrect = acc, rtCorrectVariance_seconds = rtVar, rtCorrectMean_seconds = rt, s = s),
                            by = c(id, group)]
   resultsFinal <- left_join(data.frame(dataGroup), data.frame(ddmResults), by = c(id, group))
   resultsFinal <- left_join(resultsFinal, ddmRt, by = c(id, group))
@@ -170,7 +171,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
     resultsFinal$temporary_subject <- NULL
   }
 
-  return(resultsFinal)
+  return(data.table::data.table(resultsFinal))
 
 }
 
@@ -183,6 +184,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
 #' @param propCorrect proportion correct (apply edge correction if necessary)
 #' @param rtCorrectVariance_seconds variance of correct reaction times (in seconds)
 #' @param rtCorrectMean_seconds mean of correct reaction times (in seconds)
+#' @param s scaling parameter (often set to 0.1 or 1.0)
 #' @param nTrials number of trials (useful for edge correction) (optional)
 #'
 #' @return A dataframe with a (boundary parameter), v (drift rate parameter), and Ter (non-decision time parameter)
@@ -196,9 +198,9 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, decimal = 4
 #' @export
 #' @examples
 #' ezddm(.802, .112, .723)
-ezddm <- function(propCorrect, rtCorrectVariance_seconds, rtCorrectMean_seconds, nTrials = NULL) {
+ezddm <- function(propCorrect, rtCorrectVariance_seconds, rtCorrectMean_seconds, s = 0.1, nTrials = NULL) {
 
-    s <- 0.1 # s is scaling parameter (defaults to 0.1 in Ratcliff's models)
+    s <- s # s is scaling parameter (defaults to 0.1 in Ratcliff's models)
     s2 <- s^2 # variance
 
     v <- as.numeric(NA)

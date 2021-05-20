@@ -63,7 +63,7 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
 
     # effect sizes
     esCohensf <- effectsize::cohens_f(model) # calculate Cohen's f
-    estimates$es.f <- esCohensf$Cohens_f_partial
+    estimates$es.f <- esCohensf$Cohens_f
     estimates$es.r <- es(f = estimates$es.f, msg = F, decimal = decimal)$r
     effectSizes <- es(r = round(as.numeric(estimates$es.r), decimal + 1), decimal = decimal, msg = FALSE)
     temp_dat <- determine_es(es, effectSizes, estimates)
@@ -75,7 +75,7 @@ summaryh.aov <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, 
 
     # round stats
     estimatesRound <- format_stats(estimates, decimal, digits)
-    estimatesRound$p.value <- format_pvals(estimates, decimal, pdigits) 
+    estimatesRound$p.value <- format_pvals(estimates, decimal, pdigits)
     # leave df as integers
     estimatesRound$df <- round(estimates$df)
     estimatesRound$df.resid <- round(estimates$df.resid)
@@ -142,7 +142,7 @@ summaryh.anova <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE
     rownames(estimates) <- NULL
     estimates <- estimates[estimates$term != "Residuals", ]
     # effect size
-    esCohensf <- cohens_f(model)$Cohens_f_partial # calculate Cohen's f
+    esCohensf <- cohens_f(model)$Cohens_f # calculate Cohen's f
   }
 
   # effect sizes
@@ -257,10 +257,10 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, e
     if (tbl_es) {
         return(data.table(term = as.character(estimates$term), effectSizes))
     }
-    
+
     if (!is.na(sum(estimates$statistic))) {
       estimatesRound <- format_stats(estimates, decimal, digits)
-      estimatesRound$p.value <- format_pvals(estimates, decimal, pdigits) 
+      estimatesRound$p.value <- format_pvals(estimates, decimal, pdigits)
     } else {
       estimatesRound <- estimates[, -1]
     }
@@ -274,7 +274,7 @@ summaryh.lm <- function(model, decimal = 2, showTable = FALSE, tbl_es = FALSE, e
         formattedOutput <- paste0("b = ", estimatesRound$estimate,
                                   ", SE = ", estimatesRound$std.error)
     }
-    formattedOutput <- paste0(formattedOutput, 
+    formattedOutput <- paste0(formattedOutput,
                               ", t(", estimatesRound$df, ")",
                               " = ", estimatesRound$statistic,
                               ", p ", estimatesRound$p.value)
@@ -1516,7 +1516,7 @@ determine_es <- function(es, effectSizes, estimates) {
       es_var <- "es.r"
     } else {  # select effect size to report
       if (es %in% names(effectSizes)) {
-        es_var <- paste0("es.", es) 
+        es_var <- paste0("es.", es)
         estimates[es_var] <- effectSizes[es]
       } else {
         stop(paste0("Available effect sizes: ", paste(names(effectSizes), collapse = ", ")))

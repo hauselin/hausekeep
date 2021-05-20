@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/hauselin/hausekeep/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -129,7 +129,7 @@
     <p>Fits Wagenmaker et al.'s (2007) EZ-diffusion model for two-choice response time tasks. To use the function, ensure your dataframe is in long form, has single-trial reaction time (in seconds) and responses (coded as 0 or 1) on each row. You can use the function to fit the EZ-diffusion model to just a single subject or multiple subjects, and separately for each experimental condition (see below for examples).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fit_ezddm</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>rts</span>, <span class='va'>responses</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, group <span class='op'>=</span> <span class='cn'>NULL</span>, decimal <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fit_ezddm</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>rts</span>, <span class='va'>responses</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, group <span class='op'>=</span> <span class='cn'>NULL</span>, s <span class='op'>=</span> <span class='fl'>0.1</span>, decimal <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,6 +153,10 @@
     <tr>
       <th>group</th>
       <td><p>specify in characters the name of your column(s) indicating various conditions (default = NULL)</p></td>
+    </tr>
+    <tr>
+      <th>s</th>
+      <td><p>scaling parameter (often set to 0.1 or 1.0)</p></td>
     </tr>
     <tr>
       <th>decimal</th>

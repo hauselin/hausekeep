@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/hauselin/hausekeep/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -133,6 +133,7 @@
   <span class='va'>propCorrect</span>,
   <span class='va'>rtCorrectVariance_seconds</span>,
   <span class='va'>rtCorrectMean_seconds</span>,
+  s <span class='op'>=</span> <span class='fl'>0.1</span>,
   nTrials <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
@@ -150,6 +151,10 @@
     <tr>
       <th>rtCorrectMean_seconds</th>
       <td><p>mean of correct reaction times (in seconds)</p></td>
+    </tr>
+    <tr>
+      <th>s</th>
+      <td><p>scaling parameter (often set to 0.1 or 1.0)</p></td>
     </tr>
     <tr>
       <th>nTrials</th>
