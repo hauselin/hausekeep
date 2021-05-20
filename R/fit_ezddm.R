@@ -200,7 +200,7 @@ fit_ezddm <- function(data, rts, responses, id = NULL, group = NULL, s = 0.1, de
 #' ezddm(.802, .112, .723)
 ezddm <- function(propCorrect, rtCorrectVariance_seconds, rtCorrectMean_seconds, s = 0.1, nTrials = NULL) {
 
-    s <- s # s is scaling parameter (defaults to 0.1 in Ratcliff's models)
+    # s is scaling parameter (defaults to 0.1 in Ratcliff's models)
     s2 <- s^2 # variance
 
     v <- as.numeric(NA)
