@@ -38,7 +38,7 @@ outliersZ(example, zCutOff = 1.0, outlierIndices = TRUE)
 outliersZ(example, zCutOff = 1.0, showZValues = TRUE)
 }
 \seealso{
-\code{\link{outliersMAD}}
+\code{\link{outliers_mad}}
 }
 \author{
 Hause Lin

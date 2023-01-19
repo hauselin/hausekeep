@@ -72,11 +72,11 @@ es(d = 0.2)
 es(r = c(0.1, 0.4, 0.7))
 ```
 
-### `outliersMAD()` identifies outliers using robust median absolute deviation approach
+### `outliers_mad()` identifies outliers using robust median absolute deviation approach
 
 ```{r}
 example <- c(1, 3, 3, 6, 8, 10, 10, 1000) # 1000 is an outlier
-outliersMAD(example) # MAD approach
+outliers_mad(example) # MAD approach
 ```
 
 ### `outliersZ()` identifies outliers using Z-score cut-off

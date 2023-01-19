@@ -14,7 +14,7 @@
 #'
 #' @note This detection method is not as robust as the median absolute deviation outlier detection method.
 #'
-#' @seealso \code{\link{outliersMAD}}
+#' @seealso \code{\link{outliers_mad}}
 #'
 #' @author Hause Lin
 #'
@@ -44,15 +44,15 @@ outliersZ <- function(x, zCutOff = 1.96, replaceOutliersWith = NA, outlierIndice
   outliers <- length(x[absZ > zCutOff])
 
   if (showZValues) {
-    message("Showing absolute z-scores for each value.")
-    message(paste0(outliers, " outliers detected."))
+    # message("Showing absolute z-scores for each value.")
+    # message(paste0(outliers, " outliers detected."))
     return(round(Zvals, digits)) # if values == TRUE, return z score for each value
   } else if (outlierIndices) {
     message("Showing indices of outliers.")
     return(which(is.na(x)))
   } else {
-    message(paste0(outliers, " outliers detected."))
-    message(paste0("Outliers replaced with ", replaceOutliersWith))
+    # message(paste0(outliers, " outliers detected."))
+    # message(paste0("Outliers replaced with ", replaceOutliersWith))
     return(round(x, digits)) # otherwise, return values with outliers replaced
   }
 }

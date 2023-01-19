@@ -24,7 +24,7 @@ repos:
   ropensci: http://packages.ropensci.org
 
 install:
-  - Rscript -e 'install.packages(c("devtools", "knitr","dplyr", "data.table", "sjstats", "compute.es", "dtplyr", "combinat", "covr", "testthat", "spelling", "knitr", "rmarkdown"), repos = "http://cran.rstudio.com")'
+  - Rscript -e 'install.packages(c("devtools", "knitr","dplyr", "data.table", "sjstats", "compute.es", "combinat", "covr", "testthat", "spelling", "knitr", "rmarkdown"), repos = "http://cran.rstudio.com")'
 
 
 r_binary_packages:
@@ -34,6 +34,5 @@ r_binary_packages:
   - testthat
   - spelling
   - data.table
-  - sjstats
   - compute.es
   - combinat

@@ -25,11 +25,9 @@ Imports:
     effectsize,
     data.table,
     tibble,
-    sjstats,
     compute.es,
-    dtplyr,
     combinat
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 URL: https://github.com/hauselin/hausekeep
 BugReports: https://github.com/hauselin/hausekeep/issues
